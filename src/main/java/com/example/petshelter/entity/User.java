@@ -13,8 +13,6 @@ public class User {
 
     private Long id;
     private String phoneNumber;
-    private AnimalTypeOwner animalTypeOwner;
-    private List<Animal> animals;
     private List<TrialPeriod> trialPeriodsInActiveStatus;
     private List<TrialPeriod> trialPeriodsCompleted;
 
