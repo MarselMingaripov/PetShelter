@@ -1,24 +1,24 @@
-package com.example.petshelter.entity.shelters;
+package com.example.petshelter.entity.shelter;
 
-import com.example.petshelter.entity.CatOwner;
+import com.example.petshelter.entity.DogOwner;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 /**
- * Subclass of the base class AnimalShelter
+ * Subclass of AnimalShelter
  */
 
 @Data
 @NoArgsConstructor
-public class СatsShelter extends AnimalShelter{
+public class DogsShelter extends AnimalShelter{
 
-    /** "Cats" field */
-    private List<Cat> cats;
+    /** "Dogs" field */
+    private List<Dog> dogs;
 
-    /** "Cat Owner" field */
-    private List<CatOwner> catOwners;
+    /** "Dog Owner" field */
+    private List<DogOwner> dogOwners;
 
     /**
      * Constructor - creating a new object with certain values.
@@ -30,10 +30,10 @@ public class СatsShelter extends AnimalShelter{
      * @param securityContacts
      * @param safetyRecommendations
      * @param howTakeAnimal
-     * @param cats
-     * @param catOwners
+     * @param dogs
+     * @param dogOwners
      */
-    public СatsShelter(Long id,
+    public DogsShelter(Long id,
                        String information,
                        String address,
                        String phoneNumber,
@@ -41,12 +41,12 @@ public class СatsShelter extends AnimalShelter{
                        String securityContacts,
                        String safetyRecommendations,
                        String howTakeAnimal,
-                       List<Cat> cats,
-                       List<CatOwner> catOwners) {
+                       List<Dog> dogs,
+                       List<DogOwner> dogOwners) {
 
         super(id, information, address, phoneNumber, workSchedule, securityContacts, safetyRecommendations, howTakeAnimal);
 
-        this.cats = cats;
-        this.catOwners = catOwners;
+        this.dogs = dogs;
+        this.dogOwners = dogOwners;
     }
 }

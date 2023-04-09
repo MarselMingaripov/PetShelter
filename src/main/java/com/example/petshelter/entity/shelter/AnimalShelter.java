@@ -1,4 +1,4 @@
-package com.example.petshelter.entity.shelters;
+package com.example.petshelter.entity.shelter;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
