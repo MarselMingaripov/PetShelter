@@ -1,42 +1,44 @@
 package com.example.petshelter.service;
 
-import com.example.petshelter.entity.CatOwner;
+import com.example.petshelter.entity.TrialPeriod;
+import com.example.petshelter.entity.User;
 
 import java.util.List;
 
-public interface CatOwnerService {
+public interface UserService {
+
     /**
      * сохраняет в базу данных
-     * @param catOwner
+     * @param user
      * @return
      */
-    CatOwner createCatOwner(CatOwner catOwner);
+    User createUser(User user);
 
     /**
      * поиск по ид
      * @param id
      * @return
      */
-    CatOwner findById(Long id);
+    User findById(Long id);
 
     /**
-     * обновление по ид
+     * обновить запись
      * @param id - ид обновляемой записи
-     * @param catOwner - на что обновляем
+     * @param user - на что обновляем
      * @return
      */
-    CatOwner updateById(Long id, CatOwner catOwner);
+    User updateById(Long id, User user);
 
     /**
-     * удалить по ид
+     * удаление по ид
      * @param id
      * @return
      */
-    CatOwner deleteById(Long id);
+    User deleteById(Long id);
 
     /**
      * список всех записей
      * @return
      */
-    List<CatOwner> findAll();
+    List<User> findAll();
 }
