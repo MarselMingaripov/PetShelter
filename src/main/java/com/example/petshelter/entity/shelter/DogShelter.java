@@ -1,5 +1,6 @@
 package com.example.petshelter.entity.shelter;
 
+import com.example.petshelter.entity.Dog;
 import com.example.petshelter.entity.DogOwner;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class DogsShelter extends AnimalShelter{
+public class DogShelter extends AnimalShelter{
 
     /** "Dogs" field */
     private List<Dog> dogs;
@@ -33,16 +34,16 @@ public class DogsShelter extends AnimalShelter{
      * @param dogs
      * @param dogOwners
      */
-    public DogsShelter(Long id,
-                       String information,
-                       String address,
-                       String phoneNumber,
-                       String workSchedule,
-                       String securityContacts,
-                       String safetyRecommendations,
-                       String howTakeAnimal,
-                       List<Dog> dogs,
-                       List<DogOwner> dogOwners) {
+    public DogShelter(Long id,
+                      String information,
+                      String address,
+                      String phoneNumber,
+                      String workSchedule,
+                      String securityContacts,
+                      String safetyRecommendations,
+                      String howTakeAnimal,
+                      List<Dog> dogs,
+                      List<DogOwner> dogOwners) {
 
         super(id, information, address, phoneNumber, workSchedule, securityContacts, safetyRecommendations, howTakeAnimal);
 
