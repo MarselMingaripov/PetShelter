@@ -16,4 +16,6 @@ public interface DogShelterService {
     DogShelter updateById(Long id, DogShelter catShelter);
     DogShelter deleteById(Long id);
     List<DogShelter> findAll();
+
+    void addDogToShelter(String name);
 }
