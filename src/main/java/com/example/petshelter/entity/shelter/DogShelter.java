@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Subclass of AnimalShelter
@@ -21,6 +22,8 @@ public class DogShelter extends AnimalShelter{
     /** "Dog Owner" field */
     private List<DogOwner> dogOwners;
 
+    private Map<DogShelterConsult,String> dogConsult;
+
     /**
      * Constructor - creating a new object with certain values.
      * @param id
@@ -33,6 +36,7 @@ public class DogShelter extends AnimalShelter{
      * @param howTakeAnimal
      * @param dogs
      * @param dogOwners
+     * @param dogConsult
      */
     public DogShelter(Long id,
                       String information,
@@ -41,13 +45,15 @@ public class DogShelter extends AnimalShelter{
                       String workSchedule,
                       String securityContacts,
                       String safetyRecommendations,
-                      String howTakeAnimal,
+                      String howTakeAnimal,            // Возможно это лишнее поле ?
                       List<Dog> dogs,
-                      List<DogOwner> dogOwners) {
+                      List<DogOwner> dogOwners,
+                      Map<DogShelterConsult,String> dogConsult) {
 
         super(id, information, address, phoneNumber, workSchedule, securityContacts, safetyRecommendations, howTakeAnimal);
 
         this.dogs = dogs;
         this.dogOwners = dogOwners;
+        this.dogConsult = dogConsult;
     }
 }
