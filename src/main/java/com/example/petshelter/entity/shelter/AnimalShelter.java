@@ -34,9 +34,6 @@ public class AnimalShelter {
     /** "Safety Recommendation" field*/
     private String safetyRecommendations;
 
-    /** "How Take Animal" field*/
-    private String howTakeAnimal;
-
     public AnimalShelter(Long id) {
         this.id = id;
     }

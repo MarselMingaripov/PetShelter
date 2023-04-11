@@ -15,4 +15,7 @@ public interface DogService {
     Dog updateById(Long id, Dog dog);
     Dog deleteById(Long id);
     List<Dog> findAll();
+
+    Dog findByName(String name);
+
 }
