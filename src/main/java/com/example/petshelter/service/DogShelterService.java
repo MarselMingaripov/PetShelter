@@ -11,9 +11,17 @@ public interface DogShelterService {
      * @param dogShelter
      * @return
      */
-    DogShelter createCat(DogShelter dogShelter);
+    DogShelter createDogShelter(DogShelter dogShelter);
     DogShelter findById(Long id);
     DogShelter updateById(Long id, DogShelter catShelter);
     DogShelter deleteById(Long id);
     List<DogShelter> findAll();
+
+    String returnInformation();
+
+    String returnAddressAndWorkSchedule();
+
+    String returnSecurityContacts();
+
+    String returnSafetyRecommendations();
 }

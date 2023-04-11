@@ -15,7 +15,7 @@ public class DogShelterServiceImpl implements DogShelterService {
     private final DogShelterRepository dogShelterRepository;
 
     @Override
-    public DogShelter createCat(DogShelter dogShelter) {
+    public DogShelter createDogShelter(DogShelter dogShelter) {
         return dogShelterRepository.save(dogShelter);
     }
 
@@ -51,5 +51,25 @@ public class DogShelterServiceImpl implements DogShelterService {
     @Override
     public List<DogShelter> findAll() {
         return dogShelterRepository.findAll();
+    }
+
+    @Override
+    public String returnInformation(){
+        return findById(1L).getInformation();
+    }
+
+    @Override
+    public String returnAddressAndWorkSchedule(){
+        return findById(1L).getAddress() + " " + findById(1L).getWorkSchedule();
+    }
+
+    @Override
+    public String returnSecurityContacts(){
+        return findById(1L).getSecurityContacts();
+    }
+
+    @Override
+    public String returnSafetyRecommendations(){
+        return findById(1L).getSafetyRecommendations();
     }
 }
