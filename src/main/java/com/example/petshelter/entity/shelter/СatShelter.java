@@ -33,6 +33,7 @@ public class СatShelter extends AnimalShelter{
             joinColumns = @JoinColumn(name = "cat_owner_id"),
             inverseJoinColumns = @JoinColumn(name = "cat_id"))
     private List<CatOwner> catOwners;
+    @Transient
     private Map<CatShelterConsult,String> catConsult;
 
     /**
