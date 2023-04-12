@@ -41,4 +41,6 @@ public interface CatOwnerService {
     List<CatOwner> findAll();
 
     Boolean existsByPhoneNumber(String phoneNumber);
+
+    CatOwner findByPhoneNumber(String phoneNumber);
 }

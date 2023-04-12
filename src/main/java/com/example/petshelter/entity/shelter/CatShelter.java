@@ -2,6 +2,7 @@ package com.example.petshelter.entity.shelter;
 
 import com.example.petshelter.entity.Cat;
 import com.example.petshelter.entity.CatOwner;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,12 +15,23 @@ import java.util.Map;
 
 @Data
 @NoArgsConstructor
-public class CatShelter extends AnimalShelter {
+@Entity
+@Table(name = "cat_shelter")
+public class СatShelter extends AnimalShelter{
+    @Id
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    /** "Cats" field */
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "catShelter_cat",
+            joinColumns = @JoinColumn(name = "cat_shelter_id"),
+            inverseJoinColumns = @JoinColumn(name = "cat_id"))
     private List<Cat> cats;
 
-    /** "Cat Owner" field */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "catOwner_cat",
+            joinColumns = @JoinColumn(name = "cat_owner_id"),
+            inverseJoinColumns = @JoinColumn(name = "cat_id"))
     private List<CatOwner> catOwners;
     private Map<CatShelterConsult,String> catConsult;
 
@@ -33,7 +45,7 @@ public class CatShelter extends AnimalShelter {
      * @param securityContacts
      * @param safetyRecommendations
      */
-    public CatShelter(Long id,
+    public СatShelter(Long id,
                       String information,
                       String address,
                       String phoneNumber,
@@ -55,7 +67,7 @@ public class CatShelter extends AnimalShelter {
      * @param catOwners
      * @param catConsult
      */
-    public CatShelter(Long id,
+    public СatShelter(Long id,
                       String information,
                       String address,
                       String phoneNumber,

@@ -2,6 +2,7 @@ package com.example.petshelter.entity.shelter;
 
 import com.example.petshelter.entity.Dog;
 import com.example.petshelter.entity.DogOwner;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,13 +15,25 @@ import java.util.Map;
 
 @Data
 @NoArgsConstructor
+@Entity
+@Table(name = "dog_shelter")
 public class DogShelter extends AnimalShelter{
+    @Id
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    /** "Dogs" field */
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "dogShelter_dog",
+            joinColumns = @JoinColumn(name = "dog_shelter_id"),
+            inverseJoinColumns = @JoinColumn(name = "dog_id"))
     private List<Dog> dogs;
 
-    /** "Dog Owner" field */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "dogOwner_dog",
+            joinColumns = @JoinColumn(name = "dog_owner_id"),
+            inverseJoinColumns = @JoinColumn(name = "dog_id"))
     private List<DogOwner> dogOwners;
+    @Transient
     private Map<DogShelterConsult,String> dogConsult;
 
     /**
