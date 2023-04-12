@@ -2,6 +2,7 @@ package com.example.petshelter.entity.shelter;
 
 import com.example.petshelter.entity.Cat;
 import com.example.petshelter.entity.CatOwner;
+import com.example.petshelter.entity.shelter.AnimalShelter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 
 @Data
 @NoArgsConstructor
-public class СatShelter extends AnimalShelter{
+public class СatShelter extends AnimalShelter {
 
     /** "Cats" field */
     private List<Cat> cats;

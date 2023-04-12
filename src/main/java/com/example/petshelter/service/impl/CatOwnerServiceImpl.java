@@ -16,12 +16,13 @@ public class CatOwnerServiceImpl implements CatOwnerService {
     private final CatOwnerRepository catOwnerRepository;
 
     @Override
-    public CatOwner createCatOwner(CatOwner catOwner){
+    public CatOwner createCatOwner(CatOwner catOwner) {
         return catOwnerRepository.save(catOwner);
     }
+
     @Override
     public CatOwner findById(Long id) {
-        if (catOwnerRepository.findById(id).isPresent()){
+        if (catOwnerRepository.findById(id).isPresent()) {
             return catOwnerRepository.findById(id).get();
         } else {
             throw new NotFoundInBdException("Не найдено в базе данных");
@@ -30,7 +31,7 @@ public class CatOwnerServiceImpl implements CatOwnerService {
 
     @Override
     public CatOwner updateById(Long id, CatOwner catOwner) {
-        if (catOwnerRepository.findById(id).isPresent()){
+        if (catOwnerRepository.findById(id).isPresent()) {
             catOwner.setId(id);
             return catOwnerRepository.save(catOwner);
         } else {
@@ -40,7 +41,7 @@ public class CatOwnerServiceImpl implements CatOwnerService {
 
     @Override
     public CatOwner deleteById(Long id) {
-        if (catOwnerRepository.findById(id).isPresent()){
+        if (catOwnerRepository.findById(id).isPresent()) {
             catOwnerRepository.deleteById(id);
             return catOwnerRepository.findById(id).get();
         } else {
@@ -51,5 +52,10 @@ public class CatOwnerServiceImpl implements CatOwnerService {
     @Override
     public List<CatOwner> findAll() {
         return catOwnerRepository.findAll();
+    }
+
+    @Override
+    public Boolean existsByPhoneNumber(String phoneNumber) {
+        return catOwnerRepository.existsByPhoneNumber(phoneNumber);
     }
 }

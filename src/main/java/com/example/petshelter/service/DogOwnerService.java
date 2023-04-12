@@ -1,44 +1,49 @@
 package com.example.petshelter.service;
 
-import com.example.petshelter.entity.CatOwner;
+import com.example.petshelter.entity.DogOwner;
 
 import java.util.List;
 
-public interface CatOwnerService {
+public interface DogOwnerService {
     /**
      * сохраняет в базу данных
-     * @param catOwner
+     *
+     * @param dogOwner
      * @return
      */
-    CatOwner createCatOwner(CatOwner catOwner);
+    DogOwner createDogOwner(DogOwner dogOwner);
 
     /**
      * поиск по ид
+     *
      * @param id
      * @return
      */
-    CatOwner findById(Long id);
+    DogOwner findById(Long id);
 
     /**
      * обновление по ид
-     * @param id - ид обновляемой записи
-     * @param catOwner - на что обновляем
+     *
+     * @param id       - ид обновляемой записи
+     * @param dogOwner - на что обновляем
      * @return
      */
-    CatOwner updateById(Long id, CatOwner catOwner);
+    DogOwner updateById(Long id, DogOwner dogOwner);
 
     /**
      * удалить по ид
+     *
      * @param id
      * @return
      */
-    CatOwner deleteById(Long id);
+    DogOwner deleteById(Long id);
 
     /**
      * список всех записей
+     *
      * @return
      */
-    List<CatOwner> findAll();
+    List<DogOwner> findAll();
 
     Boolean existsByPhoneNumber(String phoneNumber);
 }

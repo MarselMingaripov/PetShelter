@@ -26,4 +26,6 @@ public interface DogShelterService {
     String returnSafetyRecommendations();
 
     void addDogToShelter(String name);
+
+    void addDogOwnerToShelter(String phoneNumber);
 }
