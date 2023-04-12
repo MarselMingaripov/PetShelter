@@ -5,7 +5,7 @@ import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.Dog;
 import com.example.petshelter.entity.DogOwner;
 import com.example.petshelter.entity.shelter.DogShelter;
-import com.example.petshelter.entity.shelter.СatShelter;
+import com.example.petshelter.entity.shelter.CatShelter;
 import com.example.petshelter.service.ValidationService;
 import org.apache.commons.lang3.StringUtils;
 
@@ -25,7 +25,7 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public boolean validate(СatShelter catShelter) {
+    public boolean validate(CatShelter catShelter) {
         return false;
     }
 

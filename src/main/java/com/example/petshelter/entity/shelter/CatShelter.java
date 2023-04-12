@@ -17,7 +17,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Entity
 @Table(name = "cat_shelter")
-public class СatShelter extends AnimalShelter{
+public class CatShelter extends AnimalShelter{
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
@@ -46,7 +46,7 @@ public class СatShelter extends AnimalShelter{
      * @param securityContacts
      * @param safetyRecommendations
      */
-    public СatShelter(Long id,
+    public CatShelter(Long id,
                       String information,
                       String address,
                       String phoneNumber,
@@ -68,7 +68,7 @@ public class СatShelter extends AnimalShelter{
      * @param catOwners
      * @param catConsult
      */
-    public СatShelter(Long id,
+    public CatShelter(Long id,
                       String information,
                       String address,
                       String phoneNumber,

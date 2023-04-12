@@ -1,6 +1,5 @@
 package com.example.petshelter.service.impl;
 
-
 import com.example.petshelter.entity.shelter.CatShelter;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.repository.CatShelterRepository;
