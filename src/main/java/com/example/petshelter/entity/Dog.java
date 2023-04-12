@@ -11,8 +11,15 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "dog")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Dog extends Animal{
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
+    String name;
+    int age;
+    boolean healthStatus;
+    boolean vaccination;
+    private StatusAnimal statusAnimal;
 }

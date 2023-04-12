@@ -19,8 +19,9 @@ CREATE TABLE dog
     id BIGINT NOT NULL,
     name TEXT,
     age INT,
-    healthStatus BOOLEAN,
+    health_status BOOLEAN,
     vaccination BOOLEAN,
+    status_animal INT,
     CONSTRAINT pk_dog PRIMARY KEY (id)
 );
 
@@ -81,8 +82,9 @@ CREATE TABLE cat
     id BIGINT NOT NULL,
     name TEXT,
     age INT,
-    healthStatus BOOLEAN,
+    health_status BOOLEAN,
     vaccination BOOLEAN,
+    status_animal INT,
     CONSTRAINT pk_cat PRIMARY KEY (id)
 );
 

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Animal {
-    Long id;
     String name;
     int age;
     boolean healthStatus;
