@@ -13,7 +13,7 @@ public interface DogShelterService {
      */
     DogShelter createDogShelter(DogShelter dogShelter);
     DogShelter findById(Long id);
-    DogShelter updateById(Long id, DogShelter catShelter);
+    DogShelter updateById(Long id, DogShelter dogShelter);
     DogShelter deleteById(Long id);
     List<DogShelter> findAll();
 
@@ -24,4 +24,8 @@ public interface DogShelterService {
     String returnSecurityContacts();
 
     String returnSafetyRecommendations();
+
+    void addDogToShelter(String name);
+
+    void addDogOwnerToShelter(String phoneNumber);
 }

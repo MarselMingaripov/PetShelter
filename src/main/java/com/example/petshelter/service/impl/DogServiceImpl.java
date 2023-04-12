@@ -53,4 +53,10 @@ public class DogServiceImpl implements DogService {
     public List<Dog> findAll() {
         return dogRepository.findAll();
     }
+
+    @Override
+    public Dog findByName(String name) {
+        return dogRepository.findByName(name).get();
+    }
+
 }

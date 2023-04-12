@@ -53,4 +53,10 @@ public class CatServiceImpl implements CatService {
     public List<Cat> findAll() {
         return catRepository.findAll();
     }
+
+    @Override
+    public Cat findByName(String name) {
+        return catRepository.findByName(name).get();
+    }
+
 }
