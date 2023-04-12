@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CatOwnerRepository extends JpaRepository<CatOwner, Long> {
 
-    Boolean existsByPhoneNumber(String phoneNumber);
+    //Boolean existsByPhoneNumber(String phoneNumber);
 }

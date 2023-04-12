@@ -2,6 +2,7 @@ package com.example.petshelter.entity.shelter;
 
 import com.example.petshelter.entity.Cat;
 import com.example.petshelter.entity.CatOwner;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,12 +14,23 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@Entity
+@Table(name = "cat_shelter")
 public class СatShelter extends AnimalShelter{
+    @Id
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    /** "Cats" field */
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "catShelter_cat",
+            joinColumns = @JoinColumn(name = "cat_shelter_id"),
+            inverseJoinColumns = @JoinColumn(name = "cat_id"))
     private List<Cat> cats;
 
-    /** "Cat Owner" field */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "catOwner_cat",
+            joinColumns = @JoinColumn(name = "cat_owner_id"),
+            inverseJoinColumns = @JoinColumn(name = "cat_id"))
     private List<CatOwner> catOwners;
 
     /**
