@@ -1,7 +1,7 @@
 package com.example.petshelter.service.impl;
 
 
-import com.example.petshelter.entity.shelter.СatShelter;
+import com.example.petshelter.entity.shelter.CatShelter;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.repository.CatShelterRepository;
 
@@ -23,12 +23,12 @@ public class CatShelterServiceImpl implements CatShelterService {
     private final CatOwnerService catOwnerService;
 
     @Override
-    public СatShelter createСatShelter(СatShelter catShelter) {
+    public CatShelter createСatShelter(CatShelter catShelter) {
         return catShelterRepository.save(catShelter);
     }
 
     @Override
-    public СatShelter findById(Long id) {
+    public CatShelter findById(Long id) {
         if (catShelterRepository.findById(id).isPresent()) {
             return catShelterRepository.findById(id).get();
         } else {
@@ -37,7 +37,7 @@ public class CatShelterServiceImpl implements CatShelterService {
     }
 
     @Override
-    public СatShelter updateById(Long id, СatShelter catShelter) {
+    public CatShelter updateById(Long id, CatShelter catShelter) {
         if (catShelterRepository.findById(id).isPresent()) {
             catShelter.setId(id);
             return catShelterRepository.save(catShelter);
@@ -47,7 +47,7 @@ public class CatShelterServiceImpl implements CatShelterService {
     }
 
     @Override
-    public СatShelter deleteById(Long id) {
+    public CatShelter deleteById(Long id) {
         if (catShelterRepository.findById(id).isPresent()) {
             catShelterRepository.deleteById(id);
             return catShelterRepository.findById(id).get();
@@ -57,7 +57,7 @@ public class CatShelterServiceImpl implements CatShelterService {
     }
 
     @Override
-    public List<СatShelter> findAll() {
+    public List<CatShelter> findAll() {
         return catShelterRepository.findAll();
     }
 

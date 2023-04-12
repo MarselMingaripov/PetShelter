@@ -1,6 +1,6 @@
 package com.example.petshelter.service;
 
-import com.example.petshelter.entity.shelter.СatShelter;
+import com.example.petshelter.entity.shelter.CatShelter;
 
 import java.util.List;
 
@@ -10,31 +10,31 @@ public interface CatShelterService {
      * @param catShelter
      * @return
      */
-    СatShelter createСatShelter(СatShelter catShelter);
+    CatShelter createСatShelter(CatShelter catShelter);
     /**
      * поиск по ид
      * @param id
      * @return
      */
-    СatShelter findById(Long id);
+    CatShelter findById(Long id);
     /**
      * обновление по ид
      * @param id - ид обновляемой записи
      * @param catShelter - на что обновляем
      * @return
      */
-    СatShelter updateById(Long id, СatShelter catShelter);
+    CatShelter updateById(Long id, CatShelter catShelter);
     /**
      * удалить по ид
      * @param id
      * @return
      */
-    СatShelter deleteById(Long id);
+    CatShelter deleteById(Long id);
     /**
      * список всех записей
      * @return
      */
-    List<СatShelter> findAll();
+    List<CatShelter> findAll();
 
 
     String returnInformation();

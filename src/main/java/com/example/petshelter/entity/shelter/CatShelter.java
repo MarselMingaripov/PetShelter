@@ -2,7 +2,6 @@ package com.example.petshelter.entity.shelter;
 
 import com.example.petshelter.entity.Cat;
 import com.example.petshelter.entity.CatOwner;
-import com.example.petshelter.entity.shelter.AnimalShelter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +14,7 @@ import java.util.Map;
 
 @Data
 @NoArgsConstructor
-public class СatShelter extends AnimalShelter {
+public class CatShelter extends AnimalShelter {
 
     /** "Cats" field */
     private List<Cat> cats;
@@ -34,7 +33,7 @@ public class СatShelter extends AnimalShelter {
      * @param securityContacts
      * @param safetyRecommendations
      */
-    public СatShelter(Long id,
+    public CatShelter(Long id,
                       String information,
                       String address,
                       String phoneNumber,
@@ -56,7 +55,7 @@ public class СatShelter extends AnimalShelter {
      * @param catOwners
      * @param catConsult
      */
-    public СatShelter(Long id,
+    public CatShelter(Long id,
                       String information,
                       String address,
                       String phoneNumber,
