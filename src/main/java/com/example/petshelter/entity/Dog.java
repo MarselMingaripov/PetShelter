@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "dog")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Dog extends Animal{
+public class Dog{
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
