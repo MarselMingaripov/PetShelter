@@ -89,8 +89,6 @@ public class CatShelterServiceImpl implements CatShelterService {
 
     @Override
     public void addCatOwnerToShelter(String phoneNumber) {
-       catOwnerService.existsByPhoneNumber(phoneNumber);
+        findById(1L).getCatOwners().add(catOwnerService.findByPhoneNumber(phoneNumber));
     }
-
-
 }

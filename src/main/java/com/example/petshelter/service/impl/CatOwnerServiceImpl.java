@@ -58,4 +58,13 @@ public class CatOwnerServiceImpl implements CatOwnerService {
     public Boolean existsByPhoneNumber(String phoneNumber) {
         return catOwnerRepository.existsByPhoneNumber(phoneNumber);
     }
+
+    @Override
+    public CatOwner findByPhoneNumber(String phoneNumber){
+        if (existsByPhoneNumber(phoneNumber)){
+            return catOwnerRepository.findByPhoneNumber(phoneNumber).get();
+        } else {
+            throw new NotFoundInBdException("Not found!");
+        }
+    }
 }
