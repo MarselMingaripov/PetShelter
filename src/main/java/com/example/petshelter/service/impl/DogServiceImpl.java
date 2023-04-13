@@ -16,7 +16,6 @@ import java.util.List;
 public class DogServiceImpl implements DogService {
 
     private final DogRepository dogRepository;
-    private final ValidationService validationService;
 
     @Override
     public Dog createDog(Dog dog) {
@@ -61,8 +60,7 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
-    public Dog findByName(String name) {
-        return dogRepository.findByName(name).get();
+    public Dog findByName(String name) { return dogRepository.findByName(name).get();
     }
 
 }

@@ -1,6 +1,5 @@
 package com.example.petshelter.service.impl;
 
-import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.DogOwner;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
@@ -65,7 +64,6 @@ public class DogOwnerServiceImpl implements DogOwnerService {
     public Boolean existsByPhoneNumber(String phoneNumber) {
         return dogOwnerRepository.existsByPhoneNumber(phoneNumber);
     }
-
     @Override
     public DogOwner findByPhoneNumber(String phoneNumber){
         if (existsByPhoneNumber(phoneNumber)){
@@ -74,5 +72,4 @@ public class DogOwnerServiceImpl implements DogOwnerService {
             throw new NotFoundInBdException("Not found!");
         }
     }
-
 }
