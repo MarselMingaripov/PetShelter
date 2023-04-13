@@ -5,7 +5,9 @@ import com.example.petshelter.entity.shelter.DogShelter;
 import com.example.petshelter.entity.shelter.CatShelter;
 import com.example.petshelter.service.ValidationService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ValidationServiceImpl implements ValidationService {
     @Override
     public boolean validate(Cat cat) {
