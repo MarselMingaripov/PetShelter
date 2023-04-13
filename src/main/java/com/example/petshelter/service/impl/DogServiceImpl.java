@@ -2,8 +2,10 @@ package com.example.petshelter.service.impl;
 
 import com.example.petshelter.entity.Dog;
 import com.example.petshelter.exception.NotFoundInBdException;
+import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.DogRepository;
 import com.example.petshelter.service.DogService;
+import com.example.petshelter.service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,13 @@ import java.util.List;
 public class DogServiceImpl implements DogService {
 
     private final DogRepository dogRepository;
+    private final ValidationService validationService;
 
     @Override
-    public Dog createCat(Dog dog) {
+    public Dog createDog(Dog dog) {
+        if(!validationService.validate(dog)) {
+            throw new ValidationException(dog.toString());
+        }
         return dogRepository.save(dog);
     }
 

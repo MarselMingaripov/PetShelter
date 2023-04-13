@@ -2,10 +2,12 @@ package com.example.petshelter.service.impl;
 
 import com.example.petshelter.entity.shelter.DogShelter;
 import com.example.petshelter.exception.NotFoundInBdException;
+import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.DogShelterRepository;
 import com.example.petshelter.service.DogOwnerService;
 import com.example.petshelter.service.DogService;
 import com.example.petshelter.service.DogShelterService;
+import com.example.petshelter.service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +19,13 @@ public class DogShelterServiceImpl implements DogShelterService {
     private final DogShelterRepository dogShelterRepository;
     private final DogService dogService;
     private final DogOwnerService dogOwnerService;
+    private final ValidationService validationService;
 
     @Override
     public DogShelter createDogShelter(DogShelter dogShelter) {
+        if(!validationService.validate(dogShelter)) {
+            throw new ValidationException(dogShelter.toString());
+        }
         return dogShelterRepository.save(dogShelter);
     }
 
@@ -79,10 +85,17 @@ public class DogShelterServiceImpl implements DogShelterService {
 
     @Override
     public void addDogToShelter(String name) {
+        if(!validationService.validateString(name)) {
+            throw new ValidationException(dogService.toString());
+        }
         findById(1L).getDogs().add(dogService.findByName(name));
     }
     @Override
     public void addDogOwnerToShelter(String phoneNumber) {
-        dogOwnerService.existsByPhoneNumber(phoneNumber);
+        if(!validationService.validateString(phoneNumber)) {
+            throw new ValidationException(dogOwnerService.toString());
+        }
+        findById(1L).getDogOwners().add(dogOwnerService.findByPhoneNumber(phoneNumber));
+//        dogOwnerService.existsByPhoneNumber(phoneNumber);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.petshelter.service;
 
+import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.DogOwner;
 
 import java.util.List;
@@ -46,4 +47,6 @@ public interface DogOwnerService {
     List<DogOwner> findAll();
 
     Boolean existsByPhoneNumber(String phoneNumber);
+
+    DogOwner findByPhoneNumber(String phoneNumber);
 }

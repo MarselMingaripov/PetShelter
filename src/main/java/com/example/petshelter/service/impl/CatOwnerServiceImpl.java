@@ -2,8 +2,10 @@ package com.example.petshelter.service.impl;
 
 import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.exception.NotFoundInBdException;
+import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.CatOwnerRepository;
 import com.example.petshelter.service.CatOwnerService;
+import com.example.petshelter.service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,13 @@ import java.util.List;
 public class CatOwnerServiceImpl implements CatOwnerService {
 
     private final CatOwnerRepository catOwnerRepository;
+    private final ValidationService validationService;
 
     @Override
     public CatOwner createCatOwner(CatOwner catOwner) {
+        if(!validationService.validate(catOwner)) {
+            throw new ValidationException(catOwner.toString());
+        }
         return catOwnerRepository.save(catOwner);
     }
 

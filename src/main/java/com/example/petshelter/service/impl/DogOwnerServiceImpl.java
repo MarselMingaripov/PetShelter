@@ -1,9 +1,12 @@
 package com.example.petshelter.service.impl;
 
+import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.DogOwner;
 import com.example.petshelter.exception.NotFoundInBdException;
+import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.DogOwnerRepository;
 import com.example.petshelter.service.DogOwnerService;
+import com.example.petshelter.service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +17,13 @@ import java.util.List;
 public class DogOwnerServiceImpl implements DogOwnerService {
 
     private final DogOwnerRepository dogOwnerRepository;
+    private final ValidationService validationService;
 
     @Override
     public DogOwner createDogOwner(DogOwner dogOwner) {
+        if(!validationService.validate(dogOwner)) {
+            throw new ValidationException(dogOwner.toString());
+        }
         return dogOwnerRepository.save(dogOwner);
     }
 
@@ -58,4 +65,14 @@ public class DogOwnerServiceImpl implements DogOwnerService {
     public Boolean existsByPhoneNumber(String phoneNumber) {
         return dogOwnerRepository.existsByPhoneNumber(phoneNumber);
     }
+
+    @Override
+    public DogOwner findByPhoneNumber(String phoneNumber){
+        if (existsByPhoneNumber(phoneNumber)){
+            return dogOwnerRepository.findByPhoneNumber(phoneNumber).get();
+        } else {
+            throw new NotFoundInBdException("Not found!");
+        }
+    }
+
 }

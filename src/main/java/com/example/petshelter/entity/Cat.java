@@ -17,7 +17,6 @@ public class Cat{
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
-
     String name;
     int age;
     boolean healthStatus;
