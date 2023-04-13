@@ -49,8 +49,9 @@ public class CatServiceImpl implements CatService {
     @Override
     public Cat deleteById(Long id) {
         if (catRepository.findById(id).isPresent()){
+            Cat cat = findById(id);
             catRepository.deleteById(id);
-            return catRepository.findById(id).get();
+            return cat;
         } else {
             throw new NotFoundInBdException("Не найдено в базе данных");
         }

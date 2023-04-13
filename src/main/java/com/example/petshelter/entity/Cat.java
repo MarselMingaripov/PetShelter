@@ -1,25 +1,32 @@
 package com.example.petshelter.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Data
 @Entity
 @Table(name = "cat")
 @NoArgsConstructor
-@AllArgsConstructor
 public class Cat{
+
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
     String name;
     int age;
     boolean healthStatus;
     boolean vaccination;
     private StatusAnimal statusAnimal;
+
+    public Cat(String name, int age, boolean healthStatus, boolean vaccination, StatusAnimal statusAnimal) {
+        this.name = name;
+        this.age = age;
+        this.healthStatus = healthStatus;
+        this.vaccination = vaccination;
+        this.statusAnimal = statusAnimal;
+    }
 }

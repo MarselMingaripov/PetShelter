@@ -20,17 +20,17 @@ public class ReportController {
         return ResponseEntity.ok().body(reportService.createReport(report));
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<Report> findReport(@PathVariable Long id){
         return ResponseEntity.ok().body(reportService.findById(id));
     }
 
-    @PostMapping("/id")
+    @PostMapping("/{id}")
     public ResponseEntity<Report> updateReport(@PathVariable Long id, @RequestBody Report report){
         return ResponseEntity.ok().body(reportService.updateById(id, report));
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Report> deleteReport(@PathVariable Long id){
         return ResponseEntity.ok().body(reportService.deleteById(id));
     }

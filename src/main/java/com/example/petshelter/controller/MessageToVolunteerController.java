@@ -20,17 +20,17 @@ public class MessageToVolunteerController {
         return ResponseEntity.ok().body(messageToVolunteerService.createMessageToVolunteer(messageToVolunteer));
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<MessageToVolunteer> findMessage(@PathVariable Long id){
         return ResponseEntity.ok().body(messageToVolunteerService.findById(id));
     }
 
-    @PostMapping("/id")
+    @PostMapping("/{id}")
     public ResponseEntity<MessageToVolunteer> updateMessage(@PathVariable Long id, @RequestBody MessageToVolunteer messageToVolunteer){
         return ResponseEntity.ok().body(messageToVolunteerService.updateById(id, messageToVolunteer));
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<MessageToVolunteer> deleteMessage(@PathVariable Long id){
         return ResponseEntity.ok().body(messageToVolunteerService.deleteById(id));
     }

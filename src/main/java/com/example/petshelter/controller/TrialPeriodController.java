@@ -20,17 +20,17 @@ public class TrialPeriodController {
         return ResponseEntity.ok().body(trialPeriodService.createTrialPeriod(trialPeriod));
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<TrialPeriod> findTrialPeriod(@PathVariable Long id){
         return ResponseEntity.ok().body(trialPeriodService.findById(id));
     }
 
-    @PostMapping("/id")
+    @PostMapping("/{id}")
     public ResponseEntity<TrialPeriod> updateTrialPeriod(@PathVariable Long id, @RequestBody TrialPeriod trialPeriod){
         return ResponseEntity.ok().body(trialPeriodService.updateById(id, trialPeriod));
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<TrialPeriod> deleteReport(@PathVariable Long id){
         return ResponseEntity.ok().body(trialPeriodService.deleteById(id));
     }

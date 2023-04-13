@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("dog")
+@RequestMapping("/dog")
 @Tag(name = "API по хранению данных собак",
         description = "Регистрация поступивших в приют, " +
                 "находящихся на испытательном сроке, " +
@@ -29,8 +29,7 @@ public class DogController {
     @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<Dog> createDog(@RequestBody Dog dog) {
-        dogService.createDog(dog);
-        return ResponseEntity.ok(dog);
+        return ResponseEntity.ok().body(dogService.createDog(dog));
     }
 
     @GetMapping("/{id}")

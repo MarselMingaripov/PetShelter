@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("dogOwner")
+@RequestMapping("/dogOwner")
 @Tag(name = "API по хранению данных хозяев собак",
         description = "Регистрация желающих стать хозяином собаки из приюта, " +
                 "находящихся на испытательном сроке, " +

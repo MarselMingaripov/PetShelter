@@ -20,17 +20,17 @@ public class UserController {
         return ResponseEntity.ok().body(userService.createUser(user));
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<User> findUser(@PathVariable Long id){
         return ResponseEntity.ok().body(userService.findById(id));
     }
 
-    @PostMapping("/id")
+    @PostMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user){
         return ResponseEntity.ok().body(userService.updateById(id, user));
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable Long id){
         return ResponseEntity.ok().body(userService.deleteById(id));
     }

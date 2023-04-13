@@ -2,7 +2,7 @@ package com.example.petshelter.entity.shelter;
 
 import com.example.petshelter.entity.Dog;
 import com.example.petshelter.entity.DogOwner;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
