@@ -16,7 +16,7 @@ public class DogServiceImpl implements DogService {
     private final DogRepository dogRepository;
 
     @Override
-    public Dog createCat(Dog dog) {
+    public Dog createDog (Dog dog) {
         return dogRepository.save(dog);
     }
 
@@ -55,8 +55,7 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
-    public Dog findByName(String name) {
-        return dogRepository.findByName(name).get();
+    public Dog findByName(String name) { return dogRepository.findByName(name).get();
     }
 
 }

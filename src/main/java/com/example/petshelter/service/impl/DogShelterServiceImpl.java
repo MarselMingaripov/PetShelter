@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class DogShelterServiceImpl implements DogShelterService {
@@ -34,7 +35,7 @@ public class DogShelterServiceImpl implements DogShelterService {
 
     @Override
     public DogShelter updateById(Long id, DogShelter dogShelter) {
-        if (dogShelterRepository.findById(id).isPresent()){
+        if (dogShelterRepository.findById(id).isPresent()) {
             dogShelter.setId(id);
             return dogShelterRepository.save(dogShelter);
         } else {
@@ -44,7 +45,7 @@ public class DogShelterServiceImpl implements DogShelterService {
 
     @Override
     public DogShelter deleteById(Long id) {
-        if (dogShelterRepository.findById(id).isPresent()){
+        if (dogShelterRepository.findById(id).isPresent()) {
             dogShelterRepository.deleteById(id);
             return dogShelterRepository.findById(id).get();
         } else {
@@ -58,22 +59,22 @@ public class DogShelterServiceImpl implements DogShelterService {
     }
 
     @Override
-    public String returnInformation(){
+    public String returnInformation() {
         return findById(1L).getInformation();
     }
 
     @Override
-    public String returnAddressAndWorkSchedule(){
+    public String returnAddressAndWorkSchedule() {
         return findById(1L).getAddress() + " " + findById(1L).getWorkSchedule();
     }
 
     @Override
-    public String returnSecurityContacts(){
+    public String returnSecurityContacts() {
         return findById(1L).getSecurityContacts();
     }
 
     @Override
-    public String returnSafetyRecommendations(){
+    public String returnSafetyRecommendations() {
         return findById(1L).getSafetyRecommendations();
     }
 
@@ -81,8 +82,9 @@ public class DogShelterServiceImpl implements DogShelterService {
     public void addDogToShelter(String name) {
         findById(1L).getDogs().add(dogService.findByName(name));
     }
+
     @Override
     public void addDogOwnerToShelter(String phoneNumber) {
-        dogOwnerService.existsByPhoneNumber(phoneNumber);
+        findById(1L).getDogOwners().add(dogOwnerService.findByPhoneNumber(phoneNumber));
     }
 }

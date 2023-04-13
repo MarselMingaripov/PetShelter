@@ -46,4 +46,6 @@ public interface DogOwnerService {
     List<DogOwner> findAll();
 
     Boolean existsByPhoneNumber(String phoneNumber);
+
+    DogOwner findByPhoneNumber(String phoneNumber);
 }

@@ -10,7 +10,7 @@ public interface DogService {
      * @param dog
      * @return
      */
-    Dog createCat(Dog dog);
+    Dog createDog(Dog dog);
     Dog findById(Long id);
     Dog updateById(Long id, Dog dog);
     Dog deleteById(Long id);

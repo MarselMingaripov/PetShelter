@@ -58,4 +58,12 @@ public class DogOwnerServiceImpl implements DogOwnerService {
     public Boolean existsByPhoneNumber(String phoneNumber) {
         return dogOwnerRepository.existsByPhoneNumber(phoneNumber);
     }
+    @Override
+    public DogOwner findByPhoneNumber(String phoneNumber){
+        if (existsByPhoneNumber(phoneNumber)){
+            return dogOwnerRepository.findByPhoneNumber(phoneNumber).get();
+        } else {
+            throw new NotFoundInBdException("Not found!");
+        }
+    }
 }
