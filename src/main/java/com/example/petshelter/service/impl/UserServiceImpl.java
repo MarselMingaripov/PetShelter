@@ -20,7 +20,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-        if(!validationService.validateString(user.getPhoneNumber())) {
+//        if(!validationService.validateString(user.getPhoneNumber())) {
+        if(!validationService.validatePhoneNumber(user.getPhoneNumber())) {
             throw new ValidationException(user.toString());
         }
         return userRepository.save(user);

@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+/**
+ * Сервисы для работы с БД собак
+ */
 @Service
 @RequiredArgsConstructor
 public class DogServiceImpl implements DogService {

@@ -19,4 +19,6 @@ public interface ValidationService {
     public boolean validate(DogOwner dogOwner);
 
     public boolean validateString(String str);
+
+    public boolean validatePhoneNumber(String phoneNumber);
 }
