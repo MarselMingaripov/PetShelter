@@ -10,7 +10,7 @@ public interface CatShelterService {
      * @param catShelter
      * @return
      */
-    CatShelter createСatShelter(CatShelter catShelter);
+    CatShelter createCatShelter(CatShelter catShelter);
     /**
      * поиск по ид
      * @param id

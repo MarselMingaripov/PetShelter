@@ -5,6 +5,7 @@ import com.example.petshelter.service.DogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,21 +13,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/dog")
-@Tag(name = "API по хранению данных собак",
-        description = "Регистрация поступивших в приют, " +
-                "находящихся на испытательном сроке, " +
-                "нашедших своих хозяев собак")
+@RequiredArgsConstructor
+@Tag(name = "API по для работы с собаками",
+        description = "Сохранение, изменение, получение, удаление данных собак из БД")
+
 public class DogController {
     private final DogService dogService;
 
-    public DogController(DogService dogService) {
-        this.dogService = dogService;
-    }
-
     @PostMapping
-    @Operation(summary = "Регистрация собак поступивших  в приют")
+    @Operation(summary = "Сохранение собак в БД")
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, собака добавлена в БД")
     @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
+    @ApiResponse(responseCode = "405", description = "Ошибка валидации")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<Dog> createDog(@RequestBody Dog dog) {
         return ResponseEntity.ok().body(dogService.createDog(dog));
@@ -38,45 +36,40 @@ public class DogController {
     @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<Dog> findById(@PathVariable Long id) {
-        Dog dog = dogService.findById(id);
-        return ResponseEntity.ok(dog);
+        return ResponseEntity.ok().body(dogService.findById(id));
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/find-by-name/{name}")
     @Operation(summary = "Получение данных собаки по имени")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<Dog> findByName(@PathVariable String name) {
-        Dog dog = dogService.findByName(name);
-        return ResponseEntity.ok(dog);
+        return ResponseEntity.ok().body(dogService.findByName(name));
     }
 
     @GetMapping
-    @Operation(summary = "Получение списка данных собак в приюте")
-    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
-    @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
-    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    @Operation(summary = "Получение списка собак в приюте")
     public ResponseEntity<List<Dog>> findAll() {
-        return ResponseEntity.ok(dogService.findAll());
+        return ResponseEntity.ok().body(dogService.findAll());
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @Operation(summary = "Изменение данных собаки по id")
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные изменены")
-    @ApiResponse(responseCode = "400", description = "Данного кота нет в БД или параметры запроса имеют некорректный формат")
+    @ApiResponse(responseCode = "404", description = "Собаки с таким id нет в БД или параметры запроса имеют некорректный формат")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<Dog> updateById(@PathVariable Long id, @RequestBody Dog dog) {
-        return ResponseEntity.ok(dogService.updateById(id, dog));
+        return ResponseEntity.ok().body(dogService.updateById(id, dog));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @Operation(summary = "Удаление данных собаки из БД приюта")
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные удалены")
     @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
-    @ApiResponse(responseCode = "200", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<Dog> deleteById(@PathVariable Long id) {
-        return ResponseEntity.ok(dogService.deleteById(id));
+        return ResponseEntity.ok().body(dogService.deleteById(id));
     }
 }
 
