@@ -4,6 +4,9 @@ import com.example.petshelter.entity.CatOwner;
 
 import java.util.List;
 
+/**
+ * Сервисы для работы с БД опекунов кошек
+ */
 public interface CatOwnerService {
     /**
      * сохраняет в базу данных
@@ -42,5 +45,10 @@ public interface CatOwnerService {
 
     Boolean existsByPhoneNumber(String phoneNumber);
 
+    /**
+     * поиск по номеру телефона
+     * @param phoneNumber
+     * @return
+     */
     CatOwner findByPhoneNumber(String phoneNumber);
 }
