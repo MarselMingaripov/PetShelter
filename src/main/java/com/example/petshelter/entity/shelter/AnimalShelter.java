@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- *  Base class of Animal Shelter
+ *  Базовый класс приюта для животных
  */
 
 @Data
@@ -13,25 +13,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class AnimalShelter {
-    /** "ID field" */
+    /** Идентификатор */
     private Long id;
 
-    /** "Information" field */
+    /** "Информация о питомнике */
     private String information;
 
-    /** "Address" field */
+    /** Адрес питомника */
     private String address;
 
-    /** "Phone Number" field */
+    /** Номер телефона питомника */
     private String phoneNumber;
 
-    /** "Work Schedule" field */
+    /** Режим работы питомника */
     private String workSchedule;
 
-    /** "Security Contacts" field*/
+    /** Контакты охраны питомника*/
     private String securityContacts;
 
-    /** "Safety Recommendation" field*/
+    /** Рекомендации по технике безопасности на территории питомника */
     private String safetyRecommendations;
 
     public AnimalShelter(Long id) {

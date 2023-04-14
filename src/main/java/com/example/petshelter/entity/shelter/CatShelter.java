@@ -2,7 +2,9 @@ package com.example.petshelter.entity.shelter;
 
 import com.example.petshelter.entity.Cat;
 import com.example.petshelter.entity.CatOwner;
+
 import javax.persistence.*;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,42 +12,46 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Subclass of the base class AnimalShelter
+ * Класс приюта для кошек - CatShelter. Наследник класса {@link AnimalShelter}
  */
 
 @Data
 @NoArgsConstructor
 @Entity
 @Table(name = "cat_shelter")
-public class CatShelter extends AnimalShelter{
+public class CatShelter extends AnimalShelter {
+
+    /**
+     * Уникальный идентификатор записи в БД
+     */
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
 
+    /**
+     * Список кошек
+     */
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "catShelter_cat",
             joinColumns = @JoinColumn(name = "cat_shelter_id"),
             inverseJoinColumns = @JoinColumn(name = "cat_id"))
     private List<Cat> cats;
 
+    /**
+     * Список опекунов кошек
+     */
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "catOwner_cat",
             joinColumns = @JoinColumn(name = "cat_owner_id"),
             inverseJoinColumns = @JoinColumn(name = "cat_id"))
     private List<CatOwner> catOwners;
-    @Transient
-    private Map<CatShelterConsult,String> catConsult;
 
     /**
-     * Constructor - creating a new object with certain values.
-     * @param id
-     * @param information
-     * @param address
-     * @param phoneNumber
-     * @param workSchedule
-     * @param securityContacts
-     * @param safetyRecommendations
+     * Список рекомендаций от приюта для кошек
      */
+    @Transient
+    private Map<CatShelterConsult, String> catConsult;
+
     public CatShelter(Long id,
                       String information,
                       String address,
@@ -55,19 +61,7 @@ public class CatShelter extends AnimalShelter{
                       String safetyRecommendations) {
         super(id, information, address, phoneNumber, workSchedule, securityContacts, safetyRecommendations);
     }
-    /**
-     * Constructor - creating a new object with certain values.
-     * @param id
-     * @param information
-     * @param address
-     * @param phoneNumber
-     * @param workSchedule
-     * @param securityContacts
-     * @param safetyRecommendations
-     * @param cats
-     * @param catOwners
-     * @param catConsult
-     */
+
     public CatShelter(Long id,
                       String information,
                       String address,
@@ -77,7 +71,7 @@ public class CatShelter extends AnimalShelter{
                       String safetyRecommendations,
                       List<Cat> cats,
                       List<CatOwner> catOwners,
-                      Map<CatShelterConsult,String> catConsult) {
+                      Map<CatShelterConsult, String> catConsult) {
 
         super(id, information, address, phoneNumber, workSchedule, securityContacts, safetyRecommendations);
 
