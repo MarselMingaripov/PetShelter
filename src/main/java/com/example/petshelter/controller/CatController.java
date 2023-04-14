@@ -14,15 +14,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/cat")
 @RequiredArgsConstructor
-@Tag(name = "API по хранению данных котов",
-        description = "Регистрация поступивших в приют, " +
-                "находящихся на испытательном сроке, " +
-                "нашедших своих хозяев котов")
+@Tag(name = "API для работы с котами",
+        description = "Сохранение, изменение, получение, удаление данных котов из БД")
 public class CatController {
     private final CatService catService;
 
     @PostMapping
-    @Operation(summary = "Регистрация котов поступивших  в приют")
+    @Operation(summary = "Сохранение котов в БД")
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, кот добавлен в БД")
     @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
     @ApiResponse(responseCode = "405", description = "Ошибка валидации")
@@ -50,30 +48,27 @@ public class CatController {
     }
 
     @GetMapping
-    @Operation(summary = "Получение списка данных котов в приюте")
-    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
-    @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
-    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    @Operation(summary = "Получение списка котов находящихся в приюте")
     public ResponseEntity<List<Cat>> findAll() {
-        return ResponseEntity.ok(catService.findAll());
+        return ResponseEntity.ok().body(catService.findAll());
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Изменение данных кота по id")
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные изменены")
-    @ApiResponse(responseCode = "404", description = "Данного кота нет в БД или параметры запроса имеют некорректный формат")
+    @ApiResponse(responseCode = "404", description = "Кота с таким id нет в БД или параметры запроса имеют некорректный формат")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<Cat> updateById(@PathVariable Long id, @RequestBody Cat cat) {
-        return ResponseEntity.ok(catService.updateById(id, cat));
+        return ResponseEntity.ok().body(catService.updateById(id, cat));
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Удаление данных кота из БД приюта")
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные удалены")
     @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
-    @ApiResponse(responseCode = "200", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<Cat> deleteById(@PathVariable Long id) {
-        return ResponseEntity.ok(catService.deleteById(id));
+        return ResponseEntity.ok().body(catService.deleteById(id));
     }
 }
 

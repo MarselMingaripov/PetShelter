@@ -23,7 +23,7 @@ public class CatShelterServiceImpl implements CatShelterService {
     private final ValidationService validationService;
 
     @Override
-    public CatShelter createСatShelter(CatShelter catShelter) {
+    public CatShelter createCatShelter(CatShelter catShelter) {
         if(!validationService.validate(catShelter)) {
             throw new ValidationException(catShelter.toString());
         }
