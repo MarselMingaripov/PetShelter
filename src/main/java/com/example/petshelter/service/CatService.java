@@ -4,6 +4,9 @@ import com.example.petshelter.entity.Cat;
 
 import java.util.List;
 
+/**
+ * Сервисы для работы с БД кошек
+ */
 public interface CatService {
     /**
      * сохраняет в базу данных
@@ -35,6 +38,10 @@ public interface CatService {
      * @return
      */
     List<Cat> findAll();
-
+    /**
+     * поиск по имени
+     * @param name
+     * @return
+     */
     Cat findByName(String name);
 }

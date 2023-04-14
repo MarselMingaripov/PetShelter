@@ -13,25 +13,39 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class AnimalShelter {
-    /** Идентификатор */
+    /**
+     * Уникальный идентификатор записи в БД
+     */
     private Long id;
 
-    /** "Информация о питомнике */
+    /**
+     *  "Информация о питомнике
+     */
     private String information;
 
-    /** Адрес питомника */
+    /**
+     * Адрес питомника
+     */
     private String address;
 
-    /** Номер телефона питомника */
+    /**
+     * Номер телефона питомника
+     */
     private String phoneNumber;
 
-    /** Режим работы питомника */
+    /**
+     * Режим работы питомника
+     */
     private String workSchedule;
 
-    /** Контакты охраны питомника*/
+    /**
+     * Контакты охраны питомника
+     */
     private String securityContacts;
 
-    /** Рекомендации по технике безопасности на территории питомника */
+    /**
+     * Рекомендации по технике безопасности на территории питомника
+     */
     private String safetyRecommendations;
 
     public AnimalShelter(Long id) {
