@@ -71,6 +71,11 @@ public class CatController {
     public ResponseEntity<Cat> deleteById(@PathVariable Long id) {
         return ResponseEntity.ok().body(catService.deleteById(id));
     }
+
+    @PostMapping("/reserve")
+    public ResponseEntity<Cat> reserveCat(@RequestParam String name, @RequestParam String phoneNumber) {
+        return ResponseEntity.ok().body(catService.reserveCat(name, phoneNumber));
+    }
 }
 
 

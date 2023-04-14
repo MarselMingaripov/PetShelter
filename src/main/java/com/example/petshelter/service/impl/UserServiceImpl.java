@@ -60,4 +60,13 @@ public class UserServiceImpl implements UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
+
+    @Override
+    public User findByPhone(String phone){
+        if (userRepository.existsByPhoneNumber(phone)){
+            return userRepository.findByPhoneNumber(phone).get();
+        } else {
+            return null;
+        }
+    }
 }

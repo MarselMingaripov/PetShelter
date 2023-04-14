@@ -19,6 +19,7 @@ public class MessageToVolunteer {
      * Уникальный идентификатор записи в БД
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     /**
@@ -36,6 +37,12 @@ public class MessageToVolunteer {
 
     public MessageToVolunteer(Long id, String sender, String text, LocalDate localDate) {
         this.id = id;
+        this.sender = sender;
+        this.text = text;
+        this.localDate = LocalDate.now();
+    }
+
+    public MessageToVolunteer(String sender, String text, LocalDate now) {
         this.sender = sender;
         this.text = text;
         this.localDate = LocalDate.now();

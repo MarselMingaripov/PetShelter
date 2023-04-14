@@ -41,4 +41,6 @@ public interface UserService {
      * @return
      */
     List<User> findAll();
+
+    User findByPhone(String phone);
 }
