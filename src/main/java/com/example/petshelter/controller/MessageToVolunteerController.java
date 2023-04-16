@@ -23,7 +23,7 @@ public class MessageToVolunteerController {
     @PostMapping
     @Operation(summary = "Сохранение сообщения для волонтера в БД")
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные добавлены в БД")
-    @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
+    @ApiResponse(responseCode = "405", description = "Ошибка валидации")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<MessageToVolunteer> createMessage(@RequestBody MessageToVolunteer messageToVolunteer){
         return ResponseEntity.ok().body(messageToVolunteerService.createMessageToVolunteer(messageToVolunteer));
@@ -32,7 +32,7 @@ public class MessageToVolunteerController {
     @GetMapping("/{id}")
     @Operation(summary = "Получение сообщения для волонтера по id")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
-    @ApiResponse(responseCode = "404", description = "Параметры запроса отсутствуют или имеют некорректный формат")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<MessageToVolunteer> findMessage(@PathVariable Long id){
         return ResponseEntity.ok().body(messageToVolunteerService.findById(id));
@@ -41,7 +41,8 @@ public class MessageToVolunteerController {
     @PostMapping("/{id}")
     @Operation(summary = "Изменение сообщения для волонтера по id")
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные изменены")
-    @ApiResponse(responseCode = "404", description = "Данных нет в БД или параметры запроса имеют некорректный формат")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "405", description = "Ошибка валидации")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<MessageToVolunteer> updateMessage(@PathVariable Long id, @RequestBody MessageToVolunteer messageToVolunteer){
         return ResponseEntity.ok().body(messageToVolunteerService.updateById(id, messageToVolunteer));
@@ -50,7 +51,7 @@ public class MessageToVolunteerController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Удаление сообщения для волонтера из БД")
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные удалены")
-    @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
+    @ApiResponse(responseCode = "404", description = "Параметры запроса отсутствуют или имеют некорректный формат")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<MessageToVolunteer> deleteMessage(@PathVariable Long id){
         return ResponseEntity.ok().body(messageToVolunteerService.deleteById(id));
@@ -58,6 +59,7 @@ public class MessageToVolunteerController {
 
     @GetMapping
     @Operation(summary = "Получение списка сообщений для волонтера")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     public ResponseEntity<List<MessageToVolunteer>> findAll(){
         return ResponseEntity.ok().body(messageToVolunteerService.findAll());
     }

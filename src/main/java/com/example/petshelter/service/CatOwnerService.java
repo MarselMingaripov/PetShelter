@@ -1,29 +1,37 @@
 package com.example.petshelter.service;
 
 import com.example.petshelter.entity.CatOwner;
+import com.example.petshelter.exception.NotFoundInBdException;
+import com.example.petshelter.exception.ValidationException;
+import com.example.petshelter.repository.CatOwnerRepository;
 
 import java.util.List;
 
 /**
- * Сервисы для работы с БД опекунов кошек
+ * Сервис для работы с БД опекунов кошек
  */
 public interface CatOwnerService {
     /**
-     * сохраняет в базу данных
+     * Внесение данных о новом опекуне кошки в БД.
+     * Используется метод репозитория {@link CatOwnerRepository#save(Object)}
+     * @throws ValidationException при ошибке валидации полей создаваемого опекуна кошки
      * @param catOwner
      * @return
      */
     CatOwner createCatOwner(CatOwner catOwner);
-
     /**
-     * поиск по ид
+     * Поиск опекуна кошки по его идентификатору в БД.
+     * Используется метод репозитория {@link CatOwnerRepository#findById(Object)}
+     * @throws NotFoundInBdException если опекун кошки не найден в БД
      * @param id
      * @return
      */
     CatOwner findById(Long id);
 
     /**
-     * обновление по ид
+     * Поиск и обновление данных об опекуне кошки в БД по его идентификатору.
+     * Используются методы репозитория {@link CatOwnerRepository#findById(Object)} и {@link CatOwnerRepository#save(Object)}
+     * @throws NotFoundInBdException если опекун кошки не найдено в БД
      * @param id - ид обновляемой записи
      * @param catOwner - на что обновляем
      * @return
@@ -31,22 +39,25 @@ public interface CatOwnerService {
     CatOwner updateById(Long id, CatOwner catOwner);
 
     /**
-     * удалить по ид
+     * Поиск и удаление данных об опекуне кошки в БД по его идентификатору.
+     * Используются методы репозитория {@link CatOwnerRepository#findById(Object)} и {@link CatOwnerRepository#deleteById(Object)}
+     * @throws NotFoundInBdException если опекун кошки не найдено в БД
      * @param id
      * @return
      */
     CatOwner deleteById(Long id);
-
     /**
-     * список всех записей
+     * Вывод полного списка опекунов кошек из БД.
+     * Используется метод репозитория {@link CatOwnerRepository#findAll}
      * @return
      */
     List<CatOwner> findAll();
 
-    Boolean existsByPhoneNumber(String phoneNumber);
 
+    Boolean existsByPhoneNumber(String phoneNumber);
     /**
-     * поиск по номеру телефона
+     * Поиск в БД опекуна кошки по его номеру телефона.
+     * Используется метод репозитория {@link CatOwnerRepository#findByPhoneNumber(String)}
      * @param phoneNumber
      * @return
      */
