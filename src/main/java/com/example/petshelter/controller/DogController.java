@@ -1,6 +1,8 @@
 package com.example.petshelter.controller;
 
+import com.example.petshelter.entity.Cat;
 import com.example.petshelter.entity.Dog;
+import com.example.petshelter.entity.StatusAnimal;
 import com.example.petshelter.service.DogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -49,7 +51,7 @@ public class DogController {
     }
 
     @GetMapping
-    @Operation(summary = "Получение списка собак в приюте")
+    @Operation(summary = "Получение списка всех собак")
     public ResponseEntity<List<Dog>> findAll() {
         return ResponseEntity.ok().body(dogService.findAll());
     }
@@ -70,6 +72,41 @@ public class DogController {
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<Dog> deleteById(@PathVariable Long id) {
         return ResponseEntity.ok().body(dogService.deleteById(id));
+    }
+
+    @PostMapping("/reserve")
+    @Operation(summary = "Бронирование собаки на 24 часа")
+    @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные удалены")
+    @ApiResponse(responseCode = "404", description = "Собаки с таким именем нет в БД или параметры запроса имеют некорректный формат")
+    @ApiResponse(responseCode = "405", description = "Ошибка валидации полей")
+    @ApiResponse(responseCode = "409", description = "Собака с таким именем уже забронирована")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<Dog> reserveDog(@RequestParam String name, @RequestParam String phoneNumber) {
+        return ResponseEntity.ok().body(dogService.reserveDog(name, phoneNumber));
+    }
+
+    @GetMapping("/all-in-shelter")
+    @Operation(summary = "Получение списка всех собак в приюте")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    public ResponseEntity<List<Dog>> findAllInShelter() {
+        return ResponseEntity.ok().body(dogService.findAllInShelter());
+    }
+
+    @GetMapping("all-by-status")
+    @Operation(summary = "Получение списка всех собак по их статусу")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    public ResponseEntity<List<Dog>> findAllByStatus(@RequestParam StatusAnimal statusAnimal) {
+        return ResponseEntity.ok().body(dogService.showAllByStatus(statusAnimal));
+    }
+
+    @PostMapping("/change-status")
+    @Operation(summary = "Поменять статус собаки")
+    @ApiResponse(responseCode = "200", description = "Запрос выполнен")
+    @ApiResponse(responseCode = "404", description = "Собаки с таким именем нет в БД или параметры запроса имеют некорректный формат")
+    @ApiResponse(responseCode = "405", description = "Ошибка валидации полей")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<Dog> changeStatus(@RequestParam String name, @RequestParam StatusAnimal statusAnimal) {
+        return ResponseEntity.ok().body(dogService.changeStatusAnimal(name, statusAnimal));
     }
 }
 

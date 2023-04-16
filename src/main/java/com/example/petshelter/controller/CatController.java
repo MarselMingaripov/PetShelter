@@ -1,6 +1,7 @@
 package com.example.petshelter.controller;
 
 import com.example.petshelter.entity.Cat;
+import com.example.petshelter.entity.StatusAnimal;
 import com.example.petshelter.service.CatService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -47,7 +48,7 @@ public class CatController {
     }
 
     @GetMapping
-    @Operation(summary = "Получение списка котов находящихся в приюте")
+    @Operation(summary = "Получение списка всех котов")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     public ResponseEntity<List<Cat>> findAll() {
         return ResponseEntity.ok().body(catService.findAll());
@@ -73,8 +74,38 @@ public class CatController {
     }
 
     @PostMapping("/reserve")
+    @Operation(summary = "Бронирование кота на 24 часа")
+    @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные удалены")
+    @ApiResponse(responseCode = "404", description = "Кота с таким именем нет в БД или параметры запроса имеют некорректный формат")
+    @ApiResponse(responseCode = "405", description = "Ошибка валидации полей")
+    @ApiResponse(responseCode = "409", description = "Кот с таким именем уже забронирован")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<Cat> reserveCat(@RequestParam String name, @RequestParam String phoneNumber) {
         return ResponseEntity.ok().body(catService.reserveCat(name, phoneNumber));
+    }
+
+    @GetMapping("/all-in-shelter")
+    @Operation(summary = "Получение списка всех котов в приюте")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    public ResponseEntity<List<Cat>> findAllInShelter() {
+        return ResponseEntity.ok().body(catService.findAllInShelter());
+    }
+
+    @GetMapping("all-by-status")
+    @Operation(summary = "Получение списка всех котов по их статусу")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    public ResponseEntity<List<Cat>> findAllByStatus(@RequestParam StatusAnimal statusAnimal) {
+        return ResponseEntity.ok().body(catService.showAllByStatus(statusAnimal));
+    }
+
+    @PostMapping("/change-status")
+    @Operation(summary = "Поменять статус кота")
+    @ApiResponse(responseCode = "200", description = "Запрос выполнен")
+    @ApiResponse(responseCode = "404", description = "Кота с таким именем нет в БД или параметры запроса имеют некорректный формат")
+    @ApiResponse(responseCode = "405", description = "Ошибка валидации полей")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<Cat> changeStatus(@RequestParam String name, @RequestParam StatusAnimal statusAnimal) {
+        return ResponseEntity.ok().body(catService.changeStatusAnimal(name, statusAnimal));
     }
 }
 

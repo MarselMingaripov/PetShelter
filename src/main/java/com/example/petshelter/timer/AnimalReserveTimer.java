@@ -35,8 +35,7 @@ public class AnimalReserveTimer {
             if (textArr[1].equals("кошку")){
                 catService.changeStatusAnimal(textArr[2], StatusAnimal.IN_THE_SHELTER);
             } else {
-                // TODO: 15.04.2023 реализовать метод бронирования собак
-                //dogService.changeStatusAnimal(textArr[2], StatusAnimal.IN_THE_SHELTER);
+                dogService.changeStatusAnimal(textArr[2], StatusAnimal.IN_THE_SHELTER);
             }
         }
     }

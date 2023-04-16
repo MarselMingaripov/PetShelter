@@ -103,7 +103,18 @@ public class CatServiceImpl implements CatService {
         return catRepository.findAll();
     }
 
-    // TODO: 14.04.2023 исправить в контрллере на показать всех вообще + написать метод для показа только тех, кто имеет статус в приюте
+    /**
+     * Вывод полного списка животных, находящихся в приюте из БД.
+     * Используется метод репозитория {@link CatRepository#findAll}
+     *
+     * @return
+     */
+    @Override
+    public List<Cat> findAllInShelter(){
+        return findAll().stream()
+                .filter(x -> x.getStatusAnimal().equals(StatusAnimal.IN_THE_SHELTER))
+                .collect(Collectors.toList());
+    }
 
     /**
      * Поиск в БД животного по его имени.
@@ -117,7 +128,11 @@ public class CatServiceImpl implements CatService {
         return catRepository.findByName(name).get();
     }
 
-    // TODO: 14.04.2023 написать метод в контроллере
+    /**
+     * Вывод списка котов по статусу
+     * @param statusAnimal
+     * @return
+     */
     @Override
     public List<Cat> showAllByStatus(StatusAnimal statusAnimal) {
         return findAll().stream()
@@ -125,8 +140,13 @@ public class CatServiceImpl implements CatService {
                 .collect(Collectors.toList());
     }
 
-    // TODO: 14.04.2023 добавить описание в сваггере
-    //404, 405
+    /**
+     * Бронирование кота на 24 часа
+     * @param name
+     * @param phone
+     * @return
+     */
+    //404, 405, 409
     @Override
     public Cat reserveCat(String name, String phone) {
         User user;
@@ -150,16 +170,16 @@ public class CatServiceImpl implements CatService {
         }
     }
 
-    // TODO: 14.04.2023 написать метод в контроллере
+    /**
+     * Замена статуса животного
+     * @param name
+     * @param statusAnimal
+     * @return
+     */
     @Override
     public Cat changeStatusAnimal(String name, StatusAnimal statusAnimal) {
-        if (catRepository.existsByName(name)) {
             Cat cat = findByName(name);
             cat.setStatusAnimal(statusAnimal);
             return createCat(cat);
-        } else {
-            throw new NotFoundInBdException("Кот с таким именем не найден");
-        }
     }
-
 }

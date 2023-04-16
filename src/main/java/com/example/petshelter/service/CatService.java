@@ -43,6 +43,9 @@ public interface CatService {
      * @return
      */
     List<Cat> findAll();
+
+    List<Cat> findAllInShelter();
+
     /**
      * поиск по имени
      * @param name
