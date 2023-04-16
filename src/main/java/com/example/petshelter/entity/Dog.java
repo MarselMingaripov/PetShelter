@@ -25,21 +25,22 @@ public class Dog{
     /**
      * Имя животного
      */
-    String name;
+    private String name;
     /**
      * Возраст животного
      */
-    int age;
+    private int age;
     /**
      * Состояние здоровья животного
      */
-    boolean healthStatus;
+    private boolean healthStatus;
     /**
      * Статус о вакцинации животного
      */
-    boolean vaccination;
+    private boolean vaccination;
     /**
      * Статус нахождения животного в приюте
      */
+    @Enumerated(value = EnumType.STRING)
     private StatusAnimal statusAnimal;
 }

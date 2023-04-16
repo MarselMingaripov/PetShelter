@@ -37,12 +37,12 @@ public class CatController {
         return ResponseEntity.ok().body(catService.findById(id));
     }
 
-    @GetMapping("/find-by-name/{name}")
+    @GetMapping("/find-by-name")
     @Operation(summary = "Получение данных кота по имени")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Параметры запроса отсутствуют или имеют некорректный формат")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
-    public ResponseEntity<Cat> findByName(@PathVariable String name) {
+    public ResponseEntity<Cat> findByName(@RequestParam String name) {
         return ResponseEntity.ok().body(catService.findByName(name));
     }
 

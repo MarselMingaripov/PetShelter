@@ -39,12 +39,12 @@ public class CatOwnerController {
         return ResponseEntity.ok().body(catOwnerService.findById(id));
     }
 
-    @GetMapping("/find-by-phone-number/{phoneNumber}")
+    @GetMapping("/find-by-phone-number")
     @Operation(summary = "Получение данных усыновителя кота по номеру телефона")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
-    public ResponseEntity<CatOwner> findByPhoneNumber(@PathVariable String phoneNumber) {
+    public ResponseEntity<CatOwner> findByPhoneNumber(@RequestParam String phoneNumber) {
         return ResponseEntity.ok().body(catOwnerService.findByPhoneNumber(phoneNumber));
     }
 

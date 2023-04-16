@@ -38,12 +38,12 @@ public class DogOwnerController {
         return ResponseEntity.ok().body(dogOwnerService.findById(id));
     }
 
-    @GetMapping("/find-by-phone-number/{phoneNumber}")
+    @GetMapping("/find-by-phone-number")
     @Operation(summary = "Получение данных усыновителя собаки по номеру телефона")
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
-    public ResponseEntity<DogOwner> findByPhoneNumber(@PathVariable String phoneNumber) {
+    public ResponseEntity<DogOwner> findByPhoneNumber(@RequestParam String phoneNumber) {
         return ResponseEntity.ok().body(dogOwnerService.findByPhoneNumber(phoneNumber));
     }
 

@@ -39,12 +39,12 @@ public class DogController {
         return ResponseEntity.ok().body(dogService.findById(id));
     }
 
-    @GetMapping("/find-by-name/{name}")
+    @GetMapping("/find-by-name")
     @Operation(summary = "Получение данных собаки по имени")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
-    public ResponseEntity<Dog> findByName(@PathVariable String name) {
+    public ResponseEntity<Dog> findByName(@RequestParam String name) {
         return ResponseEntity.ok().body(dogService.findByName(name));
     }
 

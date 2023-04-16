@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *  Класс - сообщение волонтеру
@@ -33,18 +34,18 @@ public class MessageToVolunteer {
     /**
      * Дата сообщения
      */
-    private LocalDate localDate;
+    private LocalDateTime localDateTime;
 
-    public MessageToVolunteer(Long id, String sender, String text, LocalDate localDate) {
+    public MessageToVolunteer(Long id, String sender, String text) {
         this.id = id;
         this.sender = sender;
         this.text = text;
-        this.localDate = LocalDate.now();
+        this.localDateTime = LocalDateTime.now();
     }
 
-    public MessageToVolunteer(String sender, String text, LocalDate now) {
+    public MessageToVolunteer(String sender, String text) {
         this.sender = sender;
         this.text = text;
-        this.localDate = LocalDate.now();
+        this.localDateTime = LocalDateTime.now();
     }
 }

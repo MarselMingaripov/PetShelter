@@ -1,5 +1,7 @@
 package com.example.petshelter.service.impl;
 
+import com.example.petshelter.entity.Cat;
+import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.shelter.DogShelter;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,8 +35,9 @@ public class DogShelterServiceImpl implements DogShelterService {
 
     @Override
     public DogShelter findById(Long id) {
-        if (dogShelterRepository.findById(id).isPresent()) {
-            return dogShelterRepository.findById(id).get();
+        Optional<DogShelter> dogShelter = dogShelterRepository.findById(id);
+        if (dogShelter.isPresent()) {
+            return dogShelter.get();
         } else {
             throw new NotFoundInBdException("Не найдено в базе данных");
         }
@@ -51,12 +55,9 @@ public class DogShelterServiceImpl implements DogShelterService {
 
     @Override
     public DogShelter deleteById(Long id) {
-        if (dogShelterRepository.findById(id).isPresent()) {
-            dogShelterRepository.deleteById(id);
-            return dogShelterRepository.findById(id).get();
-        } else {
-            throw new NotFoundInBdException("Не найдено в базе данных");
-        }
+        DogShelter dogShelter = findById(id);
+        dogShelterRepository.delete(dogShelter);
+        return dogShelter;
     }
 
     @Override

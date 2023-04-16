@@ -11,6 +11,6 @@ import java.util.Optional;
 @EnableJpaRepositories
 public interface CatOwnerRepository extends JpaRepository<CatOwner, Long> {
 
-    Boolean existsByPhoneNumber(String phoneNumber);
+    boolean existsByPhoneNumber(String phoneNumber);
     Optional<CatOwner> findByPhoneNumber(String number);
 }
