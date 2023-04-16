@@ -40,14 +40,7 @@ public class CatServiceImpl implements CatService {
         return catRepository.save(cat);
     }
 
-    /**
-     * Поиск животного по его идентификатору в БД.
-     * Используется метод репозитория {@link CatRepository#findById(Object)}
-     *
-     * @param id
-     * @return
-     * @throws NotFoundInBdException если животное не найдено в БД
-     */
+
     @Override
     public Cat findById(Long id) {
         Optional<Cat> cat = catRepository.findById(id);
@@ -58,15 +51,7 @@ public class CatServiceImpl implements CatService {
         }
     }
 
-    /**
-     * Поиск и обновление данных о животном в БД по его идентификатору.
-     * Используются методы репозитория {@link CatRepository#findById(Object)} и {@link CatRepository#save(Object)}
-     *
-     * @param id  - ид обновляемой записи
-     * @param cat - на что обновляем
-     * @return
-     * @throws NotFoundInBdException если животное не найдено в БД
-     */
+
     @Override
     public Cat updateById(Long id, Cat cat) {
         if (catRepository.findById(id).isPresent()) {
@@ -77,14 +62,7 @@ public class CatServiceImpl implements CatService {
         }
     }
 
-    /**
-     * Поиск и удаление данных о животном в БД по его идентификатору.
-     * Используются методы репозитория {@link CatRepository#findById(Object)} и {@link CatRepository#deleteById(Object)}
-     *
-     * @param id
-     * @return
-     * @throws NotFoundInBdException если животное не найдено в БД
-     */
+
     @Override
     public Cat deleteById(Long id) {
         Cat cat = findById(id);
@@ -92,12 +70,7 @@ public class CatServiceImpl implements CatService {
         return cat;
     }
 
-    /**
-     * Вывод полного списка животных из БД.
-     * Используется метод репозитория {@link CatRepository#findAll}
-     *
-     * @return
-     */
+
     @Override
     public List<Cat> findAll() {
         return catRepository.findAll();
@@ -116,13 +89,6 @@ public class CatServiceImpl implements CatService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Поиск в БД животного по его имени.
-     * Используется метод репозитория {@link CatRepository#findByName(String)}
-     *
-     * @param name
-     * @return
-     */
     @Override
     public Cat findByName(String name) {
         return catRepository.findByName(name).get();

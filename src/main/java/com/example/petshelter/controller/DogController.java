@@ -25,7 +25,6 @@ public class DogController {
     @PostMapping
     @Operation(summary = "Сохранение собак в БД")
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, собака добавлена в БД")
-    @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
     @ApiResponse(responseCode = "405", description = "Ошибка валидации")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<Dog> createDog(@RequestBody Dog dog) {
@@ -35,7 +34,7 @@ public class DogController {
     @GetMapping("/{id}")
     @Operation(summary = "Получение данных собаки по id")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
-    @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<Dog> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(dogService.findById(id));
@@ -44,7 +43,7 @@ public class DogController {
     @GetMapping("/find-by-name")
     @Operation(summary = "Получение данных собаки по имени")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
-    @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
+    @ApiResponse(responseCode = "404", description = "Параметры запроса отсутствуют или имеют некорректный формат")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<Dog> findByName(@RequestParam String name) {
         return ResponseEntity.ok().body(dogService.findByName(name));
@@ -52,6 +51,7 @@ public class DogController {
 
     @GetMapping
     @Operation(summary = "Получение списка всех собак")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     public ResponseEntity<List<Dog>> findAll() {
         return ResponseEntity.ok().body(dogService.findAll());
     }
@@ -60,6 +60,7 @@ public class DogController {
     @Operation(summary = "Изменение данных собаки по id")
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные изменены")
     @ApiResponse(responseCode = "404", description = "Собаки с таким id нет в БД или параметры запроса имеют некорректный формат")
+    @ApiResponse(responseCode = "405", description = "Ошибка валидации")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<Dog> updateById(@PathVariable Long id, @RequestBody Dog dog) {
         return ResponseEntity.ok().body(dogService.updateById(id, dog));
@@ -68,7 +69,7 @@ public class DogController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Удаление данных собаки из БД приюта")
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные удалены")
-    @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
+    @ApiResponse(responseCode = "404", description = "Параметры запроса отсутствуют или имеют некорректный формат")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<Dog> deleteById(@PathVariable Long id) {
         return ResponseEntity.ok().body(dogService.deleteById(id));
