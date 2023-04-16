@@ -62,4 +62,6 @@ public interface CatOwnerService {
      * @return
      */
     CatOwner findByPhoneNumber(String phoneNumber);
+
+    CatOwner getAnimalToTrialPeriod(String phoneNumber, String animalName, long trialDays);
 }

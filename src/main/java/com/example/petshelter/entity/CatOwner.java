@@ -29,7 +29,7 @@ public class CatOwner extends User{
     /**
      * Список кошек
      */
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "cat_owner_cat",
             joinColumns = @JoinColumn(name = "cat_owner_id"),
             inverseJoinColumns = @JoinColumn(name = "cat_id"))
@@ -37,6 +37,11 @@ public class CatOwner extends User{
 
     public CatOwner(Long id, String phoneNumber, List<TrialPeriod> trialPeriodsInActiveStatus, List<TrialPeriod> trialPeriodsCompleted, List<Cat> cats) {
         super(id, phoneNumber, trialPeriodsInActiveStatus, trialPeriodsCompleted);
+        this.cats = cats;
+    }
+
+    public CatOwner(String phoneNumber, List<TrialPeriod> trialPeriodsInActiveStatus, List<TrialPeriod> trialPeriodsCompleted, List<Cat> cats) {
+        super(phoneNumber, trialPeriodsInActiveStatus, trialPeriodsCompleted);
         this.cats = cats;
     }
 }

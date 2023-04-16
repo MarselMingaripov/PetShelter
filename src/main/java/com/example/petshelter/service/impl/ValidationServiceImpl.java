@@ -34,7 +34,6 @@ public class ValidationServiceImpl implements ValidationService {
                 && validateString(catShelter.getInformation())
                 && validateString(catShelter.getAddress())
                 && validatePhoneNumber(catShelter.getPhoneNumber())
-//                && validateString(catShelter.getPhoneNumber())
                 && validateString(catShelter.getWorkSchedule())
                 && validateString(catShelter.getSecurityContacts())
                 && validateString(catShelter.getSafetyRecommendations());
@@ -46,7 +45,6 @@ public class ValidationServiceImpl implements ValidationService {
                 && validateString(dogShelter.getInformation())
                 && validateString(dogShelter.getAddress())
                 && validatePhoneNumber(dogShelter.getPhoneNumber())
-//                && validateString(dogShelter.getPhoneNumber())
                 && validateString(dogShelter.getWorkSchedule())
                 && validateString(dogShelter.getSecurityContacts())
                 && validateString(dogShelter.getSafetyRecommendations());
@@ -55,14 +53,12 @@ public class ValidationServiceImpl implements ValidationService {
     @Override
     public boolean validate(CatOwner catOwner) {
         return catOwner != null
-//               && validateString(catOwner.getPhoneNumber());
                 && validatePhoneNumber(catOwner.getPhoneNumber());
     }
 
     @Override
     public boolean validate(DogOwner dogOwner) {
         return dogOwner != null
-//                && validateString(dogOwner.getPhoneNumber());
                 && validatePhoneNumber(dogOwner.getPhoneNumber());
     }
     @Override

@@ -72,6 +72,17 @@ public class CatOwnerController {
     public ResponseEntity<CatOwner> deleteById(@PathVariable Long id) {
         return ResponseEntity.ok().body(catOwnerService.deleteById(id));
     }
+
+    @PostMapping("get-animal")
+    @Operation(summary = "Сохранение усыновителя в БД")
+    @ApiResponse(responseCode = "200", description = "Запрос выполнен, кот передан хозяину")
+    @ApiResponse(responseCode = "405", description = "Ошибка валидации")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<CatOwner> пуеФтшьфд(@RequestParam String phoneNumber,
+                                              @RequestParam String animalName,
+                                              @RequestParam long trialDays) {
+        return ResponseEntity.ok().body(catOwnerService.getAnimalToTrialPeriod(phoneNumber, animalName, trialDays));
+    }
 }
 
 

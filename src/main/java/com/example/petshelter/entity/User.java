@@ -52,4 +52,10 @@ public class User {
     public User(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public User(String phoneNumber, List<TrialPeriod> trialPeriodsInActiveStatus, List<TrialPeriod> trialPeriodsCompleted) {
+        this.phoneNumber = phoneNumber;
+        this.trialPeriodsInActiveStatus = trialPeriodsInActiveStatus;
+        this.trialPeriodsCompleted = trialPeriodsCompleted;
+    }
 }

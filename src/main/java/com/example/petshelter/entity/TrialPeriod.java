@@ -22,6 +22,8 @@ public class TrialPeriod {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    private String ownerName;
     /**
      * Дата начала испытательного срока
      */
@@ -44,7 +46,8 @@ public class TrialPeriod {
     @Enumerated(value = EnumType.STRING)
     private TrialPeriodResult result;
 
-    public TrialPeriod(LocalDate startDate, LocalDate endDate, List<Report> reports, TrialPeriodResult result) {
+    public TrialPeriod(String ownerName, LocalDate startDate, LocalDate endDate, List<Report> reports, TrialPeriodResult result) {
+        this.ownerName = ownerName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.reports = reports;
