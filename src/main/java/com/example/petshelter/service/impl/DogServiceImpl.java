@@ -1,5 +1,7 @@
 package com.example.petshelter.service.impl;
 
+import com.example.petshelter.entity.Cat;
+import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.Dog;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
@@ -10,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 /**
  * Сервисы для работы с БД собак
  */
@@ -30,8 +34,9 @@ public class DogServiceImpl implements DogService {
 
     @Override
     public Dog findById(Long id) {
-        if (dogRepository.findById(id).isPresent()) {
-            return dogRepository.findById(id).get();
+        Optional<Dog> dog = dogRepository.findById(id);
+        if (dog.isPresent()) {
+            return dog.get();
         } else {
             throw new NotFoundInBdException("Не найдено в базе данных");
         }
@@ -49,12 +54,9 @@ public class DogServiceImpl implements DogService {
 
     @Override
     public Dog deleteById(Long id) {
-        if (dogRepository.findById(id).isPresent()){
-            dogRepository.deleteById(id);
-            return dogRepository.findById(id).get();
-        } else {
-            throw new NotFoundInBdException("Не найдено в базе данных");
-        }
+        Dog dog = findById(id);
+        dogRepository.delete(dog);
+        return dog;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.example.petshelter.service.impl;
 
+import com.example.petshelter.entity.Cat;
+import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.shelter.CatShelter;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
@@ -13,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class CatShelterServiceImpl implements CatShelterService {
@@ -32,8 +36,9 @@ public class CatShelterServiceImpl implements CatShelterService {
 
     @Override
     public CatShelter findById(Long id) {
-        if (catShelterRepository.findById(id).isPresent()) {
-            return catShelterRepository.findById(id).get();
+        Optional<CatShelter> catShelter = catShelterRepository.findById(id);
+        if (catShelter.isPresent()) {
+            return catShelter.get();
         } else {
             throw new NotFoundInBdException("Не найдено в базе данных");
         }
@@ -51,12 +56,9 @@ public class CatShelterServiceImpl implements CatShelterService {
 
     @Override
     public CatShelter deleteById(Long id) {
-        if (catShelterRepository.findById(id).isPresent()) {
-            catShelterRepository.deleteById(id);
-            return catShelterRepository.findById(id).get();
-        } else {
-            throw new NotFoundInBdException("Не найдено в базе данных");
-        }
+        CatShelter catShelter = findById(id);
+        catShelterRepository.delete(catShelter);
+        return catShelter;
     }
 
     @Override

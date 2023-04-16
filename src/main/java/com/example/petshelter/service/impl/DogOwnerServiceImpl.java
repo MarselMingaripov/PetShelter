@@ -1,5 +1,7 @@
 package com.example.petshelter.service.impl;
 
+import com.example.petshelter.entity.Cat;
+import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.DogOwner;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,8 +31,9 @@ public class DogOwnerServiceImpl implements DogOwnerService {
 
     @Override
     public DogOwner findById(Long id) {
-        if (dogOwnerRepository.findById(id).isPresent()) {
-            return dogOwnerRepository.findById(id).get();
+        Optional<DogOwner> dogOwner = dogOwnerRepository.findById(id);
+        if (dogOwner.isPresent()) {
+            return dogOwner.get();
         } else {
             throw new NotFoundInBdException("Не найдено в базе данных");
         }
@@ -47,12 +51,9 @@ public class DogOwnerServiceImpl implements DogOwnerService {
 
     @Override
     public DogOwner deleteById(Long id) {
-        if (dogOwnerRepository.findById(id).isPresent()) {
-            dogOwnerRepository.deleteById(id);
-            return dogOwnerRepository.findById(id).get();
-        } else {
-            throw new NotFoundInBdException("Не найдено в базе данных");
-        }
+        DogOwner dogOwner = findById(id);
+        dogOwnerRepository.delete(dogOwner);
+        return dogOwner;
     }
 
     @Override

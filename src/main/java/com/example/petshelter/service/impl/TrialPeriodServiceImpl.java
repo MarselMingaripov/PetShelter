@@ -1,5 +1,7 @@
 package com.example.petshelter.service.impl;
 
+import com.example.petshelter.entity.Cat;
+import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.TrialPeriod;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.repository.TrialPeriodRepository;
@@ -8,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +25,9 @@ public class TrialPeriodServiceImpl implements TrialPeriodService {
 
     @Override
     public TrialPeriod findById(Long id) {
-        if (trialPeriodRepository.findById(id).isPresent()){
-            return trialPeriodRepository.findById(id).get();
+        Optional<TrialPeriod> trialPeriod = trialPeriodRepository.findById(id);
+        if (trialPeriod.isPresent()) {
+            return trialPeriod.get();
         } else {
             throw new NotFoundInBdException("Не найдено в базе данных");
         }
@@ -41,12 +45,9 @@ public class TrialPeriodServiceImpl implements TrialPeriodService {
 
     @Override
     public TrialPeriod deleteById(Long id) {
-        if (trialPeriodRepository.findById(id).isPresent()){
-            trialPeriodRepository.deleteById(id);
-            return trialPeriodRepository.findById(id).get();
-        } else {
-            throw new NotFoundInBdException("Не найдено в базе данных");
-        }
+        TrialPeriod trialPeriod = findById(id);
+        trialPeriodRepository.delete(trialPeriod);
+        return trialPeriod;
     }
 
     @Override

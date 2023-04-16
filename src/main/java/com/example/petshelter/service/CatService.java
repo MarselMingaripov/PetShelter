@@ -1,7 +1,7 @@
 package com.example.petshelter.service;
 
 import com.example.petshelter.entity.Cat;
-import com.example.petshelter.exception.NotFoundInBdException;
+import com.example.petshelter.entity.StatusAnimal;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.CatRepository;
 
@@ -43,7 +43,6 @@ public interface CatService {
      * @param id
      * @return
      */
-
     Cat deleteById(Long id);
     /**
      * Вывод полного списка животных из БД.
@@ -58,4 +57,15 @@ public interface CatService {
      * @return
      */
     Cat findByName(String name);
+
+    /**
+     * получение списка котов по их статусу
+     * @param statusAnimal
+     * @return
+     */
+    List<Cat> showAllByStatus(StatusAnimal statusAnimal);
+
+    Cat reserveCat(String name, String phone);
+
+    Cat changeStatusAnimal(String name, StatusAnimal statusAnimal);
 }

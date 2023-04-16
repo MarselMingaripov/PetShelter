@@ -1,5 +1,7 @@
 package com.example.petshelter.service.impl;
 
+import com.example.petshelter.entity.Cat;
+import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.User;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-//        if(!validationService.validateString(user.getPhoneNumber())) {
-        if(!validationService.validatePhoneNumber(user.getPhoneNumber())) {
+        if (!validationService.validatePhoneNumber(user.getPhoneNumber())) {
             throw new ValidationException(user.toString());
         }
         return userRepository.save(user);
@@ -29,8 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) {
-        if (userRepository.findById(id).isPresent()) {
-            return userRepository.findById(id).get();
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return user.get();
         } else {
             throw new NotFoundInBdException("Не найдено в базе данных");
         }
@@ -48,16 +51,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User deleteById(Long id) {
-        if (userRepository.findById(id).isPresent()) {
-            userRepository.deleteById(id);
-            return userRepository.findById(id).get();
-        } else {
-            throw new NotFoundInBdException("Не найдено в базе данных");
-        }
+        User user = findById(id);
+        userRepository.delete(user);
+        return user;
     }
 
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User findByPhone(String phone) {
+        if (userRepository.existsByPhoneNumber(phone)) {
+            return userRepository.findByPhoneNumber(phone).get();
+        } else {
+            return null;
+        }
     }
 }

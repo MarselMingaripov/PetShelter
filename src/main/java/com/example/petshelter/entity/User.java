@@ -21,6 +21,7 @@ public class User {
      * Уникальный идентификатор записи в БД
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     /**
@@ -46,5 +47,9 @@ public class User {
 
     public User(Long id) {
         this.id = id;
+    }
+
+    public User(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
