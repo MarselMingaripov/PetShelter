@@ -38,11 +38,11 @@ class CatShelterServiceTest {
 
     private CatShelter catShelter;
 
-    @BeforeEach
+    /*@BeforeEach
     public void init() {
         catShelter = new CatShelter(ID, INFORMATION, ADDRESS, PHONE_NUMBER, WORK_SCHEDULE, SECURITY_CONTACTS,
                                     SAFETY_RECOMMENDATIONS);
-    }
+    }*/
     @Test
     void shouldReturnWhenCreateNewCatShelter() {
         Mockito.when(validationServiceMock.validate(catShelter)).thenReturn(true);

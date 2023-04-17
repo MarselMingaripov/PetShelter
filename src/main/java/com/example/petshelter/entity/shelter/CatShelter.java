@@ -16,17 +16,48 @@ import java.util.Map;
  */
 
 @Data
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
 @Table(name = "cat_shelter")
-public class CatShelter extends AnimalShelter {
+public class CatShelter{
 
     /**
      * Уникальный идентификатор записи в БД
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    /**
+     *  "Информация о питомнике
+     */
+    private String information;
+
+    /**
+     * Адрес питомника
+     */
+    private String address;
+
+    /**
+     * Номер телефона питомника
+     */
+    private String phoneNumber;
+
+    /**
+     * Режим работы питомника
+     */
+    private String workSchedule;
+
+    /**
+     * Контакты охраны питомника
+     */
+    private String securityContacts;
+
+    /**
+     * Рекомендации по технике безопасности на территории питомника
+     */
+    private String safetyRecommendations;
 
     /**
      * Список кошек
@@ -52,17 +83,16 @@ public class CatShelter extends AnimalShelter {
     @Transient
     private Map<CatShelterConsult, String> catConsult;
 
-    public CatShelter(Long id,
-                      String information,
-                      String address,
-                      String phoneNumber,
-                      String workSchedule,
-                      String securityContacts,
-                      String safetyRecommendations) {
-        super(id, information, address, phoneNumber, workSchedule, securityContacts, safetyRecommendations);
+    public CatShelter(String information, String address, String phoneNumber, String workSchedule, String securityContacts, String safetyRecommendations) {
+        this.information = information;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.workSchedule = workSchedule;
+        this.securityContacts = securityContacts;
+        this.safetyRecommendations = safetyRecommendations;
     }
 
-    public CatShelter(Long id,
+    /* public CatShelter(Long id,
                       String information,
                       String address,
                       String phoneNumber,
@@ -78,5 +108,5 @@ public class CatShelter extends AnimalShelter {
         this.cats = cats;
         this.catOwners = catOwners;
         this.catConsult = catConsult;
-    }
+    }*/
 }
