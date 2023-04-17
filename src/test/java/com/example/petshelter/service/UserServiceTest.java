@@ -72,8 +72,6 @@ public class UserServiceTest {
     @DisplayName("Исключение при поиске по некорректному ID пользователя")
     public void shouldThrowNotFoundInBdExceptionWhenIdIsNotValid() {
         Mockito.when(userRepositoryMock.findById(ID)).thenThrow(NotFoundInBdException.class);
-        Mockito.when(userRepositoryMock.findById(ID)).thenThrow(NotFoundInBdException.class);
-
         assertThrows(NotFoundInBdException.class, () -> userServiceOut.findById(ID));
     }
 
