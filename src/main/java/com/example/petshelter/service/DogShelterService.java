@@ -51,22 +51,22 @@ public interface DogShelterService {
      * получение информация о приюте
      * @return
      */
-    String returnInformation();
+    String returnInformation(Long id);
     /**
      * расписание работы приюта и адрес, схему проезда
      * @return
      */
-    String returnAddressAndWorkSchedule();
+    String returnAddressAndWorkSchedule(Long id);
     /**
      * контактные данные охраны для оформления пропуска на машину
      * @return
      */
-    String returnSecurityContacts();
+    String returnSecurityContacts(Long id);
     /**
      * общие рекомендации о технике безопасности на территории приюта
      * @return
      */
-    String returnSafetyRecommendations();
+    String returnSafetyRecommendations(Long id);
     /**
      * добавление собаки в БД приюта
      * @param name

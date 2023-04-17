@@ -51,24 +51,28 @@ public interface CatShelterService {
     List<CatShelter> findAll();
     /**
      * получение информация о приюте
+     * @param id
      * @return
      */
-    String returnInformation();
+    String returnInformation(Long id);
     /**
      * расписание работы приюта и адрес, схему проезда
+     * @param id
      * @return
      */
-    String returnAddressAndWorkSchedule();
+    String returnAddressAndWorkSchedule(Long id);
     /**
      * контактные данные охраны для оформления пропуска на машину
+     * @param id
      * @return
      */
-    String returnSecurityContacts();
+    String returnSecurityContacts(Long id);
     /**
      * общие рекомендации о технике безопасности на территории приюта
+     * @param id
      * @return
      */
-    String returnSafetyRecommendations();
+    String returnSafetyRecommendations(Long id);
     /**
      * добавление кота в БД приюта
      * @param name
