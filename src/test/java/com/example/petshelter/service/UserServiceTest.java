@@ -66,8 +66,12 @@ public class UserServiceTest {
         assertEquals(user, userServiceOut.updateById(ID, user));
 
     }
-
-    // TODO: 17.04.2023 Тест как-то криво проходит, проверить ошибку
+    @Test
+    @DisplayName("Исключение при обновлении по некорректному ID пользователя")
+    public void shouldThrowNotFoundInBdExceptionWhenUpdateByIdIsNotValid() {
+        Mockito.when(userRepositoryMock.findById(any())).thenReturn(Optional.empty());
+        assertThrows(NotFoundInBdException.class, () -> userServiceOut.updateById(ID,user));
+    }
     @Test
     @DisplayName("Исключение при поиске по некорректному ID пользователя")
     public void shouldThrowNotFoundInBdExceptionWhenIdIsNotValid() {
