@@ -62,37 +62,37 @@ public class DogShelterController {
     public ResponseEntity<DogShelter> deleteById(@PathVariable Long id) {
         return ResponseEntity.ok().body(dogShelterService.deleteById(id));
     }
-    @GetMapping("/information")
+    @GetMapping("/information/{id}")
     @Operation(summary = "Получение информации о приюте")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
-    public ResponseEntity<String> returnInformation() {
-        return ResponseEntity.ok().body(dogShelterService.returnInformation());
+    public ResponseEntity<String> returnInformation(@PathVariable Long id) {
+        return ResponseEntity.ok().body(dogShelterService.returnInformation(id));
     }
-    @GetMapping("/address-and-work-schedule")
+    @GetMapping("/address-and-work-schedule/{id}")
     @Operation(summary = "Получение расписания работы приюта, адрес, схему проезда")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
-    public ResponseEntity<String> returnAddressAndWorkSchedule() {
-        return ResponseEntity.ok().body(dogShelterService.returnAddressAndWorkSchedule());
+    public ResponseEntity<String> returnAddressAndWorkSchedule(@PathVariable Long id) {
+        return ResponseEntity.ok().body(dogShelterService.returnAddressAndWorkSchedule(id));
     }
-    @GetMapping("/security-contacts")
+    @GetMapping("/security-contacts/{id}")
     @Operation(summary = "Получить контактные данные охраны для оформления пропуска на машину")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
-    public ResponseEntity<String> returnSecurityContacts() {
-        return ResponseEntity.ok().body(dogShelterService.returnSecurityContacts());
+    public ResponseEntity<String> returnSecurityContacts(@PathVariable Long id) {
+        return ResponseEntity.ok().body(dogShelterService.returnSecurityContacts(id));
     }
-    @GetMapping("/safety-recommendations")
+    @GetMapping("/safety-recommendations/{id}")
     @Operation(summary = "Получить общие рекомендации о технике безопасности на территории приюта")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
-    public ResponseEntity<String> returnSafetyRecommendations() {
-        return ResponseEntity.ok().body(dogShelterService.returnSafetyRecommendations());
+    public ResponseEntity<String> returnSafetyRecommendations(@PathVariable Long id) {
+        return ResponseEntity.ok().body(dogShelterService.returnSafetyRecommendations(id));
     }
 
     @PostMapping("/add-dog-to-shelter")

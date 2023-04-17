@@ -66,4 +66,33 @@ public interface ValidationService {
      */
 
     public boolean validatePhoneNumber(String phoneNumber);
+
+    /**
+     * проверка
+     * @param messageToVolunteer
+     * @return
+     */
+    public boolean validate (MessageToVolunteer messageToVolunteer);
+
+    /**
+     * проверка
+     * @param report
+     * @return
+     */
+    public boolean validate (Report report);
+
+    /**
+     * проверка
+     * @param trialPeriod
+     * @return
+     */
+    public boolean validate (TrialPeriod trialPeriod);
+
+    /**
+     * проверка
+     * @param user
+     * @return
+     */
+    public boolean validate (User user);
+
 }

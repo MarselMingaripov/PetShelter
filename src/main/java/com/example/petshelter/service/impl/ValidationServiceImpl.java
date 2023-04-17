@@ -61,6 +61,7 @@ public class ValidationServiceImpl implements ValidationService {
         return dogOwner != null
                 && validatePhoneNumber(dogOwner.getPhoneNumber());
     }
+
     @Override
     public boolean validateString(String str) {
         return str != null
@@ -71,5 +72,36 @@ public class ValidationServiceImpl implements ValidationService {
     @Override
     public boolean validatePhoneNumber(String phoneNumber) {
         return PATTERN_PHONE_NUMBER.matcher(phoneNumber).matches();
+    }
+
+    @Override
+    public boolean validate (MessageToVolunteer messageToVolunteer) {
+        return messageToVolunteer != null
+                && validateString(messageToVolunteer.getSender())
+                && validateString(messageToVolunteer.getText());
+    }
+    @Override
+    public boolean validate (Report report){
+        return report != null
+                && report.getPhoto() != null
+                && validateString(report.getFoodRation())
+                && validateString(report.getGeneralHealth())
+                && validateString(report.getBehaviorChanges());
+    }
+
+    @Override
+    public boolean validate(TrialPeriod trialPeriod) {
+        return trialPeriod != null
+                && validateString(trialPeriod.getOwnerName())
+                && trialPeriod.getStartDate() != null
+                && trialPeriod.getEndDate() != null
+                && trialPeriod.getReports() != null
+                && trialPeriod.getResult() != null;
+    }
+
+    @Override
+    public boolean validate(User user) {
+        return user != null
+                && validateString(user.getPhoneNumber());
     }
 }

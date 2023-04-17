@@ -67,23 +67,23 @@ public class CatShelterServiceImpl implements CatShelterService {
     }
 
     @Override
-    public String returnInformation() {
-        return findById(1L).getInformation();
+    public String returnInformation(Long id) {
+        return findById(id).getInformation();
     }
 
     @Override
-    public String returnAddressAndWorkSchedule() {
-        return findById(1L).getAddress() + " " + findById(1L).getWorkSchedule();
+    public String returnAddressAndWorkSchedule(Long id) {
+        return findById(id).getAddress() + " " + findById(id).getWorkSchedule();
     }
 
     @Override
-    public String returnSecurityContacts() {
-        return findById(1L).getSecurityContacts();
+    public String returnSecurityContacts(Long id) {
+        return findById(id).getSecurityContacts();
     }
 
     @Override
-    public String returnSafetyRecommendations() {
-        return findById(1L).getSafetyRecommendations();
+    public String returnSafetyRecommendations(Long id) {
+        return findById(id).getSafetyRecommendations();
     }
 
     @Override
