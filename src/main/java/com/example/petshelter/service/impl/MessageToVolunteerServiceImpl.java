@@ -4,8 +4,10 @@ import com.example.petshelter.entity.Cat;
 import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.MessageToVolunteer;
 import com.example.petshelter.exception.NotFoundInBdException;
+import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.MessageToVolunteerRepository;
 import com.example.petshelter.service.MessageToVolunteerService;
+import com.example.petshelter.service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -16,9 +18,13 @@ import java.util.Optional;
 public class MessageToVolunteerServiceImpl implements MessageToVolunteerService {
 
     private final MessageToVolunteerRepository messageToVolunteerRepository;
+    private final ValidationService validationService;
 
     @Override
     public MessageToVolunteer createMessageToVolunteer(MessageToVolunteer messageToVolunteer) {
+        if (!validationService.validate(messageToVolunteer)) {
+            throw new ValidationException(messageToVolunteer.toString());
+        }
         return messageToVolunteerRepository.save(messageToVolunteer);
     }
 

@@ -4,8 +4,10 @@ import com.example.petshelter.entity.Cat;
 import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.TrialPeriod;
 import com.example.petshelter.exception.NotFoundInBdException;
+import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.TrialPeriodRepository;
 import com.example.petshelter.service.TrialPeriodService;
+import com.example.petshelter.service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +19,14 @@ import java.util.Optional;
 public class TrialPeriodServiceImpl implements TrialPeriodService {
 
     private final TrialPeriodRepository trialPeriodRepository;
+    private final ValidationService validationService;
 
     @Override
     public TrialPeriod createTrialPeriod(TrialPeriod trialPeriod) {
+        if (!validationService.validate(trialPeriod)) {
+            throw new ValidationException(trialPeriod.toString());
+        }
+
         return trialPeriodRepository.save(trialPeriod);
     }
 
