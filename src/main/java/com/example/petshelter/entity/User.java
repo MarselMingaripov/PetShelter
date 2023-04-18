@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 /**
  * Базовый класс - опекун животного
  */
@@ -28,22 +26,8 @@ public class User {
      * Номер сотового телефона опекуна животного
      */
     private String phoneNumber;
-    /**
-     * Действующие периоды испытательного срока для опекуна животного
-     */
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "users_trial_period",
-            joinColumns = @JoinColumn(name = "users_id"),
-            inverseJoinColumns = @JoinColumn(name = "trial_period_id"))
-    private List<TrialPeriod> trialPeriodsInActiveStatus;
-    /**
-     * Завершенные периоды испытательного срока для опекуна животного
-     */
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "users_completed_trial_period",
-            joinColumns = @JoinColumn(name = "users_id"),
-            inverseJoinColumns = @JoinColumn(name = "trial_period_id"))
-    private List<TrialPeriod> trialPeriodsCompleted;
+
+    private Long telegramId;
 
     public User(Long id) {
         this.id = id;
@@ -53,9 +37,8 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public User(String phoneNumber, List<TrialPeriod> trialPeriodsInActiveStatus, List<TrialPeriod> trialPeriodsCompleted) {
+    public User(String phoneNumber, Long telegramId) {
         this.phoneNumber = phoneNumber;
-        this.trialPeriodsInActiveStatus = trialPeriodsInActiveStatus;
-        this.trialPeriodsCompleted = trialPeriodsCompleted;
+        this.telegramId = telegramId;
     }
 }

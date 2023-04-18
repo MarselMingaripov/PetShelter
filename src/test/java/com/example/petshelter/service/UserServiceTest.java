@@ -36,10 +36,10 @@ public class UserServiceTest {
     private static String TRIAL_PERIODS_COMPLETED = null;
     private User user;
 
-    @BeforeEach
+    /*@BeforeEach
     public void init() {
         user = new User(ID, PHONE_NUMBER, null, null);
-    }
+    }*/
 
     @Test
     @DisplayName("Проверка корректного создания нового пользователя")

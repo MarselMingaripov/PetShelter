@@ -14,9 +14,10 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "cat_owner")
-public class CatOwner extends User{
+public class CatOwner{
 
     /**
      * Уникальный идентификатор записи в БД
@@ -26,22 +27,35 @@ public class CatOwner extends User{
     @Column(name = "id", nullable = false)
     private Long id;
 
+    private String phoneNumber;
+
     /**
      * Список кошек
      */
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "cat_owner_cat",
             joinColumns = @JoinColumn(name = "cat_owner_id"),
             inverseJoinColumns = @JoinColumn(name = "cat_id"))
     private List<Cat> cats;
 
-    public CatOwner(Long id, String phoneNumber, List<TrialPeriod> trialPeriodsInActiveStatus, List<TrialPeriod> trialPeriodsCompleted, List<Cat> cats) {
-        super(id, phoneNumber, trialPeriodsInActiveStatus, trialPeriodsCompleted);
-        this.cats = cats;
-    }
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "cat_owner_trial_period",
+            joinColumns = @JoinColumn(name = "cat_owner_id"),
+            inverseJoinColumns = @JoinColumn(name = "trial_period_id"))
+    private List<TrialPeriod> trialPeriodsInActiveStatus;
+    /**
+     * Завершенные периоды испытательного срока для опекуна животного
+     */
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "cat_owner_completed_trial_period",
+            joinColumns = @JoinColumn(name = "cat_owner_id"),
+            inverseJoinColumns = @JoinColumn(name = "trial_period_id"))
+    private List<TrialPeriod> trialPeriodsCompleted;
 
-    public CatOwner(String phoneNumber, List<TrialPeriod> trialPeriodsInActiveStatus, List<TrialPeriod> trialPeriodsCompleted, List<Cat> cats) {
-        super(phoneNumber, trialPeriodsInActiveStatus, trialPeriodsCompleted);
+    public CatOwner(String phoneNumber, List<Cat> cats, List<TrialPeriod> trialPeriodsInActiveStatus, List<TrialPeriod> trialPeriodsCompleted) {
+        this.phoneNumber = phoneNumber;
         this.cats = cats;
+        this.trialPeriodsInActiveStatus = trialPeriodsInActiveStatus;
+        this.trialPeriodsCompleted = trialPeriodsCompleted;
     }
 }

@@ -69,4 +69,14 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
+
+    @Override
+    public User findByTelegramID(Long id){
+        Optional<User> user = userRepository.findByTelegramId(id);
+        if (user.isPresent()) {
+            return user.get();
+        } else {
+            throw new NotFoundInBdException("Не найдено в базе данных");
+        }
+    }
 }

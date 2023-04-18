@@ -91,22 +91,4 @@ public class CatShelter{
         this.securityContacts = securityContacts;
         this.safetyRecommendations = safetyRecommendations;
     }
-
-    /* public CatShelter(Long id,
-                      String information,
-                      String address,
-                      String phoneNumber,
-                      String workSchedule,
-                      String securityContacts,
-                      String safetyRecommendations,
-                      List<Cat> cats,
-                      List<CatOwner> catOwners,
-                      Map<CatShelterConsult, String> catConsult) {
-
-        super(id, information, address, phoneNumber, workSchedule, securityContacts, safetyRecommendations);
-
-        this.cats = cats;
-        this.catOwners = catOwners;
-        this.catConsult = catConsult;
-    }*/
 }

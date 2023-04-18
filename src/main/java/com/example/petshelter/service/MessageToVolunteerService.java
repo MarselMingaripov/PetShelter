@@ -49,4 +49,6 @@ public interface MessageToVolunteerService {
      * @return
      */
     List<MessageToVolunteer> findAll();
+
+    MessageToVolunteer createMessageFromText(String text);
 }

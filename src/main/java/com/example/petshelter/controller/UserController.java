@@ -37,6 +37,14 @@ public class UserController {
     public ResponseEntity<User> findUser(@PathVariable Long id){
         return ResponseEntity.ok().body(userService.findById(id));
     }
+    @GetMapping("phone/{id}")
+    @Operation(summary = "Получение телефона пользователя по id")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<String> findUserPhone(@PathVariable Long id){
+        return ResponseEntity.ok().body(userService.findByTelegramID(id).getPhoneNumber());
+    }
 
     @PostMapping("/{id}")
     @Operation(summary = "Изменение пользователя по id")
