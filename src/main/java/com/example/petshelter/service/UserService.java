@@ -51,4 +51,6 @@ public interface UserService {
     List<User> findAll();
 
     User findByPhone(String phone);
+
+    User findByTelegramID(Long id);
 }

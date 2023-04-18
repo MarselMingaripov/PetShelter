@@ -36,10 +36,10 @@ class CatOwnerServiceTest {
     private static List<Cat> CATS = List.of(new Cat("Barsik",5, true,true, StatusAnimal.IN_THE_SHELTER ));
     private CatOwner catOwner;
 
-    @BeforeEach
+    /*@BeforeEach
     public void init() {
         catOwner = new CatOwner(ID,PHONE_NUMBER, null, null, CATS);
-    }
+    }*/
     @Test
     void shouldReturnWhenCreateNewCatOwner() {
         Mockito.when(validationServiceMock.validate(catOwner)).thenReturn(true);

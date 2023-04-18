@@ -73,8 +73,8 @@ public class CatOwnerController {
         return ResponseEntity.ok().body(catOwnerService.deleteById(id));
     }
 
-    @PostMapping("get-animal")
-    @Operation(summary = "Сохранение усыновителя в БД")
+    @PostMapping("/get-animal")
+    @Operation(summary = "Передача животного усыновителю, установка испытательного срока")
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, кот передан хозяину")
     @ApiResponse(responseCode = "405", description = "Ошибка валидации")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")

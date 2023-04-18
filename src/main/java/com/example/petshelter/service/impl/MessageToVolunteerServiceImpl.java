@@ -59,4 +59,15 @@ public class MessageToVolunteerServiceImpl implements MessageToVolunteerService 
     public List<MessageToVolunteer> findAll() {
         return messageToVolunteerRepository.findAll();
     }
+
+    @Override
+    public MessageToVolunteer createMessageFromText(String text){
+        String[] arr = text.split(" ");
+        String sender = arr[0];
+        String message = "";
+        for (int i = 1; i < arr.length; i++) {
+            message = message + " " + arr[i];
+        }
+        return new MessageToVolunteer(sender, message);
+    }
 }

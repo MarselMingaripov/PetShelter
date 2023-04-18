@@ -1,6 +1,7 @@
 package com.example.petshelter.service;
 
 import com.example.petshelter.entity.shelter.CatShelter;
+import com.example.petshelter.entity.shelter.CatShelterConsult;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.CatShelterRepository;
@@ -55,6 +56,9 @@ public interface CatShelterService {
      * @return
      */
     String returnInformation(Long id);
+
+    String returnPhone(Long id);
+
     /**
      * расписание работы приюта и адрес, схему проезда
      * @param id
@@ -83,4 +87,6 @@ public interface CatShelterService {
      * @param phoneNumber
      */
     void addCatOwnerToShelter(String phoneNumber);
+
+    void addCatConsult(CatShelterConsult consult, String value, Long id);
 }
