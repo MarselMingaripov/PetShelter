@@ -53,6 +53,7 @@ class CatShelterServiceTest {
     }
 
     @Test
+    @DisplayName("Проверка корректного создания приюта для кошек")
     void shouldReturnWhenCreateNewCatShelter() {
         Mockito.when(validationServiceMock.validate(catShelter)).thenReturn(true);
         Mockito.when(catShelterRepositoryMock.save(any())).thenReturn(catShelter);
@@ -61,6 +62,7 @@ class CatShelterServiceTest {
     }
 
     @Test
+    @DisplayName("Исключение при некорректной валидации приюта для кошек")
     void shouldThrowValidationExceptionWhenValidateNotValid() {
         Mockito.when(validationServiceMock.validate(catShelter)).thenReturn(false);
         assertThrows(ValidationException.class, () -> catShelterServiceOut.createCatShelter(catShelter));
@@ -68,10 +70,17 @@ class CatShelterServiceTest {
     }
 
     @Test
+    @DisplayName("Поиск и обновление приюта для кошек по его Id")
     public void shouldReturnWhenUpdateCatShelter() {
         Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
         Mockito.when(catShelterRepositoryMock.save(any())).thenReturn(catShelter);
         assertEquals(catShelter, catShelterServiceOut.updateById(ID, catShelter));
 
+    }
+    @Test
+    @DisplayName("Исключение при обновлении приюта для кошек по некорректному Id")
+    public void shouldThrowNotFoundInBdExceptionWhenUpdateCatShelterByIdIsNotValid() {
+        Mockito.when(catShelterRepositoryMock.findById(ID)).thenReturn(Optional.empty());
+        assertThrows(NotFoundInBdException.class, () -> catShelterServiceOut.updateById(ID, catShelter));
     }
 }

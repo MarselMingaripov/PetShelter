@@ -26,7 +26,7 @@ public class DogOwnerServiceImpl implements DogOwnerService {
 
     @Override
     public DogOwner createDogOwner(DogOwner dogOwner) {
-        if(!validationService.validate(dogOwner)) {
+        if (!validationService.validate(dogOwner)) {
             throw new ValidationException(dogOwner.toString());
         }
         return dogOwnerRepository.save(dogOwner);
@@ -68,19 +68,24 @@ public class DogOwnerServiceImpl implements DogOwnerService {
     public Boolean existsByPhoneNumber(String phoneNumber) {
         return dogOwnerRepository.existsByPhoneNumber(phoneNumber);
     }
+
+    //TODO: 19.04.2023 Поправил метод по аналогии с методом в CatOwnerServiceImpl
     @Override
-    public DogOwner findByPhoneNumber(String phoneNumber){
-        if (existsByPhoneNumber(phoneNumber)){
-            return dogOwnerRepository.findByPhoneNumber(phoneNumber).get();
+    public DogOwner findByPhoneNumber(String phoneNumber) {
+//        if (existsByPhoneNumber(phoneNumber)){
+//            return dogOwnerRepository.findByPhoneNumber(phoneNumber).get();
+        Optional<DogOwner> dogOwner = dogOwnerRepository.findByPhoneNumber(phoneNumber);
+        if (dogOwner.isPresent()) {
+            return dogOwner.get();
         } else {
             throw new NotFoundInBdException("Not found!");
         }
     }
 
     @Override
-    public DogOwner getAnimalToTrialPeriod(String phoneNumber, String animalName, long trialDays){
-        if (!dogOwnerRepository.existsByPhoneNumber(phoneNumber)){
-            if (userService.findByPhone(phoneNumber) == null){
+    public DogOwner getAnimalToTrialPeriod(String phoneNumber, String animalName, long trialDays) {
+        if (!dogOwnerRepository.existsByPhoneNumber(phoneNumber)) {
+            if (userService.findByPhone(phoneNumber) == null) {
                 User user = userService.createUser(new User(phoneNumber));
                 messageToVolunteerService.createMessageToVolunteer(new MessageToVolunteer(
                         phoneNumber, phoneNumber + " получил собаку " + animalName + " на испытательный срок в " + trialDays + " дней"
