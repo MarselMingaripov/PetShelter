@@ -3,6 +3,7 @@ package com.example.petshelter.service.impl;
 import com.example.petshelter.entity.Cat;
 import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.shelter.CatShelter;
+import com.example.petshelter.entity.shelter.CatShelterConsult;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.CatShelterRepository;
@@ -72,6 +73,11 @@ public class CatShelterServiceImpl implements CatShelterService {
     }
 
     @Override
+    public String returnPhone(Long id) {
+        return findById(id).getPhoneNumber();
+    }
+
+    @Override
     public String returnAddressAndWorkSchedule(Long id) {
         return findById(id).getAddress() + " " + findById(id).getWorkSchedule();
     }
@@ -100,5 +106,13 @@ public class CatShelterServiceImpl implements CatShelterService {
             throw new ValidationException(catOwnerService.toString());
         }
         findById(1L).getCatOwners().add(catOwnerService.findByPhoneNumber(phoneNumber));
+    }
+
+    // TODO: 18.04.2023 Написать метод в контроллере + swagger doc + для собак
+    @Override
+    public void addCatConsult(CatShelterConsult consult, String value, Long id){
+        CatShelter catShelter = findById(id);
+        catShelter.getCatConsult().put(consult, value);
+        createCatShelter(catShelter);
     }
 }

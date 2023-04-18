@@ -25,7 +25,8 @@ public class MessageToVolunteerController {
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные добавлены в БД")
     @ApiResponse(responseCode = "405", description = "Ошибка валидации")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
-    public ResponseEntity<MessageToVolunteer> createMessage(@RequestBody MessageToVolunteer messageToVolunteer){
+    public ResponseEntity<MessageToVolunteer> createMessage(@RequestBody String text){
+        MessageToVolunteer messageToVolunteer = messageToVolunteerService.createMessageFromText(text);
         return ResponseEntity.ok().body(messageToVolunteerService.createMessageToVolunteer(messageToVolunteer));
     }
 

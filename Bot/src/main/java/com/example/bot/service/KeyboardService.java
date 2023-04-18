@@ -5,4 +5,8 @@ import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 public interface KeyboardService {
 
     InlineKeyboardMarkup getMenuKeyboard();
+
+    InlineKeyboardMarkup getCatShelterCommonInfoMenuKeyboard();
+
+    InlineKeyboardMarkup getCatShelterMainMenu();
 }

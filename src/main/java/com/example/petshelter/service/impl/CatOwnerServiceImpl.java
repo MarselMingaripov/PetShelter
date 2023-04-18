@@ -79,7 +79,6 @@ public class CatOwnerServiceImpl implements CatOwnerService {
         }
     }
 
-    // TODO: 16.04.2023 Допилить логику, странное сохранение в бд; валидация запроса несуществующих котов; подумать, может убрать юзера вообще
     @Override
     public CatOwner getAnimalToTrialPeriod(String phoneNumber, String animalName, long trialDays){
         if (!catOwnerRepository.existsByPhoneNumber(phoneNumber)){
@@ -107,7 +106,7 @@ public class CatOwnerServiceImpl implements CatOwnerService {
             catOwner.getTrialPeriodsInActiveStatus().add(currentTrialPeriod);
             catOwner.getCats().add(cat);
             messageToVolunteerService.createMessageToVolunteer(new MessageToVolunteer(
-                    phoneNumber, "получил кошку " + animalName + " на испытательный срок в " + trialDays + " дней"
+                    phoneNumber, phoneNumber + " получил кошку " + animalName + " на испытательный срок в " + trialDays + " дней"
             ));
             return createCatOwner(catOwner);
         }
@@ -118,9 +117,11 @@ public class CatOwnerServiceImpl implements CatOwnerService {
                 new ArrayList<Report>(), TrialPeriodResult.IN_PROCESS);
         trialPeriodService.createTrialPeriod(currentTrialPeriod);
         Cat cat = catService.findByName(animalName);
-        CatOwner catOwner = createCatOwner(new CatOwner(phoneNumber, new ArrayList<TrialPeriod>(), new ArrayList<TrialPeriod>(), new ArrayList<Cat>()));
+        catService.changeStatusAnimal(animalName, StatusAnimal.TRIAL_PERIOD);
+        catService.createCat(cat);
+        CatOwner catOwner = new CatOwner(phoneNumber, new ArrayList<Cat>(), new ArrayList<TrialPeriod>(), new ArrayList<TrialPeriod>());
         catOwner.getTrialPeriodsInActiveStatus().add(currentTrialPeriod);
         catOwner.getCats().add(cat);
-        return catOwner;
+        return createCatOwner(catOwner);
     }
 }

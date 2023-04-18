@@ -43,7 +43,7 @@ public class Report {
      */
     private LocalDate receiveDate;
 
-    public Report(byte[] photo, String foodRation, String generalHealth, String behaviorChanges) {
+    public Report(Long id, byte[] photo, String foodRation, String generalHealth, String behaviorChanges) {
         this.photo = photo;
         this.foodRation = foodRation;
         this.generalHealth = generalHealth;

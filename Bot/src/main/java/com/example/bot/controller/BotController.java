@@ -17,8 +17,43 @@ public class BotController {
     public String getCatShelterInfo(){
         Map<String, Long> uriVariables = new HashMap<>();
         uriVariables.put("id", 1L);
-        ResponseEntity<String> responseEntity =new RestTemplate().getForEntity(
+        ResponseEntity<String> responseEntity = new RestTemplate().getForEntity(
                 "http://localhost:8080/catShelter/information/{id}", String.class, uriVariables);
+        String result = responseEntity.getBody();
+        return result;
+    }
+    public String getCatShelterAddressAndWorkSchedule(){
+        Map<String, Long> uriVariables = new HashMap<>();
+        uriVariables.put("id", 1L);
+        ResponseEntity<String> responseEntity = new RestTemplate().getForEntity(
+                "http://localhost:8080/catShelter/address-and-work-schedule/{id}", String.class, uriVariables);
+        String result = responseEntity.getBody();
+        return result;
+    }
+
+    public String getCatShelterPhoneNumber(){
+        Map<String, Long> uriVariables = new HashMap<>();
+        uriVariables.put("id", 1L);
+        ResponseEntity<String> responseEntity =new RestTemplate().getForEntity(
+                "http://localhost:8080/catShelter/phone_number/{id}", String.class, uriVariables);
+        String result = responseEntity.getBody();
+        return result;
+    }
+
+    public String getCatShelterSecurityContacts(){
+        Map<String, Long> uriVariables = new HashMap<>();
+        uriVariables.put("id", 1L);
+        ResponseEntity<String> responseEntity =new RestTemplate().getForEntity(
+                "http://localhost:8080/catShelter/security-contacts/{id}", String.class, uriVariables);
+        String result = responseEntity.getBody();
+        return result;
+    }
+
+    public String getCatShelterSafetyRecommendations(){
+        Map<String, Long> uriVariables = new HashMap<>();
+        uriVariables.put("id", 1L);
+        ResponseEntity<String> responseEntity =new RestTemplate().getForEntity(
+                "http://localhost:8080/catShelter/safety-recommendations/{id}", String.class, uriVariables);
         String result = responseEntity.getBody();
         return result;
     }

@@ -78,6 +78,14 @@ public class CatShelterController {
     public ResponseEntity<String> returnAddressAndWorkSchedule(@PathVariable Long id) {
         return ResponseEntity.ok().body(catShelterService.returnAddressAndWorkSchedule(id));
     }
+    @GetMapping("/phone_number/{id}")
+    @Operation(summary = "Получение номера телефона приюта")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<String> returnPhoneNumber(@PathVariable Long id) {
+        return ResponseEntity.ok().body(catShelterService.returnPhone(id));
+    }
     @GetMapping("/security-contacts/{id}")
     @Operation(summary = "Получить контактные данные охраны для оформления пропуска на машину")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")

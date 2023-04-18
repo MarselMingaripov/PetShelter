@@ -63,4 +63,6 @@ public interface DogOwnerService {
      * @return
      */
     DogOwner findByPhoneNumber(String phoneNumber);
+
+    DogOwner getAnimalToTrialPeriod(String phoneNumber, String animalName, long trialDays);
 }
