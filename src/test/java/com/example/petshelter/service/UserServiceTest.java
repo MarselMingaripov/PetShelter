@@ -36,10 +36,10 @@ public class UserServiceTest {
     private static String TRIAL_PERIODS_COMPLETED = null;
     private User user;
 
-    /*@BeforeEach
+    @BeforeEach
     public void init() {
-        user = new User(ID, PHONE_NUMBER, null, null);
-    }*/
+        user = new User(PHONE_NUMBER);
+    }
 
     @Test
     @DisplayName("Проверка корректного создания нового пользователя")
@@ -57,6 +57,18 @@ public class UserServiceTest {
         Mockito.when(validationServiceMock.validatePhoneNumber(any())).thenReturn(false);
         assertThrows(ValidationException.class, () -> userServiceOut.createUser(user));
     }
+    @Test
+    @DisplayName("Поиск пользователя по его Id")
+    public void shouldFindUserById() {
+        Mockito.when(userRepositoryMock.findById(ID)).thenReturn(Optional.of(user));
+        assertEquals(user, userServiceOut.findById(ID));
+    }
+    @Test
+    @DisplayName("Исключение при поиске пользователя по некорректному ID")
+    public void shouldThrowNotFoundInBdExceptionWhenIdIsNotValid() {
+        Mockito.when(userRepositoryMock.findById(any())).thenReturn(Optional.empty());
+        assertThrows(NotFoundInBdException.class, () -> userServiceOut.findById(ID));
+    }
 
     @Test
     @DisplayName("Поиск и обновление пользователя по его Id")
@@ -64,14 +76,24 @@ public class UserServiceTest {
         Mockito.when(userRepositoryMock.findById(ID)).thenReturn(Optional.of(user));
         Mockito.when(userRepositoryMock.save(any())).thenReturn(user);
         assertEquals(user, userServiceOut.updateById(ID, user));
-
     }
 
-    // TODO: 17.04.2023 Тест как-то криво проходит, проверить ошибку
     @Test
-    @DisplayName("Исключение при поиске по некорректному ID пользователя")
-    public void shouldThrowNotFoundInBdExceptionWhenIdIsNotValid() {
+    @DisplayName("Исключение при обновлении по некорректному Id пользователя")
+    public void shouldThrowNotFoundInBdExceptionWhenUpdateByIdIsNotValid() {
         Mockito.when(userRepositoryMock.findById(any())).thenReturn(Optional.empty());
-        assertThrows(NotFoundInBdException.class, () -> userServiceOut.findById(ID));
+        assertThrows(NotFoundInBdException.class, () -> userServiceOut.updateById(ID, user));
+    }
+    @Test
+    @DisplayName("Поиск пользователя по его Telegram Id")
+    public void shouldFindUserByTelegramId() {
+        Mockito.when(userRepositoryMock.findByTelegramId(ID)).thenReturn(Optional.of(user));
+        assertEquals(user, userServiceOut.findByTelegramID(ID));
+    }
+    @Test
+    @DisplayName("Исключение при поиске пользователя по некорректному Telegram Id")
+    public void shouldThrowNotFoundInBdExceptionWhenTelegramIdIsNotValid() {
+        Mockito.when(userRepositoryMock.findByTelegramId(any())).thenReturn(Optional.empty());
+        assertThrows(NotFoundInBdException.class, () -> userServiceOut.findByTelegramID(ID));
     }
 }
