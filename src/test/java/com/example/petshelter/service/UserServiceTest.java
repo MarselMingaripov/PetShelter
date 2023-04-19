@@ -84,6 +84,15 @@ public class UserServiceTest {
         Mockito.when(userRepositoryMock.findById(any())).thenReturn(Optional.empty());
         assertThrows(NotFoundInBdException.class, () -> userServiceOut.updateById(ID, user));
     }
+
+//    @Test
+//    @DisplayName("Поиск пользователя по его номеру телефона")
+//    public void shouldFindUserByPhoneNumber() {
+//        Mockito.when(userRepositoryMock.аexistsByPhoneNumber(PHONE_NUMBER)).thenReturn(true);
+//        Mockito.
+//        assertEquals(user, userServiceOut.findByPhone(PHONE_NUMBER));
+//    }
+
     @Test
     @DisplayName("Поиск пользователя по его Telegram Id")
     public void shouldFindUserByTelegramId() {

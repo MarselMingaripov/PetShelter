@@ -118,10 +118,15 @@ class DogOwnerServiceTest {
         Mockito.when(dogOwnerRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.empty());
         assertThrows(NotFoundInBdException.class, () -> dogOwnerServiceOut.findByPhoneNumber(PHONE_NUMBER));
     }
-
     @Test
-    @DisplayName("Передача собаки опекуну на испытательный срок")
-    void shouldTransferDogOnProbation() {
+    @DisplayName("Проверка удаления владельца собаки")
+    void shouldReturnWhenDeleteCatOwner() {
+        Mockito.when(dogOwnerRepositoryMock.findById(any())).thenReturn(Optional.of(dogOwner));
+        assertEquals(dogOwner, dogOwnerServiceOut.deleteById(ID));
+    }
+//    @Test
+//    @DisplayName("Передача собаки опекуну на испытательный срок")
+//    void shouldTransferDogOnProbation() {
 //        Mockito.when(catOwnerRepositoryMock.existsByPhoneNumber(PHONE_NUMBER)).thenReturn(false);
 
 //        Mockito.when(userRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.empty());
@@ -129,6 +134,6 @@ class DogOwnerServiceTest {
 //        Mockito.when(userRepositoryMock.save(any())).thenReturn(user);
 //        assertEquals(user, userServiceOut.createUser(user));
 //        assertThrows(NotFoundInBdException.class,()->catOwnerServiceOut.findById(ID));
-    }
+//    }
 
 }

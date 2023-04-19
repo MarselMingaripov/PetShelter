@@ -41,7 +41,7 @@ public class TrialPeriodServiceTest {
     }
 
     @Test
-    @DisplayName("Проверка корректнсти создания нового отчета")
+    @DisplayName("Проверка корректности создания нового отчета")
     void shouldReturnWhenCreateTrialPeriod() {
         Mockito.when(validationServiceMock.validate(trialPeriod)).thenReturn(true);
         Mockito.when(trialPeriodRepositoryMock.save(any())).thenReturn(trialPeriod);
