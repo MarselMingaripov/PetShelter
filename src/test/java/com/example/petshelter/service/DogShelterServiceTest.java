@@ -43,11 +43,11 @@ class DogShelterServiceTest {
 
     private DogShelter dogShelter;
 
-    // TODO: 19.04.2023 Убрать наследование метод DogShelter ot AnimalShelter, изменить конструктор
+    // TODO: 19.04.2023 Убрать наследование DogShelter ot AnimalShelter, изменить конструктор
     @BeforeEach
     public void init() {
-        dogShelter = new DogShelter(INFORMATION, ADDRESS, PHONE_NUMBER, WORK_SCHEDULE, SECURITY_CONTACTS,
-                SAFETY_RECOMMENDATIONS);
+//        dogShelter = new DogShelter(INFORMATION, ADDRESS, PHONE_NUMBER, WORK_SCHEDULE, SECURITY_CONTACTS,
+//                SAFETY_RECOMMENDATIONS);
     }
 
     @Test

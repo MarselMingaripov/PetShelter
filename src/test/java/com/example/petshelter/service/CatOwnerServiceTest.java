@@ -29,12 +29,12 @@ class CatOwnerServiceTest {
     @Mock
     private ValidationService validationServiceMock;
 
-    private UserRepository userRepositoryMock;
+//    private UserRepository userRepositoryMock;
 
     @InjectMocks
     private CatOwnerServiceImpl catOwnerServiceOut;
-    @InjectMocks
-    private UserServiceImpl userServiceOut;
+//    @InjectMocks
+//    private UserServiceImpl userServiceOut;
 
     private static Long ID = 1L;
     private static String PHONE_NUMBER = "+79053930303";
@@ -51,12 +51,12 @@ class CatOwnerServiceTest {
 
 
     private CatOwner catOwner;
-    private User user;
+//    private User user;
 
     @BeforeEach
     public void init() {
         catOwner = new CatOwner(ID, PHONE_NUMBER, CATS, TRIAL_PERIODS_IN_ACTIVE_STATUS, TRIAL_PERIODS_COMPLETED);
-        user = new User(PHONE_NUMBER);
+//        user = new User(PHONE_NUMBER);
     }
 
     @Test
@@ -114,9 +114,17 @@ class CatOwnerServiceTest {
         Mockito.when(catOwnerRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.empty());
         assertThrows(NotFoundInBdException.class,()->catOwnerServiceOut.findByPhoneNumber(PHONE_NUMBER));
     }
+
     @Test
-    @DisplayName("Передача кошки опекуну на испытательный срок")
-    void shouldTransferCatOnProbation() {
+    @DisplayName("Проверка удаления владельца кошки")
+    void shouldReturnWhenDeleteCatOwner() {
+        Mockito.when(catOwnerRepositoryMock.findById(any())).thenReturn(Optional.of(catOwner));
+        assertEquals(catOwner, catOwnerServiceOut.deleteById(ID));
+    }
+
+//    @Test
+//    @DisplayName("Передача кошки опекуну на испытательный срок")
+//    void shouldTransferCatOnProbation() {
 //        Mockito.when(catOwnerRepositoryMock.existsByPhoneNumber(PHONE_NUMBER)).thenReturn(false);
 
 //        Mockito.when(userRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.empty());
@@ -124,6 +132,6 @@ class CatOwnerServiceTest {
 //        Mockito.when(userRepositoryMock.save(any())).thenReturn(user);
 //        assertEquals(user, userServiceOut.createUser(user));
 //        assertThrows(NotFoundInBdException.class,()->catOwnerServiceOut.findById(ID));
-    }
+//    }
 
 }
