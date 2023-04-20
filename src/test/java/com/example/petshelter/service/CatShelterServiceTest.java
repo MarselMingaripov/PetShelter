@@ -5,10 +5,11 @@ import com.example.petshelter.entity.StatusAnimal;
 import com.example.petshelter.entity.shelter.CatShelter;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
+import com.example.petshelter.repository.CatRepository;
 import com.example.petshelter.repository.CatShelterRepository;
-import com.example.petshelter.repository.UserRepository;
+import com.example.petshelter.service.impl.CatServiceImpl;
 import com.example.petshelter.service.impl.CatShelterServiceImpl;
-import com.example.petshelter.service.impl.UserServiceImpl;
+import com.sun.xml.bind.v2.TODO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,10 +19,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
 import java.util.Optional;
 
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -33,8 +32,14 @@ class CatShelterServiceTest {
     private CatShelterRepository catShelterRepositoryMock;
     @Mock
     private ValidationService validationServiceMock;
+    @Mock
+    private CatRepository catRepositoryMock;
+
     @InjectMocks
     private CatShelterServiceImpl catShelterServiceOut;
+
+    @InjectMocks
+    private CatServiceImpl catServiceOut;
 
     private static Long ID = 1L;
     private static String INFORMATION = "information";
@@ -43,7 +48,7 @@ class CatShelterServiceTest {
     private static String WORK_SCHEDULE = "always";
     private static String SECURITY_CONTACTS = "contacts";
     private static String SAFETY_RECOMMENDATIONS = "recommendation";
-
+    private static String CAT_NAME = "Murzik";
     private CatShelter catShelter;
 
     @BeforeEach
@@ -77,10 +82,29 @@ class CatShelterServiceTest {
         assertEquals(catShelter, catShelterServiceOut.updateById(ID, catShelter));
 
     }
+
     @Test
     @DisplayName("Исключение при обновлении приюта для кошек по некорректному Id")
     public void shouldThrowNotFoundInBdExceptionWhenUpdateCatShelterByIdIsNotValid() {
         Mockito.when(catShelterRepositoryMock.findById(ID)).thenReturn(Optional.empty());
         assertThrows(NotFoundInBdException.class, () -> catShelterServiceOut.updateById(ID, catShelter));
     }
+     //TODO: 21.04.2023 Исправить ошибку
+//    @Test
+//    @DisplayName("Проверка корректного добавления кошки в приют")
+//    void shouldReturnWhenAddNewCatToShelter() {
+//        Cat cat = new Cat(CAT_NAME, 5, true, true, StatusAnimal.IN_THE_SHELTER);
+//        Mockito.when(validationServiceMock.validateString(CAT_NAME)).thenReturn(true);
+//        Mockito.when(catRepositoryMock.save(any())).thenReturn(cat);
+//        assertEquals(cat, catServiceOut.createCat(cat));
+//
+//    }
+
+//    @Test
+//    @DisplayName("Исключение при некорректной валидации приюта для кошек")
+//    void shouldThrowValidationExceptionWhenValidateNotValid() {
+//        Mockito.when(validationServiceMock.validate(catShelter)).thenReturn(false);
+//        assertThrows(ValidationException.class, () -> catShelterServiceOut.createCatShelter(catShelter));
+//
+//    }
 }

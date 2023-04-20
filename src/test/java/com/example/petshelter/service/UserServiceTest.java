@@ -1,5 +1,6 @@
 package com.example.petshelter.service;
 
+import com.example.petshelter.entity.Report;
 import com.example.petshelter.entity.User;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
@@ -14,11 +15,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -32,9 +36,11 @@ public class UserServiceTest {
 
     private static Long ID = 1L;
     private static String PHONE_NUMBER = "+79053930303";
+    private static Long TELEGRAM_ID = 123L;
     private static String TRIAL_PERIODS_IN_ACTIVE_STATUS = null;
     private static String TRIAL_PERIODS_COMPLETED = null;
     private User user;
+    private static List<User> USERS = List.of(new User());
 
     @BeforeEach
     public void init() {
@@ -48,6 +54,7 @@ public class UserServiceTest {
         Mockito.when(validationServiceMock.validatePhoneNumber(any())).thenReturn(true);
         Mockito.when(userRepositoryMock.save(any())).thenReturn(user);
         assertEquals(user, userServiceOut.createUser(user));
+        verify(userRepositoryMock, times(1)).save(any());
     }
 
     @Test
@@ -57,12 +64,14 @@ public class UserServiceTest {
         Mockito.when(validationServiceMock.validatePhoneNumber(any())).thenReturn(false);
         assertThrows(ValidationException.class, () -> userServiceOut.createUser(user));
     }
+
     @Test
     @DisplayName("Поиск пользователя по его Id")
     public void shouldFindUserById() {
         Mockito.when(userRepositoryMock.findById(ID)).thenReturn(Optional.of(user));
         assertEquals(user, userServiceOut.findById(ID));
     }
+
     @Test
     @DisplayName("Исключение при поиске пользователя по некорректному ID")
     public void shouldThrowNotFoundInBdExceptionWhenIdIsNotValid() {
@@ -85,24 +94,34 @@ public class UserServiceTest {
         assertThrows(NotFoundInBdException.class, () -> userServiceOut.updateById(ID, user));
     }
 
-//    @Test
-//    @DisplayName("Поиск пользователя по его номеру телефона")
-//    public void shouldFindUserByPhoneNumber() {
-//        Mockito.when(userRepositoryMock.аexistsByPhoneNumber(PHONE_NUMBER)).thenReturn(true);
-//        Mockito.
-//        assertEquals(user, userServiceOut.findByPhone(PHONE_NUMBER));
-//    }
+    @Test
+    @DisplayName("Поиск пользователя по его номеру телефона")
+    public void shouldFindUserByPhoneNumber() {
+        User user1 = new User(ID, PHONE_NUMBER, TELEGRAM_ID);
+        Mockito.when(userRepositoryMock.existsByPhoneNumber(any())).thenReturn(true);
+        Mockito.when(userRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.of(user1));
+        assertEquals(user1, userServiceOut.findByPhone(PHONE_NUMBER));
 
+    }
     @Test
     @DisplayName("Поиск пользователя по его Telegram Id")
     public void shouldFindUserByTelegramId() {
         Mockito.when(userRepositoryMock.findByTelegramId(ID)).thenReturn(Optional.of(user));
         assertEquals(user, userServiceOut.findByTelegramID(ID));
+        verify(userRepositoryMock, times(1)).findByTelegramId(any());
     }
+
     @Test
     @DisplayName("Исключение при поиске пользователя по некорректному Telegram Id")
     public void shouldThrowNotFoundInBdExceptionWhenTelegramIdIsNotValid() {
         Mockito.when(userRepositoryMock.findByTelegramId(any())).thenReturn(Optional.empty());
         assertThrows(NotFoundInBdException.class, () -> userServiceOut.findByTelegramID(ID));
     }
+    @Test
+    @DisplayName("Вывод списка всех пользователей")
+    public void shouldFindByAllUsers(){
+        Mockito.when(userRepositoryMock.findAll()).thenReturn(USERS);
+        assertEquals(USERS, userServiceOut.findAll());
+    }
+
 }

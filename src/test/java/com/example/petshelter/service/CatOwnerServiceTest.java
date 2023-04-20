@@ -29,12 +29,9 @@ class CatOwnerServiceTest {
     @Mock
     private ValidationService validationServiceMock;
 
-//    private UserRepository userRepositoryMock;
 
     @InjectMocks
     private CatOwnerServiceImpl catOwnerServiceOut;
-//    @InjectMocks
-//    private UserServiceImpl userServiceOut;
 
     private static Long ID = 1L;
     private static String PHONE_NUMBER = "+79053930303";
