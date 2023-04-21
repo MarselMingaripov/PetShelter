@@ -64,4 +64,18 @@ public class MessageToVolunteerController {
     public ResponseEntity<List<MessageToVolunteer>> findAll(){
         return ResponseEntity.ok().body(messageToVolunteerService.findAll());
     }
+
+    @GetMapping("/unread")
+    @Operation(summary = "Получение списка непрочитанных сообщений для волонтера")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    public ResponseEntity<List<String>> findAllUnread(){
+        return ResponseEntity.ok().body(messageToVolunteerService.findAllUnread());
+    }
+
+    @GetMapping("/check")
+    @Operation(summary = "Проверка на непрочитанные сообщения")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    public ResponseEntity<Boolean> checkAllUnread(){
+        return ResponseEntity.ok().body(messageToVolunteerService.checker());
+    }
 }

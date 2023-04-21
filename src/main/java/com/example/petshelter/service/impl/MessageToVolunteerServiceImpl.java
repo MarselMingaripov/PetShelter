@@ -3,6 +3,7 @@ package com.example.petshelter.service.impl;
 import com.example.petshelter.entity.Cat;
 import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.MessageToVolunteer;
+import com.example.petshelter.entity.StatusMessage;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.MessageToVolunteerRepository;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -68,6 +70,33 @@ public class MessageToVolunteerServiceImpl implements MessageToVolunteerService 
         for (int i = 1; i < arr.length; i++) {
             message = message + " " + arr[i];
         }
+        message = sender + " " + message;
         return new MessageToVolunteer(sender, message);
+    }
+
+    @Override
+    public boolean checker(){
+        boolean check = false;
+        List<MessageToVolunteer> message = findAll();
+        for (MessageToVolunteer messageToVolunteer : message) {
+            if (messageToVolunteer.getStatusMessage().equals(StatusMessage.UNREAD)){
+                check = true;
+            }
+        }
+        return check;
+    }
+
+    @Override
+    public List<String> findAllUnread() {
+        List<MessageToVolunteer> message = messageToVolunteerRepository.findAll();
+        List<String> toSend = message.stream()
+                .filter(x -> x.getStatusMessage().equals(StatusMessage.UNREAD))
+                .map(x -> x.getText())
+                .collect(Collectors.toList());
+        for (MessageToVolunteer messageToVolunteer : message) {
+            messageToVolunteer.setStatusMessage(StatusMessage.READ);
+            createMessageToVolunteer(messageToVolunteer);
+        }
+        return toSend;
     }
 }

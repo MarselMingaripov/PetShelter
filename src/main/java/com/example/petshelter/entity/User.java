@@ -29,16 +29,27 @@ public class User {
 
     private Long telegramId;
 
+    @Enumerated(value = EnumType.STRING)
+    private RoleSt roleSt;
+
     public User(Long id) {
         this.id = id;
     }
 
     public User(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        this.roleSt = RoleSt.USER;
     }
 
     public User(String phoneNumber, Long telegramId) {
         this.phoneNumber = phoneNumber;
         this.telegramId = telegramId;
+        this.roleSt = RoleSt.USER;
+    }
+
+    public User(String phoneNumber, Long telegramId, RoleSt roleSt) {
+        this.phoneNumber = phoneNumber;
+        this.telegramId = telegramId;
+        this.roleSt = roleSt;
     }
 }

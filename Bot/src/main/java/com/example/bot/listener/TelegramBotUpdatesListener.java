@@ -32,6 +32,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final MessageController messageController;
     private final UserController userController;
 
+
     @PostConstruct
     public void init() {
         telegramBot.setUpdatesListener(this);
@@ -39,9 +40,22 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     @Override
     public int process(List<Update> list) {
+        Long tgId = 0L;
         try {
             list.forEach(update -> {
                 logger.info("Handles update: {}", update);
+                try {
+                    String number = update.message().contact().phoneNumber();
+                    logger.info(number);
+                    userController.sendUser("+" + number + " " + update.message().chat().id());
+                    sendMessageInCatShelterMenu(update.message().chat().id(), "Номер отправлен в бд");
+                } catch (NullPointerException e){
+                    logger.error(e.getMessage());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 try {
                     Long callbackQueryChatId = update.callbackQuery().message().chat().id();
@@ -73,6 +87,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                             case "/safety_recommendations":
                                 sendMessageInCatShelterCommonInfoMenu(callbackQueryChatId, controller.getCatShelterSafetyRecommendations());
                                 break;
+                            case "/register":
+                                sendMessageShareContact(callbackQueryChatId, "Нажмите, чтобы отправить свой номер в базу");
+                                break;
                             case "/previous":
                                 sendMessageInCatShelterMenu(callbackQueryChatId, "Выберете приют!");
                                 break;
@@ -83,7 +100,19 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                 sendMessageInCatShelterPreparingMenu(callbackQueryChatId, "Пока не готово");
                                 break;
                             case "/message":
-                                sendMessageInCatShelterMenu(callbackQueryChatId, "Введите сообщение");
+                                String number = userController.getCatShelterInfo(callbackQueryChatId);
+                                if (number != null) {
+                                    try {
+                                        messageController.sendMessage(number + " этот пользователь просит помощи");
+                                        sendMessageInCatShelterMenu(callbackQueryChatId, "Сообщение отправлено, скоро с Вами свяжутся!");
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    sendMessage(callbackQueryChatId, "Возможно вы не зарегистрированы");
+                                }
                                 break;
 
                         }
@@ -103,30 +132,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     case "/start":
                         sendMessage(chatId, "Здравствуйте! Вы используете бот для приюта животных. Выберете, пожалуйста, приют!");
                         break;
-                    /*case "/cats" :
-                        sendMessage(chatId, "Вы вошли в меню приюта для кошек!");
-                        break;
-                    case "/dogs" :
-                        sendMessage(chatId, "Вы вошли в меню приюта для собак!");
-                        break;
-                    case "/catsshelterinfo" :
-                        sendMessage(chatId, controller.getCatShelterInfo());
-                        logger.info(controller.getCatShelterInfo());
-                        break;*/
                     default:
-                        String number = userController.getCatShelterInfo(chatId);
-                        if (number != null) {
-                            try {
-                                messageController.sendMessage(number + " " + message.text());
-                                sendMessageInCatShelterMenu(chatId, "Сообщение отправлено");
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            sendMessage(chatId, "Возможно вы не зарегистрированы");
-                        }
+
                 }
 
                 /*if ("/start".equals(text)){
@@ -171,6 +178,23 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private void sendMessageInCatShelterPreparingMenu(Long chatId, String message) {
         SendMessage sendMessage = new SendMessage(chatId, message);
         sendMessage.replyMarkup(keyboardService.getCatShelterCommonInfoMenuKeyboard());
+        SendResponse sendResponse = telegramBot.execute(sendMessage);
+        if (!sendResponse.isOk()) {
+            logger.error("Error during sending message: {}", sendResponse.description());
+        }
+    }
+
+    private void sendMessageShareContact(Long chatId, String message) {
+        SendMessage sendMessage = new SendMessage(chatId, message);
+        sendMessage.replyMarkup(keyboardService.shareContactKeyboard());
+        SendResponse sendResponse = telegramBot.execute(sendMessage);
+        if (!sendResponse.isOk()) {
+            logger.error("Error during sending message: {}", sendResponse.description());
+        }
+    }
+    public void sendM(Long chatId, String text){
+        SendMessage sendMessage = new SendMessage(chatId, text);
+        //sendMessage.replyMarkup(keyboardService.shareContactKeyboard());
         SendResponse sendResponse = telegramBot.execute(sendMessage);
         if (!sendResponse.isOk()) {
             logger.error("Error during sending message: {}", sendResponse.description());

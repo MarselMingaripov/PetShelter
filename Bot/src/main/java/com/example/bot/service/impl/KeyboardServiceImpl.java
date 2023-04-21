@@ -1,9 +1,7 @@
 package com.example.bot.service.impl;
 
 import com.example.bot.service.KeyboardService;
-import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
-import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
-import com.pengrad.telegrambot.model.request.Keyboard;
+import com.pengrad.telegrambot.model.request.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -61,6 +59,11 @@ public class KeyboardServiceImpl implements KeyboardService {
         row.add(catsShelterSafetyRecommendations);
         keyboard.addRow(catsShelterSafetyRecommendations);
 
+        InlineKeyboardButton catsShelterRegister = new InlineKeyboardButton("Зарегистрироваться");
+        catsShelterRegister.callbackData("/register");
+        row.add(catsShelterRegister);
+        keyboard.addRow(catsShelterRegister);
+
         InlineKeyboardButton catsShelterPreviousMenu = new InlineKeyboardButton("Предыдущее меню");
         catsShelterPreviousMenu.callbackData("/previous");
         row.add(catsShelterPreviousMenu);
@@ -99,6 +102,16 @@ public class KeyboardServiceImpl implements KeyboardService {
         row.add(catsShelterMainMenu);
         keyboard.addRow(catsShelterMainMenu);
 
+        return keyboard;
+    }
+
+    @Override
+    public ReplyKeyboardMarkup shareContactKeyboard() {
+        ReplyKeyboardMarkup keyboard = new ReplyKeyboardMarkup(
+                new KeyboardButton("отправить свой контакт").requestContact(true));
+        KeyboardButton button = new KeyboardButton("Главное меню");
+        keyboard.resizeKeyboard(true);
+        keyboard.oneTimeKeyboard(false);
         return keyboard;
     }
 }

@@ -128,7 +128,7 @@ public class CatServiceImpl implements CatService {
                 throw new AnimalIsReservedException("Кошка уже забронирована");
             }
             cat.setStatusAnimal(StatusAnimal.RESERVED);
-            MessageToVolunteer message = new MessageToVolunteer(user.getPhoneNumber(), "забронировал кошку " + cat.getName());
+            MessageToVolunteer message = new MessageToVolunteer(user.getPhoneNumber(), user.getPhoneNumber() + " забронировал кошку " + cat.getName());
             messageToVolunteerService.createMessageToVolunteer(message);
             return createCat(cat);
         } else {

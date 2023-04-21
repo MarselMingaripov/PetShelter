@@ -51,4 +51,8 @@ public interface MessageToVolunteerService {
     List<MessageToVolunteer> findAll();
 
     MessageToVolunteer createMessageFromText(String text);
+
+    boolean checker();
+
+    List<String> findAllUnread();
 }

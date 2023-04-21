@@ -34,7 +34,7 @@ public class AnimalReserveTimer {
             textArr = message.getText().split(" ");
             if (textArr[1].equals("кошку")){
                 catService.changeStatusAnimal(textArr[2], StatusAnimal.IN_THE_SHELTER);
-            } else {
+            } else if (textArr[1].equals("собаку")){
                 dogService.changeStatusAnimal(textArr[2], StatusAnimal.IN_THE_SHELTER);
             }
         }

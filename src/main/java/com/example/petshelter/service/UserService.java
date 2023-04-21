@@ -18,6 +18,9 @@ public interface UserService {
      * @return
      */
     User createUser(User user);
+
+    User createUserFromTgB(String text);
+
     /**
      * Поиск потенциальных опекунов по его идентификатору в БД.
      * Используется метод репозитория {@link UserRepository#findById(Object)}
@@ -53,4 +56,6 @@ public interface UserService {
     User findByPhone(String phone);
 
     User findByTelegramID(Long id);
+
+    String returnVolunteerTgId();
 }

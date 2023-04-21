@@ -29,6 +29,16 @@ public class UserController {
         return ResponseEntity.ok().body(userService.createUser(user));
     }
 
+    @PostMapping("/from-tg")
+    @Operation(summary = "Сохранение пользователя в БД из ТГ бота")
+    @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные добавлены в БД")
+    @ApiResponse(responseCode = "405", description = "Ошибка валидации")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<User> createUser(@RequestBody String text){
+        User user = userService.createUserFromTgB(text);
+        return ResponseEntity.ok().body(userService.createUser(user));
+    }
+
     @GetMapping("/{id}")
     @Operation(summary = "Получение пользователя по id")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
@@ -70,5 +80,12 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     public ResponseEntity<List<User>> findAll(){
         return ResponseEntity.ok().body(userService.findAll());
+    }
+
+    @GetMapping("/tg-id-volunteer")
+    @Operation(summary = "Получение списка пользователей")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    public ResponseEntity<String> findAllTgId(){
+        return ResponseEntity.ok().body(userService.returnVolunteerTgId());
     }
 }

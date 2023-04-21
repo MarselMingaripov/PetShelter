@@ -85,13 +85,13 @@ public class CatOwnerServiceImpl implements CatOwnerService {
             if (userService.findByPhone(phoneNumber) == null){
                 User user = userService.createUser(new User(phoneNumber));
                 messageToVolunteerService.createMessageToVolunteer(new MessageToVolunteer(
-                        phoneNumber, "получил кошку " + animalName + " на испытательный срок в " + trialDays + " дней"
+                        phoneNumber, phoneNumber + " получил кошку " + animalName + " на испытательный срок в " + trialDays + " дней"
                 ));
                 return getCatOwner(phoneNumber, animalName, trialDays);
             } else {
                 User user = userService.findByPhone(phoneNumber);
                 messageToVolunteerService.createMessageToVolunteer(new MessageToVolunteer(
-                        phoneNumber, "получил кошку " + animalName + " на испытательный срок в " + trialDays + " дней"
+                        phoneNumber, phoneNumber + "получил кошку " + animalName + " на испытательный срок в " + trialDays + " дней"
                 ));
                 return getCatOwner(phoneNumber, animalName, trialDays);
             }
