@@ -4,9 +4,7 @@ import com.example.petshelter.entity.*;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.CatOwnerRepository;
-import com.example.petshelter.repository.UserRepository;
 import com.example.petshelter.service.impl.CatOwnerServiceImpl;
-import com.example.petshelter.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,11 +38,8 @@ class CatOwnerServiceTest {
     private static List<Report> REPORTS = List.of(new Report());
     private static List<TrialPeriod> TRIAL_PERIODS_IN_ACTIVE_STATUS = List.of(new TrialPeriod());
     private static List<TrialPeriod> TRIAL_PERIODS_COMPLETED = List.of(new TrialPeriod());
-    //            "Vasya", LocalDate.now(),LocalDate.now(), REPORTS, TrialPeriodResult.SUCCESS));
     private static List<Cat> CATS = List.of(new Cat());
-    //            "Barsik",5, true,true, StatusAnimal.IN_THE_SHELTER ));
     private static List<CatOwner> CAT_OWNER = List.of(new CatOwner());
-//    ID,PHONE_NUMBER, CATS, TRIAL_PERIODS_IN_ACTIVE_STATUS,TRIAL_PERIODS_COMPLETED ));
 
 
     private CatOwner catOwner;
@@ -119,16 +114,16 @@ class CatOwnerServiceTest {
         assertEquals(catOwner, catOwnerServiceOut.deleteById(ID));
     }
 
-//    @Test
-//    @DisplayName("Передача кошки опекуну на испытательный срок")
-//    void shouldTransferCatOnProbation() {
+    @Test
+    @DisplayName("Передача кошки опекуну на испытательный срок")
+    void shouldTransferCatOnProbation() {
 //        Mockito.when(catOwnerRepositoryMock.existsByPhoneNumber(PHONE_NUMBER)).thenReturn(false);
+//        Mockito.when(catOwnerRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.empty());
 
-//        Mockito.when(userRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.empty());
 //        assertEquals(catOwner, userServiceOut.findByPhone(PHONE_NUMBER));
 //        Mockito.when(userRepositoryMock.save(any())).thenReturn(user);
 //        assertEquals(user, userServiceOut.createUser(user));
 //        assertThrows(NotFoundInBdException.class,()->catOwnerServiceOut.findById(ID));
-//    }
+    }
 
 }
