@@ -18,6 +18,7 @@ import java.util.List;
 @Tag(name = "API для работы с котами",
         description = "Сохранение, изменение, получение, удаление данных котов из БД")
 public class CatController {
+
     private final CatService catService;
 
     @PostMapping
