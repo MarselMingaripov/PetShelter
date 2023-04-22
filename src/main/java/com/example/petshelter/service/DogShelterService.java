@@ -1,5 +1,6 @@
 package com.example.petshelter.service;
 import com.example.petshelter.entity.shelter.DogShelter;
+import com.example.petshelter.entity.shelter.DogShelterConsult;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.DogShelterRepository;
@@ -77,4 +78,6 @@ public interface DogShelterService {
      * @param phoneNumber
      */
     void addDogOwnerToShelter(String phoneNumber);
+
+    void addDogConsult(DogShelterConsult consult, String value, Long id);
 }

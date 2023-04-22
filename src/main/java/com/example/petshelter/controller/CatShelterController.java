@@ -1,6 +1,7 @@
 package com.example.petshelter.controller;
 
 import com.example.petshelter.entity.shelter.CatShelter;
+import com.example.petshelter.entity.shelter.CatShelterConsult;
 import com.example.petshelter.service.CatShelterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -121,6 +122,18 @@ public class CatShelterController {
         catShelterService.addCatOwnerToShelter(phoneNumber);
         return ResponseEntity.ok().build();
     }
+    @PostMapping("/add-cat-consult")
+    @Operation(summary = "Добавление информации для потенциального опекуна кота в БД приюта")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<Void> addCatConsult(@RequestParam CatShelterConsult consult,
+                                              @RequestParam String value,
+                                              @RequestParam Long id) {
+        catShelterService.addCatConsult(consult, value, id);
+        return ResponseEntity.ok().build();
+    }
+
 }
 
 

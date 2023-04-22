@@ -1,8 +1,7 @@
 package com.example.petshelter.service.impl;
 
-import com.example.petshelter.entity.Cat;
-import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.shelter.DogShelter;
+import com.example.petshelter.entity.shelter.DogShelterConsult;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.DogShelterRepository;
@@ -100,5 +99,11 @@ public class DogShelterServiceImpl implements DogShelterService {
         }
         findById(1L).getDogOwners().add(dogOwnerService.findByPhoneNumber(phoneNumber));
 //        dogOwnerService.existsByPhoneNumber(phoneNumber);
+    }
+    @Override
+    public void addDogConsult(DogShelterConsult consult, String value, Long id){
+        DogShelter dogShelter = findById(id);
+        dogShelter.getDogConsult().put(consult, value);
+        createDogShelter(dogShelter);
     }
 }

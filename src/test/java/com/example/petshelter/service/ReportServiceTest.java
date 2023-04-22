@@ -44,7 +44,7 @@ public class ReportServiceTest {
     }
 
     @Test
-    @DisplayName("Проверка корректнсти создания нового отчета")
+    @DisplayName("Проверка корректности создания нового отчета")
     void shouldReturnWhenCreateReport() {
         Mockito.when(validationServiceMock.validate(report)).thenReturn(true);
         Mockito.when(reportRepositoryMock.save(any())).thenReturn(report);
