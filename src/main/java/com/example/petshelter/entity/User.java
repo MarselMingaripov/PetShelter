@@ -52,4 +52,10 @@ public class User {
         this.telegramId = telegramId;
         this.roleSt = roleSt;
     }
+
+    public User(Long id, String phoneNumber, Long telegramId) {
+        this.id = id;
+        this.phoneNumber = phoneNumber;
+        this.telegramId = telegramId;
+    }
 }
