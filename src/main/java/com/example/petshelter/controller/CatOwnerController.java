@@ -22,8 +22,7 @@ public class CatOwnerController {
 
     @PostMapping
     @Operation(summary = "Сохранение усыновителя в БД")
-    @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные добавлены в БД")
-    @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
+    @ApiResponse(responseCode = "200", description = "Запрос выполнен, усыновитель добавлен в БД")
     @ApiResponse(responseCode = "405", description = "Ошибка валидации")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<CatOwner> createCatOwner(@RequestBody CatOwner catOwner) {
@@ -33,23 +32,24 @@ public class CatOwnerController {
     @GetMapping("/{id}")
     @Operation(summary = "Получение данных усыновителя кота по id")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
-    @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<CatOwner> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(catOwnerService.findById(id));
     }
 
-    @GetMapping("/find-by-phone-number/{phoneNumber}")
+    @GetMapping("/find-by-phone-number")
     @Operation(summary = "Получение данных усыновителя кота по номеру телефона")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
-    @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
+    @ApiResponse(responseCode = "404", description = "Параметры запроса отсутствуют или имеют некорректный формат")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
-    public ResponseEntity<CatOwner> findByPhoneNumber(@PathVariable String phoneNumber) {
+    public ResponseEntity<CatOwner> findByPhoneNumber(@RequestParam String phoneNumber) {
         return ResponseEntity.ok().body(catOwnerService.findByPhoneNumber(phoneNumber));
     }
 
     @GetMapping
     @Operation(summary = "Получение списка усыновителей котов")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     public ResponseEntity<List<CatOwner>> findAll() {
         return ResponseEntity.ok().body(catOwnerService.findAll());
     }
@@ -57,7 +57,8 @@ public class CatOwnerController {
     @PutMapping("/{id}")
     @Operation(summary = "Изменение данных усыновителя кота по id")
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные изменены")
-    @ApiResponse(responseCode = "404", description = "Данных нет в БД или параметры запроса имеют некорректный формат")
+    @ApiResponse(responseCode = "404", description = "Данных нет в БД  или параметры запроса имеют некорректный формат")
+    @ApiResponse(responseCode = "405", description = "Ошибка валидации")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<CatOwner> updateById(@PathVariable Long id, @RequestBody CatOwner catOwner) {
         return ResponseEntity.ok().body(catOwnerService.updateById(id, catOwner));
@@ -66,10 +67,21 @@ public class CatOwnerController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Удаление данных усыновителя кота из БД")
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные удалены")
-    @ApiResponse(responseCode = "400", description = "Параметры запроса отсутствуют или имеют некорректный формат")
+    @ApiResponse(responseCode = "404", description = "Параметры запроса отсутствуют или имеют некорректный формат")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<CatOwner> deleteById(@PathVariable Long id) {
         return ResponseEntity.ok().body(catOwnerService.deleteById(id));
+    }
+
+    @PostMapping("/get-animal")
+    @Operation(summary = "Передача животного усыновителю, установка испытательного срока")
+    @ApiResponse(responseCode = "200", description = "Запрос выполнен, кот передан хозяину")
+    @ApiResponse(responseCode = "405", description = "Ошибка валидации")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<CatOwner> пуеФтшьфд(@RequestParam String phoneNumber,
+                                              @RequestParam String animalName,
+                                              @RequestParam long trialDays) {
+        return ResponseEntity.ok().body(catOwnerService.getAnimalToTrialPeriod(phoneNumber, animalName, trialDays));
     }
 }
 

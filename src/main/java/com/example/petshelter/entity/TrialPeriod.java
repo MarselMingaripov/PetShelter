@@ -19,8 +19,11 @@ public class TrialPeriod {
      * Уникальный идентификатор записи в БД
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    private String ownerName;
     /**
      * Дата начала испытательного срока
      */
@@ -29,20 +32,22 @@ public class TrialPeriod {
      * Дата окончания испытательного срока
      */
     private LocalDate endDate;
+    /**
+     * Отчеты опекунов животного
+     */
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "trial_period_report",
             joinColumns = @JoinColumn(name = "trial_period_id"),
             inverseJoinColumns = @JoinColumn(name = "report_id"))
-    /**
-     * Отчеты опекунов животного
-     */
     private List<Report> reports;
     /**
      * Результат по прохождению испытательного срока опекуном животного
      */
+    @Enumerated(value = EnumType.STRING)
     private TrialPeriodResult result;
 
-    public TrialPeriod(LocalDate startDate, LocalDate endDate, List<Report> reports, TrialPeriodResult result) {
+    public TrialPeriod(String ownerName, LocalDate startDate, LocalDate endDate, List<Report> reports, TrialPeriodResult result) {
+        this.ownerName = ownerName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.reports = reports;

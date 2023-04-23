@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *  Класс - сообщение волонтеру
@@ -19,6 +20,7 @@ public class MessageToVolunteer {
      * Уникальный идентификатор записи в БД
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     /**
@@ -32,12 +34,23 @@ public class MessageToVolunteer {
     /**
      * Дата сообщения
      */
-    private LocalDate localDate;
+    private LocalDateTime localDateTime;
 
-    public MessageToVolunteer(Long id, String sender, String text, LocalDate localDate) {
+    @Enumerated(value = EnumType.STRING)
+    private StatusMessage statusMessage;
+
+    public MessageToVolunteer(Long id, String sender, String text) {
         this.id = id;
         this.sender = sender;
         this.text = text;
-        this.localDate = LocalDate.now();
+        this.localDateTime = LocalDateTime.now();
+        this.statusMessage = StatusMessage.UNREAD;
+    }
+
+    public MessageToVolunteer(String sender, String text) {
+        this.sender = sender;
+        this.text = text;
+        this.localDateTime = LocalDateTime.now();
+        this.statusMessage = StatusMessage.UNREAD;
     }
 }

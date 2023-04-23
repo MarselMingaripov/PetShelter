@@ -1,6 +1,7 @@
 package com.example.petshelter.controller;
 
 import com.example.petshelter.entity.Cat;
+import com.example.petshelter.entity.StatusAnimal;
 import com.example.petshelter.service.CatService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,6 +18,7 @@ import java.util.List;
 @Tag(name = "API для работы с котами",
         description = "Сохранение, изменение, получение, удаление данных котов из БД")
 public class CatController {
+
     private final CatService catService;
 
     @PostMapping
@@ -37,17 +39,17 @@ public class CatController {
         return ResponseEntity.ok().body(catService.findById(id));
     }
 
-    @GetMapping("/find-by-name/{name}")
+    @GetMapping("/find-by-name")
     @Operation(summary = "Получение данных кота по имени")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Параметры запроса отсутствуют или имеют некорректный формат")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
-    public ResponseEntity<Cat> findByName(@PathVariable String name) {
+    public ResponseEntity<Cat> findByName(@RequestParam String name) {
         return ResponseEntity.ok().body(catService.findByName(name));
     }
 
     @GetMapping
-    @Operation(summary = "Получение списка котов находящихся в приюте")
+    @Operation(summary = "Получение списка всех котов")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     public ResponseEntity<List<Cat>> findAll() {
         return ResponseEntity.ok().body(catService.findAll());
@@ -70,6 +72,41 @@ public class CatController {
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
     public ResponseEntity<Cat> deleteById(@PathVariable Long id) {
         return ResponseEntity.ok().body(catService.deleteById(id));
+    }
+
+    @PostMapping("/reserve")
+    @Operation(summary = "Бронирование кота на 24 часа")
+    @ApiResponse(responseCode = "200", description = "Запрос выполнен, данные удалены")
+    @ApiResponse(responseCode = "404", description = "Кота с таким именем нет в БД или параметры запроса имеют некорректный формат")
+    @ApiResponse(responseCode = "405", description = "Ошибка валидации полей")
+    @ApiResponse(responseCode = "409", description = "Кот с таким именем уже забронирован")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<Cat> reserveCat(@RequestParam String name, @RequestParam String phoneNumber) {
+        return ResponseEntity.ok().body(catService.reserveCat(name, phoneNumber));
+    }
+
+    @GetMapping("/all-in-shelter")
+    @Operation(summary = "Получение списка всех котов в приюте")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    public ResponseEntity<List<Cat>> findAllInShelter() {
+        return ResponseEntity.ok().body(catService.findAllInShelter());
+    }
+
+    @GetMapping("all-by-status")
+    @Operation(summary = "Получение списка всех котов по их статусу")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    public ResponseEntity<List<Cat>> findAllByStatus(@RequestParam StatusAnimal statusAnimal) {
+        return ResponseEntity.ok().body(catService.showAllByStatus(statusAnimal));
+    }
+
+    @PostMapping("/change-status")
+    @Operation(summary = "Поменять статус кота")
+    @ApiResponse(responseCode = "200", description = "Запрос выполнен")
+    @ApiResponse(responseCode = "404", description = "Кота с таким именем нет в БД или параметры запроса имеют некорректный формат")
+    @ApiResponse(responseCode = "405", description = "Ошибка валидации полей")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<Cat> changeStatus(@RequestParam String name, @RequestParam StatusAnimal statusAnimal) {
+        return ResponseEntity.ok().body(catService.changeStatusAnimal(name, statusAnimal));
     }
 }
 

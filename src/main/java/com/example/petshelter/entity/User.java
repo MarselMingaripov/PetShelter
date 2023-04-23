@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 /**
  * Базовый класс - опекун животного
  */
@@ -21,30 +19,43 @@ public class User {
      * Уникальный идентификатор записи в БД
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     /**
      * Номер сотового телефона опекуна животного
      */
     private String phoneNumber;
-    /**
-     * Действующие периоды испытательного срока для опекуна животного
-     */
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "users_trial_period",
-            joinColumns = @JoinColumn(name = "users_id"),
-            inverseJoinColumns = @JoinColumn(name = "trial_period_id"))
-    private List<TrialPeriod> trialPeriodsInActiveStatus;
-    /**
-     * Завершенные периоды испытательного срока для опекуна животного
-     */
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "users_completed_trial_period",
-            joinColumns = @JoinColumn(name = "users_id"),
-            inverseJoinColumns = @JoinColumn(name = "trial_period_id"))
-    private List<TrialPeriod> trialPeriodsCompleted;
+
+    private Long telegramId;
+
+    @Enumerated(value = EnumType.STRING)
+    private RoleSt roleSt;
 
     public User(Long id) {
         this.id = id;
+    }
+
+    public User(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        this.roleSt = RoleSt.USER;
+    }
+
+    public User(String phoneNumber, Long telegramId) {
+        this.phoneNumber = phoneNumber;
+        this.telegramId = telegramId;
+        this.roleSt = RoleSt.USER;
+    }
+
+    public User(String phoneNumber, Long telegramId, RoleSt roleSt) {
+        this.phoneNumber = phoneNumber;
+        this.telegramId = telegramId;
+        this.roleSt = roleSt;
+    }
+
+    public User(Long id, String phoneNumber, Long telegramId) {
+        this.id = id;
+        this.phoneNumber = phoneNumber;
+        this.telegramId = telegramId;
     }
 }

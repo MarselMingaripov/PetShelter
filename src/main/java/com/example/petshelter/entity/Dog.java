@@ -19,26 +19,28 @@ public class Dog{
      * Уникальный идентификатор записи в БД
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     /**
      * Имя животного
      */
-    String name;
+    private String name;
     /**
      * Возраст животного
      */
-    int age;
+    private int age;
     /**
      * Состояние здоровья животного
      */
-    boolean healthStatus;
+    private boolean healthStatus;
     /**
      * Статус о вакцинации животного
      */
-    boolean vaccination;
+    private boolean vaccination;
     /**
      * Статус нахождения животного в приюте
      */
+    @Enumerated(value = EnumType.STRING)
     private StatusAnimal statusAnimal;
 }

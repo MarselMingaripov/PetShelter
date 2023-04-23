@@ -1,6 +1,9 @@
 package com.example.petshelter.service.impl;
 
+import com.example.petshelter.entity.Cat;
+import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.shelter.CatShelter;
+import com.example.petshelter.entity.shelter.CatShelterConsult;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.CatShelterRepository;
@@ -13,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class CatShelterServiceImpl implements CatShelterService {
@@ -32,8 +37,9 @@ public class CatShelterServiceImpl implements CatShelterService {
 
     @Override
     public CatShelter findById(Long id) {
-        if (catShelterRepository.findById(id).isPresent()) {
-            return catShelterRepository.findById(id).get();
+        Optional<CatShelter> catShelter = catShelterRepository.findById(id);
+        if (catShelter.isPresent()) {
+            return catShelter.get();
         } else {
             throw new NotFoundInBdException("Не найдено в базе данных");
         }
@@ -51,12 +57,9 @@ public class CatShelterServiceImpl implements CatShelterService {
 
     @Override
     public CatShelter deleteById(Long id) {
-        if (catShelterRepository.findById(id).isPresent()) {
-            catShelterRepository.deleteById(id);
-            return catShelterRepository.findById(id).get();
-        } else {
-            throw new NotFoundInBdException("Не найдено в базе данных");
-        }
+        CatShelter catShelter = findById(id);
+        catShelterRepository.delete(catShelter);
+        return catShelter;
     }
 
     @Override
@@ -65,23 +68,28 @@ public class CatShelterServiceImpl implements CatShelterService {
     }
 
     @Override
-    public String returnInformation() {
-        return findById(1L).getInformation();
+    public String returnInformation(Long id) {
+        return findById(id).getInformation();
     }
 
     @Override
-    public String returnAddressAndWorkSchedule() {
-        return findById(1L).getAddress() + " " + findById(1L).getWorkSchedule();
+    public String returnPhone(Long id) {
+        return findById(id).getPhoneNumber();
     }
 
     @Override
-    public String returnSecurityContacts() {
-        return findById(1L).getSecurityContacts();
+    public String returnAddressAndWorkSchedule(Long id) {
+        return findById(id).getAddress() + " " + findById(id).getWorkSchedule();
     }
 
     @Override
-    public String returnSafetyRecommendations() {
-        return findById(1L).getSafetyRecommendations();
+    public String returnSecurityContacts(Long id) {
+        return findById(id).getSecurityContacts();
+    }
+
+    @Override
+    public String returnSafetyRecommendations(Long id) {
+        return findById(id).getSafetyRecommendations();
     }
 
     @Override
@@ -98,5 +106,13 @@ public class CatShelterServiceImpl implements CatShelterService {
             throw new ValidationException(catOwnerService.toString());
         }
         findById(1L).getCatOwners().add(catOwnerService.findByPhoneNumber(phoneNumber));
+    }
+
+    // TODO: 18.04.2023 Написать метод в контроллере + swagger doc + для собак
+    @Override
+    public void addCatConsult(CatShelterConsult consult, String value, Long id){
+        CatShelter catShelter = findById(id);
+        catShelter.getCatConsult().put(consult, value);
+        createCatShelter(catShelter);
     }
 }
