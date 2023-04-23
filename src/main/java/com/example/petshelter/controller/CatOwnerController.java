@@ -78,7 +78,7 @@ public class CatOwnerController {
     @ApiResponse(responseCode = "200", description = "Запрос выполнен, кот передан хозяину")
     @ApiResponse(responseCode = "405", description = "Ошибка валидации")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
-    public ResponseEntity<CatOwner> пуеФтшьфд(@RequestParam String phoneNumber,
+    public ResponseEntity<CatOwner> getAnimal(@RequestParam String phoneNumber,
                                               @RequestParam String animalName,
                                               @RequestParam long trialDays) {
         return ResponseEntity.ok().body(catOwnerService.getAnimalToTrialPeriod(phoneNumber, animalName, trialDays));
