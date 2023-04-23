@@ -1,4 +1,4 @@
-package com.example.bot.config;
+package com.example.petshelter.bot.config;
 
 import com.pengrad.telegrambot.TelegramBot;
 import org.springframework.beans.factory.annotation.Value;

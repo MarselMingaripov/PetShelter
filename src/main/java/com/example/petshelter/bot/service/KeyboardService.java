@@ -1,4 +1,4 @@
-package com.example.bot.service;
+package com.example.petshelter.bot.service;
 
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
@@ -12,4 +12,6 @@ public interface KeyboardService {
     InlineKeyboardMarkup getCatShelterMainMenu();
 
     ReplyKeyboardMarkup shareContactKeyboard();
+
+    InlineKeyboardMarkup getCatShelterConsultMenu();
 }

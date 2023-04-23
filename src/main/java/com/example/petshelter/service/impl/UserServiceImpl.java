@@ -102,16 +102,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String returnVolunteerTgId(){
+    public List<Long> returnVolunteerTgId(){
         List<User> users = findAll();
-        List<Long> volunteers = users.stream()
+        return users.stream()
                 .filter(x ->x.getRoleSt().equals(RoleSt.VOLUNTEER))
                 .map(User::getTelegramId)
                 .collect(Collectors.toList());
-        String s = "";
-        for (Long id : volunteers) {
-            s = s + id + " ";
-        }
-        return s;
     }
 }

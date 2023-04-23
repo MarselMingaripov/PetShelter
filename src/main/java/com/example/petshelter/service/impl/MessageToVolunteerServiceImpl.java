@@ -74,6 +74,10 @@ public class MessageToVolunteerServiceImpl implements MessageToVolunteerService 
         return new MessageToVolunteer(sender, message);
     }
 
+    /**
+     * проверяет есть ли непрочитанные уведомления
+     * @return
+     */
     @Override
     public boolean checker(){
         boolean check = false;

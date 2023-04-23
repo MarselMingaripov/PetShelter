@@ -57,5 +57,5 @@ public interface UserService {
 
     User findByTelegramID(Long id);
 
-    String returnVolunteerTgId();
+    List<Long> returnVolunteerTgId();
 }

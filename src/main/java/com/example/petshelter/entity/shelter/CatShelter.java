@@ -80,8 +80,13 @@ public class CatShelter{
     /**
      * Список рекомендаций от приюта для кошек
      */
-    @Transient
-    private Map<CatShelterConsult, String> catConsult;
+
+    private String dating;
+    private String documents;
+    private String transportation;
+    private String arrangementKitten;
+    private String arrangementCat;
+    private String arrangementDisabled;
 
     public CatShelter(String information, String address, String phoneNumber, String workSchedule, String securityContacts, String safetyRecommendations) {
         this.information = information;

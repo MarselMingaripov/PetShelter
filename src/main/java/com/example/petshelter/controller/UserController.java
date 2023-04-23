@@ -85,7 +85,7 @@ public class UserController {
     @GetMapping("/tg-id-volunteer")
     @Operation(summary = "Получение списка пользователей")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
-    public ResponseEntity<String> findAllTgId(){
+    public ResponseEntity<List<Long>> findAllTgId(){
         return ResponseEntity.ok().body(userService.returnVolunteerTgId());
     }
 }

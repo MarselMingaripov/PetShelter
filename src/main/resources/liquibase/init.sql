@@ -73,6 +73,12 @@ CREATE TABLE cat_shelter
     work_schedule          VARCHAR(255),
     security_contacts      VARCHAR(255),
     safety_recommendations VARCHAR(255),
+    dating                 VARCHAR(255),
+    documents              VARCHAR(255),
+    transportation         VARCHAR(255),
+    arrangement_kitten     VARCHAR(255),
+    arrangement_cat        VARCHAR(255),
+    arrangement_disabled   VARCHAR(255),
     CONSTRAINT pk_cat_shelter PRIMARY KEY (id)
 );
 
@@ -246,8 +252,12 @@ create table dog_owner_completed_trial_period
 );
 
 --changeset mingaripov:20
-insert into cat_shelter (information, address, phone_number, work_schedule, security_contacts, safety_recommendations) values (
-    'Лучший в мире приют для кошек под названием 4 ноги', 'Тут корректный адрес приюта', 'Тут актуальный для приюта номер телефона', 'Ежедневно с 6:00 до 21:00', 'Тут актуальный номер телефона охраны', 'Тут рекомендации по безопасности'
+insert into cat_shelter (information, address, phone_number, work_schedule, security_contacts, safety_recommendations,
+                         dating, documents, transportation, arrangement_kitten, arrangement_cat, arrangement_disabled) values (
+    'Лучший в мире приют для кошек под названием 4 ноги', 'Тут корректный адрес приюта', 'Тут актуальный для приюта номер телефона',
+                'Ежедневно с 6:00 до 21:00', 'Тут актуальный номер телефона охраны', 'Тут рекомендации по безопасности',
+    'Информация о знакомстве с животными', 'Информация о списке необходимых документов', 'Информация о перевозке животных',
+    'Информация по обустройству дома котенка', 'Информация по обустройству дома взрослого животного', 'Информация по обустройству дома животного с ограничениями'
 )
 
 --changeset mingaripov:21

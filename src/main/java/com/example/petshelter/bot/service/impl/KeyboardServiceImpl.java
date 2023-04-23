@@ -1,7 +1,10 @@
-package com.example.bot.service.impl;
+package com.example.petshelter.bot.service.impl;
 
-import com.example.bot.service.KeyboardService;
-import com.pengrad.telegrambot.model.request.*;
+import com.example.petshelter.bot.service.KeyboardService;
+import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
+import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
+import com.pengrad.telegrambot.model.request.KeyboardButton;
+import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -112,6 +115,49 @@ public class KeyboardServiceImpl implements KeyboardService {
         KeyboardButton button = new KeyboardButton("Главное меню");
         keyboard.resizeKeyboard(true);
         keyboard.oneTimeKeyboard(false);
+        return keyboard;
+    }
+
+    @Override
+    public InlineKeyboardMarkup getCatShelterConsultMenu() {
+        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+
+        InlineKeyboardButton catsShelterDating = new InlineKeyboardButton("Правила знакомства с животным");
+        catsShelterDating.callbackData("/dating");
+        row.add(catsShelterDating);
+        keyboard.addRow(catsShelterDating);
+
+        InlineKeyboardButton catsShelterDOCUMENTS = new InlineKeyboardButton("Список документов, необходимых для того, чтобы забрать животное из приюта");
+        catsShelterDOCUMENTS.callbackData("/documents");
+        row.add(catsShelterDOCUMENTS);
+        keyboard.addRow(catsShelterDOCUMENTS);
+
+        InlineKeyboardButton catsShelterTRANSPORTATION = new InlineKeyboardButton("Список рекомендаций про транспортировке");
+        catsShelterTRANSPORTATION.callbackData("/transportation");
+        row.add(catsShelterTRANSPORTATION);
+        keyboard.addRow(catsShelterTRANSPORTATION);
+
+        InlineKeyboardButton catsShelterARRANGEMENT_KITTEN = new InlineKeyboardButton("Рекомендации по обустройству дома котенка");
+        catsShelterARRANGEMENT_KITTEN.callbackData("/arrangement_kitten");
+        row.add(catsShelterARRANGEMENT_KITTEN);
+        keyboard.addRow(catsShelterARRANGEMENT_KITTEN);
+
+        InlineKeyboardButton catsShelterARRANGEMENT_CAT = new InlineKeyboardButton("Рекомендации по обустройству дома взрослого животного");
+        catsShelterARRANGEMENT_CAT.callbackData("/arrangement_cat");
+        row.add(catsShelterARRANGEMENT_CAT);
+        keyboard.addRow(catsShelterARRANGEMENT_CAT);
+
+        InlineKeyboardButton catsShelterARRANGEMENT_DISABLED = new InlineKeyboardButton("Рекомендации по обустройству дома животного с ограничениями");
+        catsShelterARRANGEMENT_DISABLED.callbackData("/arrangement_disabled");
+        row.add(catsShelterARRANGEMENT_DISABLED);
+        keyboard.addRow(catsShelterARRANGEMENT_DISABLED);
+
+        InlineKeyboardButton catsShelterPreviousMenu = new InlineKeyboardButton("Предыдущее меню");
+        catsShelterPreviousMenu.callbackData("/previous");
+        row.add(catsShelterPreviousMenu);
+        keyboard.addRow(catsShelterPreviousMenu);
+
         return keyboard;
     }
 }

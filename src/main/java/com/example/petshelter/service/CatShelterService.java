@@ -1,7 +1,6 @@
 package com.example.petshelter.service;
 
 import com.example.petshelter.entity.shelter.CatShelter;
-import com.example.petshelter.entity.shelter.CatShelterConsult;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.CatShelterRepository;
@@ -88,5 +87,27 @@ public interface CatShelterService {
      */
     void addCatOwnerToShelter(String phoneNumber);
 
-    void addCatConsult(CatShelterConsult consult, String value, Long id);
+    void addDating(Long id, String data);
+
+    String returnDating(Long id);
+
+    String returnDocuments(Long id);
+
+    void addTransportation(Long id, String data);
+
+    String returnArrangementKitten(Long id);
+
+    void addArrangementKitten(Long id, String data);
+
+    String returnArrangementCat(Long id);
+
+    void addDocuments(Long id, String data);
+
+    String returnTransportation(Long id);
+
+    void addArrangementCat(Long id, String data);
+
+    String returnArrangementDisabled(Long id);
+
+    void addArrangementDisabled(Long id, String data);
 }
