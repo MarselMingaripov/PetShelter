@@ -3,6 +3,7 @@ package com.example.petshelter.controller;
 import com.example.petshelter.PetShelterApplication;
 import com.example.petshelter.entity.*;
 import com.example.petshelter.service.CatOwnerService;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,14 +21,13 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = {PetShelterApplication.class})
 @RequiredArgsConstructor
 class CatOwnerControllerTest {
-
-
+    private ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
     private static final String NAME = "Barsik";
     private static final int AGE = 3;
     private static final boolean HEALTH_STATUS = true;
@@ -53,13 +53,18 @@ class CatOwnerControllerTest {
 
     @MockBean
     private CatOwnerService catOwnerServiceMock;
-    private ObjectMapper objectMapper = new ObjectMapper();
+//    private ObjectMapper objectMapper = new ObjectMapper();
 
     private CatOwnerController out;
 
     private MockMvc mockMvc;
 
     private final WebApplicationContext webApplicationContext;
+
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+//    private LocalDate date;
+
 
     @BeforeEach
     void init() throws Exception {
@@ -69,7 +74,13 @@ class CatOwnerControllerTest {
         report = new Report(ID, PHOTO, FOOD_RATION, GENERAL_HEALTH, BEHAVIOR_CHANGES);
         reports = List.of(report);
 
-        trialPeriod = new TrialPeriod(PHONE_NUMBER, LocalDate.now(), LocalDate.now(), reports, TrialPeriodResult.SUCCESS);
+        trialPeriod = new TrialPeriod(
+                PHONE_NUMBER,
+                LocalDate.of(2023, 04, 24),
+                LocalDate.of(2023, 04, 24),
+                reports,
+                TrialPeriodResult.SUCCESS);
+
         trialPeriods = List.of(trialPeriod);
 
         catOwner = new CatOwner(ID, PHONE_NUMBER, cats, trialPeriods, trialPeriods);
@@ -82,8 +93,12 @@ class CatOwnerControllerTest {
     @Test
     void shouldReturn200WhenCreateCorrectFieldsCatOwner() throws Exception {
         when(catOwnerServiceMock.createCatOwner(any())).thenReturn(catOwner);
+        String json = objectMapper.writeValueAsString(catOwner);
         mockMvc.perform(post("http://localhost:8080/catOwner")
-                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(catOwner)))
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(content().json(json));
                 .andExpectAll(
                         status().isOk(),
                         jsonPath("$.phoneNumber").value(PHONE_NUMBER),
