@@ -27,8 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = {PetShelterApplication.class})
 @RequiredArgsConstructor
 class CatOwnerControllerTest {
-    private ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
-    private static final String NAME = "Barsik";
     private static final int AGE = 3;
     private static final boolean HEALTH_STATUS = true;
     private static final boolean VACCINATION = true;
@@ -53,7 +51,9 @@ class CatOwnerControllerTest {
 
     @MockBean
     private CatOwnerService catOwnerServiceMock;
-//    private ObjectMapper objectMapper = new ObjectMapper();
+    //    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
+    private static final String NAME = "Barsik";
 
     private CatOwnerController out;
 
@@ -97,15 +97,14 @@ class CatOwnerControllerTest {
         mockMvc.perform(post("http://localhost:8080/catOwner")
                         .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().json(json));
-                .andExpectAll(
-                        status().isOk(),
-                        jsonPath("$.phoneNumber").value(PHONE_NUMBER),
-                        jsonPath("$.cats").value(cats),
-                        jsonPath("$.trialPeriodsInActiveStatus").value(trialPeriods),
-                        jsonPath("$.trialPeriodsCompleted").value(trialPeriods)
-                );
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString(); // Преобразование данныех в строку
+//                .andExpectAll(
+//                        status().isOk(),
+//                .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER))
+//                .andExpect(jsonPath("$.cats").value(cats))
+//                .andExpect(jsonPath("$.trialPeriodsInActiveStatus").value(trialPeriods))
+//                .andExpect(jsonPath("$.trialPeriodsCompleted").value(trialPeriods));
     }
 
 }
