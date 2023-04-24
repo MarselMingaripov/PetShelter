@@ -2,6 +2,7 @@ package com.example.petshelter.service;
 
 import com.example.petshelter.entity.Report;
 import com.example.petshelter.entity.User;
+import com.example.petshelter.entity.RoleSt;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.UserRepository;
@@ -15,11 +16,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -103,6 +104,7 @@ public class UserServiceTest {
         assertEquals(user1, userServiceOut.findByPhone(PHONE_NUMBER));
 
     }
+
     @Test
     @DisplayName("Поиск пользователя по его Telegram Id")
     public void shouldFindUserByTelegramId() {
@@ -117,11 +119,77 @@ public class UserServiceTest {
         Mockito.when(userRepositoryMock.findByTelegramId(any())).thenReturn(Optional.empty());
         assertThrows(NotFoundInBdException.class, () -> userServiceOut.findByTelegramID(ID));
     }
+
+    @Test
+    @DisplayName("Удаление пользователя по его Id")
+    public void shouldDeleteUserById() {
+        Mockito.when(userRepositoryMock.findById(ID)).thenReturn(Optional.of(user));
+//        Mockito.when(userRepositoryMock.save(any())).thenReturn(user);
+        assertEquals(user, userServiceOut.deleteById(ID));
+    }
+
+
     @Test
     @DisplayName("Вывод списка всех пользователей")
-    public void shouldFindByAllUsers(){
+    public void shouldFindAllUsers() {
         Mockito.when(userRepositoryMock.findAll()).thenReturn(USERS);
         assertEquals(USERS, userServiceOut.findAll());
     }
 
+    @Test
+    @DisplayName("Вывод TelegramId волонтера")
+    public void shouldReturnVolunteerTgId() {
+
+        User volunteerUser = new User();
+
+        volunteerUser.setRoleSt(RoleSt.VOLUNTEER);
+        volunteerUser.setTelegramId(TELEGRAM_ID);
+
+        User simpleUser = new User();
+        simpleUser.setRoleSt(RoleSt.USER);
+        simpleUser.setTelegramId(4321L);
+
+        List<User> fakeUsers = Arrays.asList(volunteerUser, simpleUser);
+
+        Mockito.when(userRepositoryMock.findAll()).thenReturn(fakeUsers);
+        List<Long> volunteerTgIdList = userServiceOut.returnVolunteerTgId();
+        Mockito.verify(userRepositoryMock, Mockito.times(1)).findAll();
+        assertEquals(1, volunteerTgIdList.size());
+        assertEquals(volunteerUser.getTelegramId(), volunteerTgIdList.get(0));
+    }
+
+    @Test
+    @DisplayName("Создание пользователя из TbB")
+    public void shouldCreateUserFromTgB() {
+
+        User user1 = new User("+79050505055", TELEGRAM_ID);
+
+        Mockito.when(validationServiceMock.validatePhoneNumber(any())).thenReturn(true);
+        Mockito.when(userRepositoryMock.existsByPhoneNumber(PHONE_NUMBER)).thenReturn(false);
+        Mockito.when(userRepositoryMock.save(any())).thenReturn(user1);
+        assertEquals(user1, userServiceOut.createUserFromTgB("+79053930303 12354"));
+    }
+
+    @Test
+    @DisplayName("Создание пользователя из TbB когда номер есть в базе")
+    public void shouldCreateUserFromTgBForExistingPhoneNumber() throws ValidationException {
+        String text = "+79053930303 12354";
+
+        User user1 = new User(PHONE_NUMBER, TELEGRAM_ID);
+        User existingUser = new User(PHONE_NUMBER, 88888888L);
+        Mockito.when(validationServiceMock.validatePhoneNumber(UserServiceTest.PHONE_NUMBER)).thenReturn(true);
+        Mockito.when(userRepositoryMock.existsByPhoneNumber(PHONE_NUMBER)).thenReturn(true);
+        Mockito.when(userRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.of(existingUser));
+        Mockito.when(userRepositoryMock.save(any())).thenReturn(user1);
+        assertEquals(user1,userServiceOut.createUserFromTgB(text));
+
+    }
+
+    @Test
+    @DisplayName("Исключение при вводе некорректного номера телефона из TgB")
+    public void shouldThrowValidationExceptionWhenPhoneNumberFromTgBIsNotValid() {
+        String text = "+79053930303 12354";
+        Mockito.when(validationServiceMock.validatePhoneNumber(any())).thenReturn(false);
+        assertThrows(ValidationException.class, () -> userServiceOut.createUserFromTgB(text));
+    }
 }
