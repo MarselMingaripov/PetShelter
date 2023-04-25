@@ -2,6 +2,8 @@ package com.example.petshelter.controller;
 
 import com.example.petshelter.PetShelterApplication;
 import com.example.petshelter.entity.*;
+import com.example.petshelter.exception.ValidationException;
+import com.example.petshelter.repository.CatOwnerRepository;
 import com.example.petshelter.service.CatOwnerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -97,4 +100,14 @@ class CatOwnerControllerTest {
                         //jsonPath("$.trialPeriodsCompleted").value(trialPeriods)
                 );
     }
+    @Test
+    void shouldThrow405WhenCreateIncorrectFieldsCatOwner() throws Exception {
+        when(catOwnerServiceMock.createCatOwner(any())).thenThrow(ValidationException.class);
+        mockMvc.perform(post("http://localhost:8080/catOwner")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(catOwner)))
+                .andExpectAll(
+                        status().isMethodNotAllowed()
+                );
+    }
+
 }
