@@ -3,7 +3,6 @@ package com.example.petshelter.controller;
 import com.example.petshelter.PetShelterApplication;
 import com.example.petshelter.entity.*;
 import com.example.petshelter.service.CatOwnerService;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,12 +20,15 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = {PetShelterApplication.class})
 @RequiredArgsConstructor
 class CatOwnerControllerTest {
+
+    private static final String NAME1 = "Barsik";
+    private static final String NAME2 = "Murka";
     private static final int AGE = 3;
     private static final boolean HEALTH_STATUS = true;
     private static final boolean VACCINATION = true;
@@ -40,36 +42,25 @@ class CatOwnerControllerTest {
     private static Long ID = 1L;
     private static String PHONE_NUMBER = "+79053930303";
 
-    private Cat cat;
+
     private CatOwner catOwner;
     private Report report;
     private TrialPeriod trialPeriod;
     private List<Cat> cats;
     private List<Report> reports;
     private List<TrialPeriod> trialPeriods;
-
+    private MockMvc mockMvc;
 
     @MockBean
     private CatOwnerService catOwnerServiceMock;
-    //    private ObjectMapper objectMapper = new ObjectMapper();
-    private ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
-    private static final String NAME = "Barsik";
-
-    private CatOwnerController out;
-
-    private MockMvc mockMvc;
-
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private final WebApplicationContext webApplicationContext;
-
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-//    private LocalDate date;
-
 
     @BeforeEach
     void init() throws Exception {
-        cat = new Cat(NAME, AGE, HEALTH_STATUS, VACCINATION, STATUS);
-        cats = List.of(cat);
+        Cat cat1 = new Cat(NAME1, AGE, HEALTH_STATUS, VACCINATION, STATUS);
+//        Cat cat2 = new Cat(NAME2, AGE, HEALTH_STATUS, VACCINATION, STATUS);
+        cats = List.of(cat1);
 
         report = new Report(ID, PHOTO, FOOD_RATION, GENERAL_HEALTH, BEHAVIOR_CHANGES);
         reports = List.of(report);
@@ -83,7 +74,7 @@ class CatOwnerControllerTest {
 
         trialPeriods = List.of(trialPeriod);
 
-        catOwner = new CatOwner(ID, PHONE_NUMBER, cats, trialPeriods, trialPeriods);
+        catOwner = new CatOwner(PHONE_NUMBER, cats, trialPeriods, trialPeriods);
 
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
@@ -93,18 +84,15 @@ class CatOwnerControllerTest {
     @Test
     void shouldReturn200WhenCreateCorrectFieldsCatOwner() throws Exception {
         when(catOwnerServiceMock.createCatOwner(any())).thenReturn(catOwner);
-        String json = objectMapper.writeValueAsString(catOwner);
-        mockMvc.perform(post("http://localhost:8080/catOwner")
-                        .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString(); // Преобразование данныех в строку
-//                .andExpectAll(
-//                        status().isOk(),
-//                .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER))
-//                .andExpect(jsonPath("$.cats").value(cats))
-//                .andExpect(jsonPath("$.trialPeriodsInActiveStatus").value(trialPeriods))
-//                .andExpect(jsonPath("$.trialPeriodsCompleted").value(trialPeriods));
-    }
 
+        mockMvc.perform(post("http://localhost:8080/catOwner")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(catOwner)))
+                .andExpectAll(
+                        status().isOk(),
+                        jsonPath("$.name").value(PHONE_NUMBER),
+                        jsonPath("$.cats").value(cats),
+                        jsonPath("$.trialPeriodsInActiveStatus").value(trialPeriods),
+                        jsonPath("$.trialPeriodsCompleted").value(trialPeriods)
+                );
+    }
 }
