@@ -53,4 +53,9 @@ public class TrialPeriod {
         this.reports = reports;
         this.result = result;
     }
+
+    public TrialPeriod(Long id, String owner_name) {
+        this.id = id;
+        this.ownerName = owner_name;
+    }
 }

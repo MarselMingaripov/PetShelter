@@ -5,6 +5,7 @@ import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.ReportRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 /**
  * Сервис для работы с БД отчетов
@@ -49,4 +50,6 @@ public interface ReportService {
      * @return
      */
     List<Report> findAll();
+
+    Report findBySenderAndDate(Long sender, LocalDate localDate);
 }

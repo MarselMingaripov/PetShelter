@@ -64,7 +64,7 @@ class CatControllerTest {
                         jsonPath("$.age").value(AGE),
                         jsonPath("$.healthStatus").value(HEALTH_STATUS),
                         jsonPath("$.vaccination").value(VACCINATION)
-                        //jsonPath("$.statusAnimal").value(STATUS)
+                                //jsonPath("$.statusAnimal").value(STATUS)
                 );
     }
 
