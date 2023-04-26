@@ -47,7 +47,7 @@ public class TrialPeriodControllerTest {
 
     @BeforeEach
     void init() throws Exception {
-        trialPeriod = new TrialPeriod(ID, OWNER_NAME);
+//        trialPeriod = new TrialPeriod(ID, OWNER_NAME);
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .build();

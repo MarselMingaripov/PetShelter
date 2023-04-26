@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -19,10 +20,12 @@ import org.springframework.web.context.WebApplicationContext;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -109,5 +112,21 @@ class CatOwnerControllerTest {
                         status().isMethodNotAllowed()
                 );
     }
+
+    @Test
+    void shouldReturn200WhenReceivedCorrectFieldsCatOwnerById() throws Exception {
+        when(catOwnerServiceMock.findById(any())).thenReturn(catOwner);
+        mockMvc.perform(get("http://localhost:8080/catOwner/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.id").value(ID))
+                .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER));
+                        //jsonPath("$.cats").value(cats)
+                        //jsonPath("$.trialPeriodsInActiveStatus").value(trialPeriods),
+                        //jsonPath("$.trialPeriodsCompleted").value(trialPeriods)
+
+    }
+
 
 }
