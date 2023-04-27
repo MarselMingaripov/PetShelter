@@ -152,6 +152,7 @@ CREATE TABLE report
     general_health   VARCHAR(255),
     behavior_changes VARCHAR(255),
     receive_date     date,
+    sender           BIGINT,
     CONSTRAINT pk_report PRIMARY KEY (id)
 );
 

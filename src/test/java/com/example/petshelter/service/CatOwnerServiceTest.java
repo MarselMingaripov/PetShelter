@@ -113,7 +113,7 @@ class CatOwnerServiceTest {
         Mockito.when(catOwnerRepositoryMock.findById(any())).thenReturn(Optional.of(catOwner));
         assertEquals(catOwner, catOwnerServiceOut.deleteById(ID));
     }
-
+//TODO: 27.04.2023 написать тест передачи кошки владельцу на испытательный срок
     @Test
     @DisplayName("Передача кошки опекуну на испытательный срок")
     void shouldTransferCatOnProbation() {

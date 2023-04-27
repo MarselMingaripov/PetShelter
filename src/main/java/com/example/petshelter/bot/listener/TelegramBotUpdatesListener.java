@@ -2,24 +2,32 @@ package com.example.petshelter.bot.listener;
 
 import com.example.petshelter.bot.service.KeyboardService;
 import com.example.petshelter.entity.MessageToVolunteer;
+import com.example.petshelter.entity.Report;
 import com.example.petshelter.entity.User;
-import com.example.petshelter.service.CatShelterService;
-import com.example.petshelter.service.MessageToVolunteerService;
-import com.example.petshelter.service.UserService;
+import com.example.petshelter.service.*;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Message;
+import com.pengrad.telegrambot.model.PhotoSize;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.request.GetFile;
 import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.response.GetFileResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -32,6 +40,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final CatShelterService catShelterService;
     private final MessageToVolunteerService message;
     private final KeyboardService keyboardService;
+    private final ReportService reportService;
+    private final CatOwnerService catOwnerService;
+    private final MessageToVolunteerService messageToVolunteerService;
 
     @PostConstruct
     public void init() {
@@ -49,7 +60,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     logger.info(number);
                     User user = userService.createUserFromTgB("+" + number + " " + update.message().chat().id());
                     sendMessageInCatShelterMenu(update.message().chat().id(), "Номер отправлен в бд");
-                } catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     logger.error(e.getMessage());
                 }
 
@@ -67,6 +78,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                 break;
                             case "/common_information":
                                 sendMessageInCatShelterCommonInfoMenu(callbackQueryChatId, "Выберете нужный вариант");
+                                break;
+                            case "/send_report":
+                                SendMessage sendMessage = new SendMessage(callbackQueryChatId, "Отправьте фото вашего питомца");
+                                telegramBot.execute(sendMessage);
                                 break;
                             case "/information":
                                 sendMessageInCatShelterCommonInfoMenu(callbackQueryChatId, catShelterService.returnInformation(1L));
@@ -137,6 +152,47 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 Long chatId = message.chat().id();
                 String text = message.text();
 
+                if (text != null) {
+                    try {
+                            String[] arr = text.split(" ");
+                            if (arr[0].equals("Отчет.")) {
+                                Report report = reportService.findBySenderAndDate(chatId, LocalDate.now());
+                                report.setFoodRation(arr[1]);
+                                report.setGeneralHealth(arr[2]);
+                                report.setBehaviorChanges(arr[3]);
+                                reportService.createReport(report);
+                                messageToVolunteerService.createMessageToVolunteer(new MessageToVolunteer(chatId + "", userService.findByTelegramID(chatId)
+                                        .getPhoneNumber() + " он отправил отчет! Посмотрите, пожалуйста, что он там наприсылал"));
+                                sendMessageInCatShelterMenu(chatId, "Спасибо!");
+                            }
+                        } catch (ArrayIndexOutOfBoundsException e){
+                        logger.error(e.getMessage());
+                    }
+                }
+
+                if (message.photo() != null) {
+                    PhotoSize photoSize = message.photo()[message.photo().length - 1];
+                    GetFileResponse getFileResponse =
+                            telegramBot.execute(new GetFile(photoSize.fileId()));
+                    if (getFileResponse.isOk()) {
+                        try {
+                            String extension = StringUtils.getFilenameExtension(
+                                    getFileResponse.file().filePath());
+                            byte[] image = telegramBot.getFileContent(getFileResponse.file());
+                            Files.write(Paths.get(UUID.randomUUID() + "." + extension), image);
+                            reportService.createReport(new Report(image, chatId));
+                            SendMessage sendMessage = new SendMessage(chatId, """
+                                    Отправьте данные в отчете в следующем формате без кавычек - 
+                                    "Отчет. Рацион питания. Состояние здоровья. Изменения в поведении"
+                                    Недопустимо отправлять более одного отчета в день. Не нарушайте, пожалуйста, правила!
+                                    """);
+                            telegramBot.execute(sendMessage);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
                 switch (text) {
                     case "/start":
                         sendMessage(chatId, "Здравствуйте! Вы используете бот для приюта животных. Выберете, пожалуйста, приют!");
@@ -144,12 +200,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     default:
 
                 }
-
-                /*if ("/start".equals(text)){
-                    sendMessage(chatId, "Здравствуйте! Вы используете бот для приюта животных. Выберете, пожалуйста, приют!");
-                } else if (text != null){
-                    sendMessage(chatId, "Нажмите старт! Другие команды не работают еще!");
-                }*/
             });
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -201,7 +251,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             logger.error("Error during sending message: {}", sendResponse.description());
         }
     }
-    public void sendM(Long chatId, String text){
+
+    public void sendM(Long chatId, String text) {
         SendMessage sendMessage = new SendMessage(chatId, text);
         //sendMessage.replyMarkup(keyboardService.shareContactKeyboard());
         SendResponse sendResponse = telegramBot.execute(sendMessage);
@@ -210,7 +261,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
     }
 
-    public void sendMessageCatConsult(Long chatId, String message){
+    public void sendMessageCatConsult(Long chatId, String message) {
         SendMessage sendMessage = new SendMessage(chatId, message);
         sendMessage.replyMarkup(keyboardService.getCatShelterConsultMenu());
         SendResponse sendResponse = telegramBot.execute(sendMessage);

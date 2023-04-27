@@ -2,31 +2,43 @@ package com.example.petshelter.controller;
 
 import com.example.petshelter.PetShelterApplication;
 import com.example.petshelter.entity.*;
+import com.example.petshelter.exception.ValidationException;
+import com.example.petshelter.repository.CatOwnerRepository;
 import com.example.petshelter.service.CatOwnerService;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = {PetShelterApplication.class})
 @RequiredArgsConstructor
 class CatOwnerControllerTest {
+
+    private static final String NAME1 = "Barsik";
+    private static final String NAME2 = "Murka";
     private static final int AGE = 3;
     private static final boolean HEALTH_STATUS = true;
     private static final boolean VACCINATION = true;
@@ -40,36 +52,27 @@ class CatOwnerControllerTest {
     private static Long ID = 1L;
     private static String PHONE_NUMBER = "+79053930303";
 
-    private Cat cat;
+
     private CatOwner catOwner;
     private Report report;
     private TrialPeriod trialPeriod;
     private List<Cat> cats;
     private List<Report> reports;
     private List<TrialPeriod> trialPeriods;
-
+    private MockMvc mockMvc;
 
     @MockBean
     private CatOwnerService catOwnerServiceMock;
-    //    private ObjectMapper objectMapper = new ObjectMapper();
-    private ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
-    private static final String NAME = "Barsik";
 
-    private CatOwnerController out;
-
-    private MockMvc mockMvc;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     private final WebApplicationContext webApplicationContext;
 
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-//    private LocalDate date;
-
-
     @BeforeEach
     void init() throws Exception {
-        cat = new Cat(NAME, AGE, HEALTH_STATUS, VACCINATION, STATUS);
-        cats = List.of(cat);
+        Cat cat1 = new Cat(NAME1, AGE, HEALTH_STATUS, VACCINATION, STATUS);
+//        Cat cat2 = new Cat(NAME2, AGE, HEALTH_STATUS, VACCINATION, STATUS);
+        cats = List.of(cat1);
 
         report = new Report(ID, PHOTO, FOOD_RATION, GENERAL_HEALTH, BEHAVIOR_CHANGES);
         reports = List.of(report);
@@ -83,7 +86,7 @@ class CatOwnerControllerTest {
 
         trialPeriods = List.of(trialPeriod);
 
-        catOwner = new CatOwner(ID, PHONE_NUMBER, cats, trialPeriods, trialPeriods);
+        catOwner = new CatOwner(PHONE_NUMBER, new ArrayList<>(List.of(cat1)), null, null);
 
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
@@ -93,18 +96,135 @@ class CatOwnerControllerTest {
     @Test
     void shouldReturn200WhenCreateCorrectFieldsCatOwner() throws Exception {
         when(catOwnerServiceMock.createCatOwner(any())).thenReturn(catOwner);
-        String json = objectMapper.writeValueAsString(catOwner);
         mockMvc.perform(post("http://localhost:8080/catOwner")
-                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(catOwner)))
+                .andDo(print())
+                .andExpectAll(
+                        status().isOk(),
+                        jsonPath("$.phoneNumber").value(PHONE_NUMBER));
+        verify(catOwnerServiceMock).createCatOwner(any());
+    }
+
+    @Test
+    void shouldThrow405WhenCreateIncorrectFieldsCatOwner() throws Exception {
+        when(catOwnerServiceMock.createCatOwner(any())).thenThrow(ValidationException.class);
+        mockMvc.perform(post("http://localhost:8080/catOwner")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(catOwner)))
+                .andExpectAll(
+                        status().isMethodNotAllowed()
+                );
+    }
+
+    @Test
+    void shouldReturn200WhenReceivedCorrectFieldsCatOwnerById() throws Exception {
+        when(catOwnerServiceMock.findById(any())).thenReturn(catOwner);
+        mockMvc.perform(get("http://localhost:8080/catOwner/1")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString(); // Преобразование данныех в строку
-//                .andExpectAll(
-//                        status().isOk(),
-//                .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER))
-//                .andExpect(jsonPath("$.cats").value(cats))
-//                .andExpect(jsonPath("$.trialPeriodsInActiveStatus").value(trialPeriods))
-//                .andExpect(jsonPath("$.trialPeriodsCompleted").value(trialPeriods));
+                .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER));
+        verify(catOwnerServiceMock).findById(any());
+    }
+
+    @Test
+    void shouldReturn404WhenReceivedNotCorrectFieldsCatOwnerById() throws Exception {
+        when(catOwnerServiceMock.findById(any())).thenThrow(ValidationException.class);
+        mockMvc.perform(get("http://localhost:8080/catOwner/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    void shouldReturn200WhenReceivedCorrectFieldsCatOwnerByPhone_number() throws Exception {
+        when(catOwnerServiceMock.findByPhoneNumber(any())).thenReturn(catOwner);
+        mockMvc.perform(get("http://localhost:8080/catOwner/find-by-phone-number").param("phoneNumber", PHONE_NUMBER)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER));
+        verify(catOwnerServiceMock).findByPhoneNumber(any());
+    }
+
+    @Test
+    void shouldReturn400WhenReceivedNotCorrectFieldsCatOwnerByPhoneNumber() throws Exception {
+        when(catOwnerServiceMock.findByPhoneNumber(any())).thenThrow(ValidationException.class);
+        mockMvc.perform(get("http://localhost:8080/catOwner/find-by-phone-number")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturn404WhenReceivedNotCorrectFieldsCatOwnerByPhoneNumber() throws Exception {
+        when(catOwnerServiceMock.findByPhoneNumber(any())).thenThrow(ValidationException.class);
+        mockMvc.perform(get("http://localhost:8080/catOwner/find-by-phone-number/"+PHONE_NUMBER)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldReturn200WhenFindAllCatOwners() throws Exception {
+        when(catOwnerServiceMock.findAll()).thenReturn(List.of(catOwner));
+        mockMvc.perform(get("http://localhost:8080/catOwner"))
+                .andDo(print())
+                .andExpect(status().isOk());
+        verify(catOwnerServiceMock).findAll();
+    }
+
+    @Test
+    void shouldReturn200WhenUpdateCorrectFieldsCatOwner() throws Exception {
+        String json = objectMapper.writeValueAsString(catOwner);
+        when(catOwnerServiceMock.updateById(any(), any())).thenReturn(catOwner);
+        mockMvc.perform(put("http://localhost:8080/catOwner/" + ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(ID.toString())
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isOk());
+        verify(catOwnerServiceMock).updateById(any(), any());
+    }
+
+    @Test
+    void shouldThrow405WhenUpdateIncorrectFieldsCatOwner() throws Exception {
+        String json = objectMapper.writeValueAsString(catOwner);
+        when(catOwnerServiceMock.updateById(any(),any())).thenThrow(ValidationException.class);
+        mockMvc.perform(put("http://localhost:8080/catOwner/" + ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(ID.toString())
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    void shouldReturn200WhenDeleteCorrectFieldsCatOwner() throws Exception {
+        when(catOwnerServiceMock.deleteById(any())).thenReturn(catOwner);
+        mockMvc.perform(delete("http://localhost:8080/catOwner/" + ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(ID.toString()))
+                .andDo(print())
+                .andExpect(status().isOk());
+        verify(catOwnerServiceMock).deleteById(any());
+    }
+//TODO: 27.04.2023 исправить ошибку в тесте shouldReturn200WhenGetAnimalToCatOwnerIsCorrect()
+    @Test
+    void shouldReturn200WhenGetAnimalToCatOwnerIsCorrect() throws Exception {
+        when(catOwnerServiceMock.getAnimalToTrialPeriod(PHONE_NUMBER,NAME1,ID)).thenReturn(catOwner);
+        mockMvc.perform(post("http://localhost:8080/catOwner/get-animal/")
+                        .param(PHONE_NUMBER)
+//                        .param(NAME1)
+//                        .param(ID.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(catOwner)))
+                .andDo(print())
+                .andExpectAll(
+                        status().isOk(),
+                        jsonPath("$.phoneNumber").value(PHONE_NUMBER));
+//                        jsonPath("$.animalName").value(NAME1),
+//                        jsonPath("$.trialDays").value(30L));
+//        verify(catOwnerServiceMock).getAnimalToTrialPeriod(any(),any(),any());
     }
 
 }
