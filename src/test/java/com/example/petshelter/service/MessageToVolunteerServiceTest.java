@@ -35,6 +35,7 @@ public class MessageToVolunteerServiceTest {
     private final static String SENDER = "sender";
     private final static String TEXT = "text";
 
+
     private MessageToVolunteer messageToVolunteer;
 
     @BeforeEach

@@ -18,6 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.LocalDateTime;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -30,6 +32,7 @@ public class MessageToVolunteerControllerTest {
     private final static Long ID = 1L;
     private final static String SENDER = "sender";
     private final static String TEXT = "text";
+    private final static LocalDateTime LOCAL_DATE_TIME = LocalDateTime.now();
 
     private MessageToVolunteer messageToVolunteer;
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -45,7 +48,7 @@ public class MessageToVolunteerControllerTest {
 
     @BeforeEach
     void init() throws Exception {
-        messageToVolunteer = new MessageToVolunteer(ID, SENDER, TEXT);
+        messageToVolunteer = new MessageToVolunteer(ID, SENDER, TEXT, LOCAL_DATE_TIME);
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .build();
@@ -54,13 +57,15 @@ public class MessageToVolunteerControllerTest {
     @Test
     void shouldReturn200WhenCreateCorrectFieldsMessageToVolunteer() throws Exception {
         when(messageToVolunteerServiceMock.createMessageToVolunteer(any())).thenReturn(messageToVolunteer);
-        mockMvc.perform(post("http://localhost:8080/dog")
-                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(messageToVolunteer)))
+        mockMvc.perform(post("http://localhost:8080/message")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(messageToVolunteer)))
                 .andExpectAll(
                         status().isOk(),
                         jsonPath("$.id").value(ID),
                         jsonPath("$.sender").value(SENDER),
-                        jsonPath("$.text").value(TEXT)
+                        jsonPath("$.text").value(TEXT),
+                        jsonPath("$.localDateTime").value(LOCAL_DATE_TIME)
 
                         );
     }
@@ -68,7 +73,7 @@ public class MessageToVolunteerControllerTest {
     @Test
     void shouldThrow405WhenCreateIncorrectFieldsMessageToVolunteer() throws Exception {
         when(messageToVolunteerServiceMock.createMessageToVolunteer(any())).thenThrow(ValidationException.class);
-        mockMvc.perform(post("http://localhost:8080/dog")
+        mockMvc.perform(post("http://localhost:8080/message")
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(messageToVolunteer)))
                 .andExpectAll(
                         status().isMethodNotAllowed()

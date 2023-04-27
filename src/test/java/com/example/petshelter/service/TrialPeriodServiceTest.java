@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
@@ -73,7 +72,9 @@ public class TrialPeriodServiceTest {
 
         Mockito.when(trialPeriodRepositoryMock.findAll()).thenReturn(trialPeriods);
         List<TrialPeriod> result = trialPeriodRepositoryMock.findAll();
-        assertEquals(trialPeriods, result);
+        assertEquals(2, result.size());
+        assertTrue(result.contains(trialPeriod1));
+        assertTrue(result.contains(trialPeriod2));
     }
 
 }

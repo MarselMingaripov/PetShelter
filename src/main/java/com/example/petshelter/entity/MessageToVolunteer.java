@@ -39,6 +39,14 @@ public class MessageToVolunteer {
     @Enumerated(value = EnumType.STRING)
     private StatusMessage statusMessage;
 
+    public MessageToVolunteer(Long id, String sender, String text, LocalDateTime localDateTime) {
+        this.id = id;
+        this.sender = sender;
+        this.text = text;
+        this.localDateTime = LocalDateTime.now();
+        this.statusMessage = StatusMessage.UNREAD;
+    }
+
     public MessageToVolunteer(Long id, String sender, String text) {
         this.id = id;
         this.sender = sender;
