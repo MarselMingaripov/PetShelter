@@ -1,9 +1,7 @@
 package com.example.petshelter.bot.listener;
 
 import com.example.petshelter.bot.service.KeyboardService;
-import com.example.petshelter.entity.MessageToVolunteer;
-import com.example.petshelter.entity.Report;
-import com.example.petshelter.entity.User;
+import com.example.petshelter.entity.*;
 import com.example.petshelter.service.*;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
@@ -42,6 +40,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final KeyboardService keyboardService;
     private final ReportService reportService;
     private final CatOwnerService catOwnerService;
+    private final DogOwnerService dogOwnerService;
     private final MessageToVolunteerService messageToVolunteerService;
 
     @PostConstruct
@@ -161,6 +160,27 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                 report.setGeneralHealth(arr[2]);
                                 report.setBehaviorChanges(arr[3]);
                                 reportService.createReport(report);
+                                User user = userService.findByTelegramID(chatId);
+                                if (catOwnerService.findByPhoneNumber(user.getPhoneNumber()) != null){
+                                    CatOwner catOwner = catOwnerService.findByPhoneNumber(user.getPhoneNumber());
+                                    if (!catOwner.getTrialPeriodsInActiveStatus().isEmpty()){
+                                        catOwner.getTrialPeriodsInActiveStatus().get(0).getReports().add(report);
+                                        catOwnerService.createCatOwner(catOwner);
+                                    } else {
+                                        sendM(chatId, "Проблемы с вашим испытательным периодом, обратитесь к волонтеру, пожалуйста");
+                                    }
+                                }
+
+                                if (dogOwnerService.findByPhoneNumber(user.getPhoneNumber()) != null){
+                                    DogOwner dogOwner = dogOwnerService.findByPhoneNumber(user.getPhoneNumber());
+                                    if (!dogOwner.getTrialPeriodsInActiveStatus().isEmpty()){
+                                        dogOwner.getTrialPeriodsInActiveStatus().get(0).getReports().add(report);
+                                        dogOwnerService.createDogOwner(dogOwner);
+                                    } else {
+                                        sendM(chatId, "Проблемы с вашим испытательным периодом, обратитесь к волонтеру, пожалуйста");
+                                    }
+                                }
+
                                 messageToVolunteerService.createMessageToVolunteer(new MessageToVolunteer(chatId + "", userService.findByTelegramID(chatId)
                                         .getPhoneNumber() + " он отправил отчет! Посмотрите, пожалуйста, что он там наприсылал"));
                                 sendMessageInCatShelterMenu(chatId, "Спасибо!");
@@ -253,15 +273,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     }
 
     public void sendM(Long chatId, String text) {
-        SendMessage sendMessage = new SendMessage(chatId, text);
-        //sendMessage.replyMarkup(keyboardService.shareContactKeyboard());
-        SendResponse sendResponse = telegramBot.execute(sendMessage);
-        if (!sendResponse.isOk()) {
-            logger.error("Error during sending message: {}", sendResponse.description());
-        }
-    }
-
-    public void sendMesToVolunteer(Long chatId, String text) {
         SendMessage sendMessage = new SendMessage(chatId, text);
         SendResponse sendResponse = telegramBot.execute(sendMessage);
         if (!sendResponse.isOk()) {

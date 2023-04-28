@@ -39,7 +39,7 @@ public class MessageToVolunteerTimer {
         }
     }
 
-    @Scheduled(cron = "* * 18 * * ?")
+    @Scheduled(cron = "0 0 18 * * ?")
     public void checkReport() {
         List<CatOwner> catOwners = catOwnerService.findAll();
         for (CatOwner catOwner : catOwners) {
