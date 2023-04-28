@@ -92,7 +92,7 @@ public class CatController {
         return ResponseEntity.ok().body(catService.findAllInShelter());
     }
 
-    @GetMapping("all-by-status")
+    @GetMapping("/all-by-status")
     @Operation(summary = "Получение списка всех котов по их статусу")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     public ResponseEntity<List<Cat>> findAllByStatus(@RequestParam StatusAnimal statusAnimal) {
