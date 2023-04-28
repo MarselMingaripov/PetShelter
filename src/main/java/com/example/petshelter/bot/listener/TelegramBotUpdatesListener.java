@@ -261,6 +261,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
     }
 
+    public void sendMesToVolunteer(Long chatId, String text) {
+        SendMessage sendMessage = new SendMessage(chatId, text);
+        SendResponse sendResponse = telegramBot.execute(sendMessage);
+        if (!sendResponse.isOk()) {
+            logger.error("Error during sending message: {}", sendResponse.description());
+        }
+    }
+
     public void sendMessageCatConsult(Long chatId, String message) {
         SendMessage sendMessage = new SendMessage(chatId, message);
         sendMessage.replyMarkup(keyboardService.getCatShelterConsultMenu());

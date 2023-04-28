@@ -6,6 +6,8 @@ import com.example.petshelter.entity.shelter.AnimalShelter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class CatOwner{
             inverseJoinColumns = @JoinColumn(name = "cat_id"))
     private List<Cat> cats;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "cat_owner_trial_period",
             joinColumns = @JoinColumn(name = "cat_owner_id"),
             inverseJoinColumns = @JoinColumn(name = "trial_period_id"))
@@ -46,7 +48,8 @@ public class CatOwner{
     /**
      * Завершенные периоды испытательного срока для опекуна животного
      */
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "cat_owner_completed_trial_period",
             joinColumns = @JoinColumn(name = "cat_owner_id"),
             inverseJoinColumns = @JoinColumn(name = "trial_period_id"))

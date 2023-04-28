@@ -49,6 +49,7 @@ class ValidationServiceTest {
 
     private static TrialPeriod TRIAL_PERIOD = new TrialPeriod(
             PHONE_NUMBER,
+            "Tuzik",
             LocalDate.now(),
             LocalDate.now(),
             Arrays.asList(REPORT),

@@ -80,6 +80,7 @@ class CatOwnerControllerTest {
 
         trialPeriod = new TrialPeriod(
                 PHONE_NUMBER,
+                NAME1,
                 LocalDate.of(2023, 04, 24),
                 LocalDate.of(2023, 04, 24),
                 reports,
