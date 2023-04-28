@@ -19,6 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.petshelter.entity.StatusAnimal.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -33,7 +34,8 @@ class CatControllerTest {
     private static final int AGE = 3;
     private static final boolean HEALTH_STATUS = true;
     private static final boolean VACCINATION = true;
-    private static final StatusAnimal STATUS = StatusAnimal.IN_THE_SHELTER;
+    private static final StatusAnimal STATUS = RESERVED;
+    private static final String PHONE_NUMBER = "+7(101)345-12-34";
     private Cat cat;
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -180,18 +182,45 @@ class CatControllerTest {
 
     @Test
     void shouldReturn200WhenReserveCatCorrectFieldsCat() throws Exception {
-
+        when(catServiceMock.reserveCat(NAME, PHONE_NUMBER))
+                .thenReturn(cat);
+        mockMvc.perform(post("http://localhost:8080/cat/reserve")
+                        .param("name", NAME)
+                        .param("phoneNumber", PHONE_NUMBER))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(NAME))
+                .andExpect(jsonPath("$.age").value(AGE))
+                .andExpect(jsonPath("$.healthStatus").value(true))
+                .andExpect(jsonPath("$.vaccination").value(true));
     }
 
     @Test
-    void findAllInShelter() {
+    void shouldReturn200WhenFindAllInShelterCorrectFieldsCat() throws Exception {
+        List<Cat>catList = new ArrayList<>(List.of(cat));
+        when(catServiceMock.findAllInShelter()).thenReturn(catList);
+        mockMvc.perform(get("http://localhost:8080/cat/all-in-shelter")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        status().isOk());
     }
 
     @Test
-    void findAllByStatus() {
+    void shouldReturn200WhenFindAllByStatusCorrectFieldsCat() throws Exception {
+        List<Cat>catList = new ArrayList<>(List.of(cat));
+        when(catServiceMock.showAllByStatus(RESERVED)).thenReturn(catList);
+        mockMvc.perform(get("http://localhost:8080/cat/all-by-status")
+                        .param("statusAnimal", STATUS.toString()))
+                .andExpect(
+                        status().isOk());
     }
 
     @Test
-    void changeStatus() {
+    void shouldReturn200WhenChangeStatusCorrectFieldsCat() throws Exception  {
+        when(catServiceMock.changeStatusAnimal("Barsik", HAS_HOUSE)).thenReturn(cat);
+        mockMvc.perform(post("http://localhost:8080/cat/change-status")
+                        .param("name", NAME)
+                        .param("statusAnimal", String.valueOf(RESERVED)))
+                .andExpect(status().isOk());
+
     }
 }

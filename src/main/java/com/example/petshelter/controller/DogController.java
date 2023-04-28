@@ -93,7 +93,7 @@ public class DogController {
         return ResponseEntity.ok().body(dogService.findAllInShelter());
     }
 
-    @GetMapping("all-by-status")
+    @GetMapping("/all-by-status")
     @Operation(summary = "Получение списка всех собак по их статусу")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     public ResponseEntity<List<Dog>> findAllByStatus(@RequestParam StatusAnimal statusAnimal) {
