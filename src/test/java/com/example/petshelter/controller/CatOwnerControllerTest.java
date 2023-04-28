@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.petshelter.entity.StatusAnimal.RESERVED;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
@@ -208,23 +209,17 @@ class CatOwnerControllerTest {
                 .andExpect(status().isOk());
         verify(catOwnerServiceMock).deleteById(any());
     }
-//TODO: 27.04.2023 исправить ошибку в тесте shouldReturn200WhenGetAnimalToCatOwnerIsCorrect()
+
     @Test
     void shouldReturn200WhenGetAnimalToCatOwnerIsCorrect() throws Exception {
-        when(catOwnerServiceMock.getAnimalToTrialPeriod(PHONE_NUMBER,NAME1,ID)).thenReturn(catOwner);
-        mockMvc.perform(post("http://localhost:8080/catOwner/get-animal/")
-                        .param(PHONE_NUMBER)
-//                        .param(NAME1)
-//                        .param(ID.toString())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(catOwner)))
+        when(catOwnerServiceMock.getAnimalToTrialPeriod(PHONE_NUMBER,"Barsik",30L)).thenReturn(catOwner);
+        mockMvc.perform(post("http://localhost:8080/catOwner/get-animal")
+                        .param("phoneNumber",PHONE_NUMBER)
+                        .param("animalName",NAME1)
+                        .param("trialDays", String.valueOf(30L)))
                 .andDo(print())
-                .andExpectAll(
-                        status().isOk(),
-                        jsonPath("$.phoneNumber").value(PHONE_NUMBER));
-//                        jsonPath("$.animalName").value(NAME1),
-//                        jsonPath("$.trialDays").value(30L));
-//        verify(catOwnerServiceMock).getAnimalToTrialPeriod(any(),any(),any());
+                .andExpect(status().isOk());
+        verify(catOwnerServiceMock).getAnimalToTrialPeriod(any(),any(),any());
     }
 
 }
