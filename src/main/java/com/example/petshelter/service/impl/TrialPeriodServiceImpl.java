@@ -61,4 +61,5 @@ public class TrialPeriodServiceImpl implements TrialPeriodService {
     public List<TrialPeriod> findAll() {
         return trialPeriodRepository.findAll();
     }
+
 }

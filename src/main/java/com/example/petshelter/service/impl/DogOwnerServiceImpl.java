@@ -103,7 +103,7 @@ public class DogOwnerServiceImpl implements DogOwnerService {
             messageToVolunteerService.createMessageToVolunteer(new MessageToVolunteer(
                     phoneNumber, "получил кошку " + animalName + " на испытательный срок в " + trialDays + " дней"
             ));
-            TrialPeriod currentTrialPeriod = new TrialPeriod(phoneNumber, LocalDate.now(), LocalDate.now().plusDays(trialDays),
+            TrialPeriod currentTrialPeriod = new TrialPeriod(phoneNumber, animalName, LocalDate.now(), LocalDate.now().plusDays(trialDays),
                     new ArrayList<Report>(), TrialPeriodResult.IN_PROCESS);
             trialPeriodService.createTrialPeriod(currentTrialPeriod);
             Dog dog = dogService.findByName(animalName);
@@ -116,7 +116,7 @@ public class DogOwnerServiceImpl implements DogOwnerService {
     }
 
     private DogOwner getDogOwner(String phoneNumber, String animalName, long trialDays) {
-        TrialPeriod currentTrialPeriod = new TrialPeriod(phoneNumber, LocalDate.now(), LocalDate.now().plusDays(trialDays),
+        TrialPeriod currentTrialPeriod = new TrialPeriod(phoneNumber, animalName, LocalDate.now(), LocalDate.now().plusDays(trialDays),
                 new ArrayList<Report>(), TrialPeriodResult.IN_PROCESS);
         trialPeriodService.createTrialPeriod(currentTrialPeriod);
         Dog dog = dogService.findByName(animalName);

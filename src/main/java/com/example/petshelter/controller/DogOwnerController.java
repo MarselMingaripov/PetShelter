@@ -71,9 +71,7 @@ public class DogOwnerController {
     public ResponseEntity<DogOwner> deleteById(@PathVariable Long id) {
         return ResponseEntity.ok().body(dogOwnerService.deleteById(id));
     }
+//TODO: 28.04.2023 добавить передачу животного усыновителю, установка испытательного срока, как и в кошачем
+
 
 }
-
-
-
-

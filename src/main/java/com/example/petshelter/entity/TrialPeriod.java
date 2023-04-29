@@ -24,6 +24,8 @@ public class TrialPeriod {
     private Long id;
 
     private String ownerName;
+
+    private String animalName;
     /**
      * Дата начала испытательного срока
      */
@@ -35,7 +37,7 @@ public class TrialPeriod {
     /**
      * Отчеты опекунов животного
      */
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "trial_period_report",
             joinColumns = @JoinColumn(name = "trial_period_id"),
             inverseJoinColumns = @JoinColumn(name = "report_id"))
@@ -46,8 +48,9 @@ public class TrialPeriod {
     @Enumerated(value = EnumType.STRING)
     private TrialPeriodResult result;
 
-    public TrialPeriod(String ownerName, LocalDate startDate, LocalDate endDate, List<Report> reports, TrialPeriodResult result) {
+    public TrialPeriod(String ownerName, String animalName, LocalDate startDate, LocalDate endDate, List<Report> reports, TrialPeriodResult result) {
         this.ownerName = ownerName;
+        this.animalName = animalName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.reports = reports;

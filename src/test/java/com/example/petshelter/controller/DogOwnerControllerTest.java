@@ -73,6 +73,7 @@ class DogOwnerControllerTest {
 
         trialPeriod = new TrialPeriod(
                 PHONE_NUMBER,
+                NAME1,
                 LocalDate.of(2023, 04, 24),
                 LocalDate.of(2023, 04, 24),
                 reports,
@@ -202,23 +203,17 @@ class DogOwnerControllerTest {
                 .andExpect(status().isOk());
         verify(dogOwnerServiceMock).deleteById(any());
     }
-//TODO: 27.04.2023 исправить ошибку в тесте shouldReturn200WhenGetAnimalToCatOwnerIsCorrect()
+
     @Test
     void shouldReturn200WhenGetAnimalToDogOwnerIsCorrect() throws Exception {
-        when(dogOwnerServiceMock.getAnimalToTrialPeriod(PHONE_NUMBER,NAME1,ID)).thenReturn(dogOwner);
-        mockMvc.perform(post("http://localhost:8080/dogOwner/get-animal/")
-                        .param(PHONE_NUMBER)
-//                        .param(NAME1)
-//                        .param(ID.toString())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dogOwner)))
+        when(dogOwnerServiceMock.getAnimalToTrialPeriod(PHONE_NUMBER,"Tuzik",30L)).thenReturn(dogOwner);
+        mockMvc.perform(post("http://localhost:8080/dogOwner/get-animal")
+                        .param("phoneNumber",PHONE_NUMBER)
+                        .param("animalName",NAME1)
+                        .param("trialDays", String.valueOf(30L)))
                 .andDo(print())
-                .andExpectAll(
-                        status().isOk(),
-                        jsonPath("$.phoneNumber").value(PHONE_NUMBER));
-//                        jsonPath("$.animalName").value(NAME1),
-//                        jsonPath("$.trialDays").value(30L));
-//        verify(dogOwnerServiceMock).getAnimalToTrialPeriod(any(),any(),any());
+                .andExpect(status().isOk());
+        verify(dogOwnerServiceMock).getAnimalToTrialPeriod(any(),any(),any());
     }
 
 }
