@@ -50,4 +50,12 @@ public class Report {
         this.behaviorChanges = behaviorChanges;
         this.receiveDate = LocalDate.now();
     }
+
+    public Report(byte[] photo, String foodRation, String generalHealth, String behaviorChanges) {
+        this.photo = photo;
+        this.foodRation = foodRation;
+        this.generalHealth = generalHealth;
+        this.behaviorChanges = behaviorChanges;
+        this.receiveDate = LocalDate.now();
+    }
 }
