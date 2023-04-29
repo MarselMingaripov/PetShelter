@@ -29,6 +29,33 @@ public class DogShelter extends AnimalShelter {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    private String information;
+
+    /**
+     * Адрес питомника
+     */
+    private String address;
+
+    /**
+     * Номер телефона питомника
+     */
+    private String phoneNumber;
+
+    /**
+     * Режим работы питомника
+     */
+    private String workSchedule;
+
+    /**
+     * Контакты охраны питомника
+     */
+    private String securityContacts;
+
+    /**
+     * Рекомендации по технике безопасности на территории питомника
+     */
+    private String safetyRecommendations;
+
     /**
      * Список собак
      */
@@ -50,8 +77,16 @@ public class DogShelter extends AnimalShelter {
     /**
      * Список рекомендаций от приюта для собак
      */
-    @Transient
-    private Map<DogShelterConsult, String> dogConsult;
+
+    private String dating;
+    private String documents;
+    private String transportation;
+    private String arrangementPuppy;
+    private String arrangementDog;
+    private String arrangementDisabled;
+    private String dogHandlerRecommendations;
+    private String recommendedDogHandlers;
+    private String cancelDogTaker;
 
     public DogShelter(Long id,
                       String information,
@@ -71,13 +106,11 @@ public class DogShelter extends AnimalShelter {
                       String securityContacts,
                       String safetyRecommendations,
                       List<Dog> dogs,
-                      List<DogOwner> dogOwners,
-                      Map<DogShelterConsult, String> dogConsult) {
+                      List<DogOwner> dogOwners) {
 
         super(id, information, address, phoneNumber, workSchedule, securityContacts, safetyRecommendations);
 
         this.dogs = dogs;
         this.dogOwners = dogOwners;
-        this.dogConsult = dogConsult;
     }
 }

@@ -109,6 +109,8 @@ public class DogController {
     public ResponseEntity<Dog> changeStatus(@RequestParam String name, @RequestParam StatusAnimal statusAnimal) {
         return ResponseEntity.ok().body(dogService.changeStatusAnimal(name, statusAnimal));
     }
+
+
 }
 
 

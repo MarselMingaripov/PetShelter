@@ -1,7 +1,6 @@
 package com.example.petshelter.service.impl;
 
 import com.example.petshelter.entity.shelter.DogShelter;
-import com.example.petshelter.entity.shelter.DogShelterConsult;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.DogShelterRepository;
@@ -70,6 +69,11 @@ public class DogShelterServiceImpl implements DogShelterService {
     }
 
     @Override
+    public String returnPhone(Long id){
+        return findById(id).getPhoneNumber();
+    }
+
+    @Override
     public String returnAddressAndWorkSchedule(Long id) {
         return findById(id).getAddress() + " " + findById(id).getWorkSchedule();
     }
@@ -100,10 +104,94 @@ public class DogShelterServiceImpl implements DogShelterService {
         findById(1L).getDogOwners().add(dogOwnerService.findByPhoneNumber(phoneNumber));
 //        dogOwnerService.existsByPhoneNumber(phoneNumber);
     }
+
     @Override
-    public void addDogConsult(DogShelterConsult consult, String value, Long id){
-        DogShelter dogShelter = findById(id);
-        dogShelter.getDogConsult().put(consult, value);
-        createDogShelter(dogShelter);
+    public String returnDating(Long id){
+        return findById(id).getDating();
+    }
+
+    @Override
+    public String returnDocuments(Long id){
+        return findById(id).getDocuments();
+    }
+
+    @Override
+    public String returnTransportation(Long id){
+        return findById(id).getTransportation();
+    }
+
+    @Override
+    public String returnArrangementPuppy(Long id){
+        return findById(id).getArrangementPuppy();
+    }
+
+    @Override
+    public String returnArrangementDog(Long id){
+        return findById(id).getArrangementDog();
+    }
+
+    @Override
+    public String returnArrangementDisabled(Long id){
+        return findById(id).getArrangementDisabled();
+    }
+
+    @Override
+    public String returnDogHandlerRecommendations(Long id){
+        return findById(id).getDogHandlerRecommendations();
+    }
+
+    @Override
+    public String returnRecommendedDogHandlers(Long id){
+        return findById(id).getRecommendedDogHandlers();
+    }
+
+    @Override
+    public String returnCancelDogTaker(Long id){
+        return findById(id).getCancelDogTaker();
+    }
+
+    @Override
+    public void addDating(Long id, String data){
+        findById(id).setDating(data);
+    }
+
+    @Override
+    public void addDocuments(Long id, String data){
+        findById(id).setDocuments(data);
+    }
+
+    @Override
+    public void addTransportation(Long id, String data){
+        findById(id).setTransportation(data);
+    }
+
+    @Override
+    public void addArrangementPuppy(Long id, String data){
+        findById(id).setArrangementPuppy(data);
+    }
+
+    @Override
+    public void addArrangementDog(Long id, String data){
+        findById(id).setArrangementDog(data);
+    }
+
+    @Override
+    public void addArrangementDisabled(Long id, String data){
+        findById(id).setArrangementDisabled(data);
+    }
+
+    @Override
+    public void addDogHandlerRecommendations(Long id, String data){
+        findById(id).setDogHandlerRecommendations(data);
+    }
+
+    @Override
+    public void addRecommendedDogHandlers(Long id, String data){
+        findById(id).setRecommendedDogHandlers(data);
+    }
+
+    @Override
+    public void addCancelDogTaker(Long id, String data){
+        findById(id).setCancelDogTaker(data);
     }
 }

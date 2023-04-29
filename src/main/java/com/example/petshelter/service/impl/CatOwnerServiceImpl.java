@@ -75,7 +75,7 @@ public class CatOwnerServiceImpl implements CatOwnerService {
         if (catOwner.isPresent()){
             return catOwner.get();
         } else {
-            throw new NotFoundInBdException("Not found!");
+            return null;
         }
     }
 

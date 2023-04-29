@@ -10,6 +10,15 @@ CREATE TABLE dog_shelter
     work_schedule          VARCHAR(255),
     security_contacts      VARCHAR(255),
     safety_recommendations VARCHAR(255),
+    dating                      VARCHAR(255),
+    documents                   VARCHAR(255),
+    transportation              VARCHAR(255),
+    arrangement_puppy           VARCHAR(255),
+    arrangement_dog             VARCHAR(255),
+    arrangement_disabled        VARCHAR(255),
+    dog_handler_recommendations VARCHAR(255),
+    recommended_dog_handlers    VARCHAR(255),
+    cancel_dog_taker            VARCHAR(255),
     CONSTRAINT pk_dog_shelter PRIMARY KEY (id)
 );
 
@@ -263,6 +272,12 @@ insert into cat_shelter (information, address, phone_number, work_schedule, secu
 )
 
 --changeset mingaripov:21
-    insert into dog_shelter (information, address, phone_number, work_schedule, security_contacts, safety_recommendations) values (
-    'Лучший в мире приют для собак под названием Ушастый друг', 'Тут корректный адрес приюта', 'Тут актуальный для приюта номер телефона', 'Ежедневно с 6:00 до 21:00', 'Тут актуальный номер телефона охраны', 'Тут рекомендации по безопасности'
-)
+insert into dog_shelter (information, address, phone_number, work_schedule, security_contacts, safety_recommendations,
+                         dating, documents, transportation, arrangement_puppy, arrangement_dog, arrangement_disabled,
+                         dog_handler_recommendations, recommended_dog_handlers, cancel_dog_taker) values (
+    'Лучший в мире приют для кошек под названием 4 ноги', 'Тут корректный адрес приюта', 'Тут актуальный для приюта номер телефона',
+    'Ежедневно с 6:00 до 21:00', 'Тут актуальный номер телефона охраны', 'Тут рекомендации по безопасности',
+    'Информация о знакомстве с животными', 'Информация о списке необходимых документов', 'Информация о перевозке животных',
+    'Информация по обустройству дома щенка', 'Информация по обустройству дома взрослого животного', 'Информация по обустройству дома животного с ограничениями',
+    'Советы кинолога по первичному общению с собакой', 'Рекомендации по проверенным кинологам для дальнейшего обращения к ним', 'Список причин, почему могут отказать и не дать забрать собаку из приюта'
+    )

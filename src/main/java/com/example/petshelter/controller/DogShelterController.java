@@ -1,7 +1,6 @@
 package com.example.petshelter.controller;
 
 import com.example.petshelter.entity.shelter.DogShelter;
-import com.example.petshelter.entity.shelter.DogShelterConsult;
 import com.example.petshelter.service.DogShelterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -114,15 +113,176 @@ public class DogShelterController {
         dogShelterService.addDogOwnerToShelter(phoneNumber);
         return ResponseEntity.ok().build();
     }
-    @PostMapping("/add-dog-consult")
-    @Operation(summary = "Добавление информации для потенциального опекуна кота в БД приюта")
+
+    @PostMapping("/add-dating")
+    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
-    public ResponseEntity<Void> addDogConsult(@RequestParam DogShelterConsult consult,
-                                              @RequestParam String value,
-                                              @RequestParam Long id) {
-        dogShelterService.addDogConsult(consult, value, id);
+    public ResponseEntity<Void> addDogConsultDating(@RequestParam String value,
+                                                    @RequestParam Long id) {
+        dogShelterService.addDating(id, value);
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/add-documents")
+    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<Void> addDogConsultDocuments(@RequestParam String value,
+                                                       @RequestParam Long id) {
+        dogShelterService.addDocuments(id, value);
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/add-transportation")
+    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<Void> addDogConsultTransportation(@RequestParam String value,
+                                                            @RequestParam Long id) {
+        dogShelterService.addTransportation(id, value);
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/add-arrangement-puppy")
+    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<Void> addDogConsultArrangementPuppy(@RequestParam String value,
+                                                               @RequestParam Long id) {
+        dogShelterService.addArrangementPuppy(id, value);
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/add-arrangement-dog")
+    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<Void> addDogConsultArrangementDog(@RequestParam String value,
+                                                            @RequestParam Long id) {
+        dogShelterService.addArrangementDog(id, value);
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/add-arrangement-disabled")
+    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<Void> addDogConsultArrangementDisabled(@RequestParam String value,
+                                                                 @RequestParam Long id) {
+        dogShelterService.addArrangementDisabled(id, value);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/add-dog-handler-recommendations")
+    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<Void> addDogConsultDogHandlerRecommendations(@RequestParam String value,
+                                                                 @RequestParam Long id) {
+        dogShelterService.addDogHandlerRecommendations(id, value);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/add-recommended-dog-handlers")
+    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<Void> addDogConsultRecommendedDogHandlers(@RequestParam String value,
+                                                                 @RequestParam Long id) {
+        dogShelterService.addRecommendedDogHandlers(id, value);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/add-cancel-dog-taker")
+    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<Void> addDogConsultCancelDogTaker(@RequestParam String value,
+                                                                 @RequestParam Long id) {
+        dogShelterService.addCancelDogTaker(id, value);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-dating")
+    @Operation(summary = "Получить консультацию")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<String> returnDating(@RequestParam Long id) {
+        return ResponseEntity.ok().body(dogShelterService.returnDating(id));
+    }
+    @GetMapping("/get-documents")
+    @Operation(summary = "Получить консультацию")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<String> returnDocuments(@RequestParam Long id) {
+        return ResponseEntity.ok().body(dogShelterService.returnDocuments(id));
+    }
+    @GetMapping("/get-transportation")
+    @Operation(summary = "Получить консультацию")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<String> returnTransportation(@RequestParam Long id) {
+        return ResponseEntity.ok().body(dogShelterService.returnTransportation(id));
+    }
+    @GetMapping("/get-arrangement-puppy")
+    @Operation(summary = "Получить консультацию")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<String> returnArrangementPuppy(@RequestParam Long id) {
+        return ResponseEntity.ok().body(dogShelterService.returnArrangementPuppy(id));
+    }
+    @GetMapping("/get-arrangement-dog")
+    @Operation(summary = "Получить консультацию")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<String> returnArrangementDog(@RequestParam Long id) {
+        return ResponseEntity.ok().body(dogShelterService.returnArrangementDog(id));
+    }
+    @GetMapping("/get-arrangement-disabled")
+    @Operation(summary = "Получить консультацию")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<String> returnArrangementDisabled(@RequestParam Long id) {
+        return ResponseEntity.ok().body(dogShelterService.returnArrangementDisabled(id));
+    }
+    @GetMapping("/get-dog-handler-recommendations")
+    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<String> returnDogConsultDogHandlerRecommendations(@RequestParam Long id) {
+        dogShelterService.returnDogHandlerRecommendations(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-recommended-dog-handlers")
+    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<Void> getDogConsultRecommendedDogHandlers(@RequestParam Long id) {
+        dogShelterService.returnRecommendedDogHandlers(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/get-cancel-dog-taker")
+    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
+    @ApiResponse(responseCode = "404", description = "Не найден по ид")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<String> getDogConsultCancelDogTaker(@RequestParam Long id) {
+        dogShelterService.returnCancelDogTaker(id);
         return ResponseEntity.ok().build();
     }
 }

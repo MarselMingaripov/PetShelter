@@ -9,9 +9,15 @@ public interface KeyboardService {
 
     InlineKeyboardMarkup getCatShelterCommonInfoMenuKeyboard();
 
+    InlineKeyboardMarkup getDogShelterCommonInfoMenuKeyboard();
+
     InlineKeyboardMarkup getCatShelterMainMenu();
+
+    InlineKeyboardMarkup getDogsShelterMainMenu();
 
     ReplyKeyboardMarkup shareContactKeyboard();
 
     InlineKeyboardMarkup getCatShelterConsultMenu();
+
+    InlineKeyboardMarkup getDogShelterConsultMenu();
 }

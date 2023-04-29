@@ -41,6 +41,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final ReportService reportService;
     private final CatOwnerService catOwnerService;
     private final DogOwnerService dogOwnerService;
+    private final DogShelterService dogShelterService;
     private final MessageToVolunteerService messageToVolunteerService;
 
     @PostConstruct
@@ -70,7 +71,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         String data = callbackQuery.data();
                         switch (data) {
                             case "/dogs":
-                                sendMessage(callbackQueryChatId, "Вы вошли в меню приюта для собак!");
+                                sendMessageInDogShelterMenu(callbackQueryChatId, "Выберете нужный вариант");
                                 break;
                             case "/cats":
                                 sendMessageInCatShelterMenu(callbackQueryChatId, "Выберете нужный вариант");
@@ -79,6 +80,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                 sendMessageInCatShelterCommonInfoMenu(callbackQueryChatId, "Выберете нужный вариант");
                                 break;
                             case "/send_report":
+                            case "/send_reportDogs":
                                 SendMessage sendMessage = new SendMessage(callbackQueryChatId, "Отправьте фото вашего питомца");
                                 telegramBot.execute(sendMessage);
                                 break;
@@ -98,18 +100,71 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                 sendMessageInCatShelterCommonInfoMenu(callbackQueryChatId, catShelterService.returnSafetyRecommendations(1L));
                                 break;
                             case "/register":
+                            case "/registerDogs":
                                 sendMessageShareContact(callbackQueryChatId, "Нажмите, чтобы отправить свой номер в базу");
                                 break;
                             case "/previous":
-                                sendMessageInCatShelterMenu(callbackQueryChatId, "Выберете приют!");
+                                sendMessageInCatShelterMenu(callbackQueryChatId, "Выберите нужный вариант");
                                 break;
                             case "/main":
                                 sendMessage(callbackQueryChatId, "Выберете приют!");
                                 break;
+                            case "/common_informationDogs":
+                                sendMessageInDogShelterCommonInfoMenu(callbackQueryChatId, "Выберете нужный вариант");
+                                break;
+                            case "/informationDogs":
+                                sendMessageInDogShelterCommonInfoMenu(callbackQueryChatId, dogShelterService.returnInformation(1L));
+                                break;
+                            case "/addressDogs":
+                                sendMessageInDogShelterCommonInfoMenu(callbackQueryChatId, dogShelterService.returnAddressAndWorkSchedule(1L));
+                                break;
+                            case "/phone_numberDogs":
+                                sendMessageInDogShelterCommonInfoMenu(callbackQueryChatId, dogShelterService.returnPhone(1L));
+                                break;
+                            case "/security_contactsDogs":
+                                sendMessageInDogShelterCommonInfoMenu(callbackQueryChatId, dogShelterService.returnSecurityContacts(1L));
+                                break;
+                            case "/safety_recommendationsDogs":
+                                sendMessageInDogShelterCommonInfoMenu(callbackQueryChatId, dogShelterService.returnSafetyRecommendations(1L));
+                                break;
+                            case "/previousDogs":
+                                sendMessageInDogShelterMenu(callbackQueryChatId, "Выберите нужный вариант");
+                                break;
                             case "/preparing":
                                 sendMessageCatConsult(callbackQueryChatId, "Выберете нужный вариант");
                                 break;
+                            case "/preparingDogs":
+                                sendMessageDogConsult(callbackQueryChatId, "Выберете нужный вариант");
+                                break;
+                            case "/datingDogs":
+                                sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnDating(1L));
+                                break;
+                            case "/documentsDog":
+                                sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnDocuments(1L));
+                                break;
+                            case "/transportationDog":
+                                sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnTransportation(1L));
+                                break;
+                            case "/arrangement_puppy":
+                                sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnArrangementPuppy(1L));
+                                break;
+                            case "/arrangement_dog":
+                                sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnArrangementDog(1L));
+                                break;
+                            case "/arrangement_disabledDog":
+                                sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnArrangementDisabled(1L));
+                                break;
+                            case "/dogHandlerRecommendations":
+                                sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnDogHandlerRecommendations(1L));
+                                break;
+                            case "/recommendedDogHandlers":
+                                sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnRecommendedDogHandlers(1L));
+                                break;
+                            case "/cancelDogTaker":
+                                sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnCancelDogTaker(1L));
+                                break;
                             case "/message":
+                            case "/messageDogs":
                                 String number = userService.findByTelegramID(callbackQueryChatId).getPhoneNumber();
                                 if (number != null) {
                                     MessageToVolunteer messageToVolunteer = message.createMessageFromText(number + " этот пользователь просит помощи");
@@ -153,8 +208,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
                 if (text != null) {
                     try {
-                            String[] arr = text.split(" ");
-                            if (arr[0].equals("Отчет.")) {
+                            String[] arr = text.split("\\.");
+                            if (arr[0].equals("Отчет")) {
                                 Report report = reportService.findBySenderAndDate(chatId, LocalDate.now());
                                 report.setFoodRation(arr[1]);
                                 report.setGeneralHealth(arr[2]);
@@ -181,7 +236,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                     }
                                 }
 
-                                messageToVolunteerService.createMessageToVolunteer(new MessageToVolunteer(chatId + "", userService.findByTelegramID(chatId)
+                                messageToVolunteerService.createMessageToVolunteer(new MessageToVolunteer(userService.findByTelegramID(chatId).getPhoneNumber() + "", userService.findByTelegramID(chatId)
                                         .getPhoneNumber() + " он отправил отчет! Посмотрите, пожалуйста, что он там наприсылал"));
                                 sendMessageInCatShelterMenu(chatId, "Спасибо!");
                             }
@@ -245,6 +300,15 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
     }
 
+    private void sendMessageInDogShelterMenu(Long chatId, String message) {
+        SendMessage sendMessage = new SendMessage(chatId, message);
+        sendMessage.replyMarkup(keyboardService.getDogsShelterMainMenu());
+        SendResponse sendResponse = telegramBot.execute(sendMessage);
+        if (!sendResponse.isOk()) {
+            logger.error("Error during sending message: {}", sendResponse.description());
+        }
+    }
+
     private void sendMessageInCatShelterCommonInfoMenu(Long chatId, String message) {
         SendMessage sendMessage = new SendMessage(chatId, message);
         sendMessage.replyMarkup(keyboardService.getCatShelterCommonInfoMenuKeyboard());
@@ -254,9 +318,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
     }
 
-    private void sendMessageInCatShelterPreparingMenu(Long chatId, String message) {
+    private void sendMessageInDogShelterCommonInfoMenu(Long chatId, String message) {
         SendMessage sendMessage = new SendMessage(chatId, message);
-        sendMessage.replyMarkup(keyboardService.getCatShelterCommonInfoMenuKeyboard());
+        sendMessage.replyMarkup(keyboardService.getDogShelterCommonInfoMenuKeyboard());
         SendResponse sendResponse = telegramBot.execute(sendMessage);
         if (!sendResponse.isOk()) {
             logger.error("Error during sending message: {}", sendResponse.description());
@@ -283,6 +347,15 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public void sendMessageCatConsult(Long chatId, String message) {
         SendMessage sendMessage = new SendMessage(chatId, message);
         sendMessage.replyMarkup(keyboardService.getCatShelterConsultMenu());
+        SendResponse sendResponse = telegramBot.execute(sendMessage);
+        if (!sendResponse.isOk()) {
+            logger.error("Error during sending message: {}", sendResponse.description());
+        }
+    }
+
+    public void sendMessageDogConsult(Long chatId, String message) {
+        SendMessage sendMessage = new SendMessage(chatId, message);
+        sendMessage.replyMarkup(keyboardService.getDogShelterConsultMenu());
         SendResponse sendResponse = telegramBot.execute(sendMessage);
         if (!sendResponse.isOk()) {
             logger.error("Error during sending message: {}", sendResponse.description());

@@ -1,6 +1,5 @@
 package com.example.petshelter.service;
 import com.example.petshelter.entity.shelter.DogShelter;
-import com.example.petshelter.entity.shelter.DogShelterConsult;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.DogShelterRepository;
@@ -53,6 +52,9 @@ public interface DogShelterService {
      * @return
      */
     String returnInformation(Long id);
+
+    String returnPhone(Long id);
+
     /**
      * расписание работы приюта и адрес, схему проезда
      * @return
@@ -79,5 +81,39 @@ public interface DogShelterService {
      */
     void addDogOwnerToShelter(String phoneNumber);
 
-    void addDogConsult(DogShelterConsult consult, String value, Long id);
+    String returnDating(Long id);
+
+    String returnDocuments(Long id);
+
+    String returnTransportation(Long id);
+
+    String returnArrangementPuppy(Long id);
+
+    String returnArrangementDog(Long id);
+
+    String returnDogHandlerRecommendations(Long id);
+
+    String returnRecommendedDogHandlers(Long id);
+
+    String returnArrangementDisabled(Long id);
+
+    String returnCancelDogTaker(Long id);
+
+    void addDating(Long id, String data);
+
+    void addDocuments(Long id, String data);
+
+    void addTransportation(Long id, String data);
+
+    void addArrangementPuppy(Long id, String data);
+
+    void addArrangementDog(Long id, String data);
+
+    void addDogHandlerRecommendations(Long id, String data);
+
+    void addRecommendedDogHandlers(Long id, String data);
+
+    void addArrangementDisabled(Long id, String data);
+
+    void addCancelDogTaker(Long id, String data);
 }

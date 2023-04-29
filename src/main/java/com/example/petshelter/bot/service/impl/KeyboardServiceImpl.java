@@ -76,6 +76,49 @@ public class KeyboardServiceImpl implements KeyboardService {
     }
 
     @Override
+    public InlineKeyboardMarkup getDogShelterCommonInfoMenuKeyboard() {
+        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+
+        InlineKeyboardButton dogsShelterInfo = new InlineKeyboardButton("Информация");
+        dogsShelterInfo.callbackData("/informationDogs");
+        row.add(dogsShelterInfo);
+        keyboard.addRow(dogsShelterInfo);
+
+        InlineKeyboardButton dogsShelterAddress = new InlineKeyboardButton("Адрес/режим");
+        dogsShelterAddress.callbackData("/addressDogs");
+        row.add(dogsShelterAddress);
+        keyboard.addRow(dogsShelterAddress);
+
+        InlineKeyboardButton dogsShelterPhoneNumber = new InlineKeyboardButton("Номер телефона");
+        dogsShelterPhoneNumber.callbackData("/phone_numberDogs");
+        row.add(dogsShelterPhoneNumber);
+        keyboard.addRow(dogsShelterPhoneNumber);
+
+        InlineKeyboardButton dogsShelterSecurityContacts = new InlineKeyboardButton("Телефон охраны");
+        dogsShelterSecurityContacts.callbackData("/security_contactsDogs");
+        row.add(dogsShelterSecurityContacts);
+        keyboard.addRow(dogsShelterSecurityContacts);
+
+        InlineKeyboardButton dogsShelterSafetyRecommendations = new InlineKeyboardButton("Рекомендации по безопасности");
+        dogsShelterSafetyRecommendations.callbackData("/safety_recommendationsDogs");
+        row.add(dogsShelterSafetyRecommendations);
+        keyboard.addRow(dogsShelterSafetyRecommendations);
+
+        InlineKeyboardButton dogsShelterRegister = new InlineKeyboardButton("Зарегистрироваться");
+        dogsShelterRegister.callbackData("/registerDogs");
+        row.add(dogsShelterRegister);
+        keyboard.addRow(dogsShelterRegister);
+
+        InlineKeyboardButton dogsShelterPreviousMenu = new InlineKeyboardButton("Предыдущее меню");
+        dogsShelterPreviousMenu.callbackData("/previousDogs");
+        row.add(dogsShelterPreviousMenu);
+        keyboard.addRow(dogsShelterPreviousMenu);
+
+        return keyboard;
+    }
+
+    @Override
     public InlineKeyboardMarkup getCatShelterMainMenu() {
         InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> row = new ArrayList<>();
@@ -99,6 +142,39 @@ public class KeyboardServiceImpl implements KeyboardService {
         catsShelterMessage.callbackData("/message");
         row.add(catsShelterMessage);
         keyboard.addRow(catsShelterMessage);
+
+        InlineKeyboardButton catsShelterMainMenu = new InlineKeyboardButton("Главное меню");
+        catsShelterMainMenu.callbackData("/main");
+        row.add(catsShelterMainMenu);
+        keyboard.addRow(catsShelterMainMenu);
+
+        return keyboard;
+    }
+
+    @Override
+    public InlineKeyboardMarkup getDogsShelterMainMenu() {
+        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+
+        InlineKeyboardButton dogsShelterCommonInfo = new InlineKeyboardButton("Общая информация о приюте");
+        dogsShelterCommonInfo.callbackData("/common_informationDogs");
+        row.add(dogsShelterCommonInfo);
+        keyboard.addRow(dogsShelterCommonInfo);
+
+        InlineKeyboardButton dogsShelterPreparing = new InlineKeyboardButton("Подготовка к усыновлению животного");
+        dogsShelterPreparing.callbackData("/preparingDogs");
+        row.add(dogsShelterPreparing);
+        keyboard.addRow(dogsShelterPreparing);
+
+        InlineKeyboardButton dogsShelterSendReport = new InlineKeyboardButton("Отправить отчет");
+        dogsShelterSendReport.callbackData("/send_reportDogs");
+        row.add(dogsShelterSendReport);
+        keyboard.addRow(dogsShelterSendReport);
+
+        InlineKeyboardButton dogsShelterMessage = new InlineKeyboardButton("Написать сообщение волонтеру");
+        dogsShelterMessage.callbackData("/messageDogs");
+        row.add(dogsShelterMessage);
+        keyboard.addRow(dogsShelterMessage);
 
         InlineKeyboardButton catsShelterMainMenu = new InlineKeyboardButton("Главное меню");
         catsShelterMainMenu.callbackData("/main");
@@ -157,6 +233,64 @@ public class KeyboardServiceImpl implements KeyboardService {
         catsShelterPreviousMenu.callbackData("/previous");
         row.add(catsShelterPreviousMenu);
         keyboard.addRow(catsShelterPreviousMenu);
+
+        return keyboard;
+    }
+
+    @Override
+    public InlineKeyboardMarkup getDogShelterConsultMenu() {
+        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+
+        InlineKeyboardButton dogsShelterDating = new InlineKeyboardButton("Правила знакомства с животным");
+        dogsShelterDating.callbackData("/datingDogs");
+        row.add(dogsShelterDating);
+        keyboard.addRow(dogsShelterDating);
+
+        InlineKeyboardButton dogsShelterDOCUMENTS = new InlineKeyboardButton("Список документов, необходимых для того, чтобы забрать животное из приюта");
+        dogsShelterDOCUMENTS.callbackData("/documentsDog");
+        row.add(dogsShelterDOCUMENTS);
+        keyboard.addRow(dogsShelterDOCUMENTS);
+
+        InlineKeyboardButton dogsShelterTRANSPORTATION = new InlineKeyboardButton("Список рекомендаций про транспортировке");
+        dogsShelterTRANSPORTATION.callbackData("/transportationDog");
+        row.add(dogsShelterTRANSPORTATION);
+        keyboard.addRow(dogsShelterTRANSPORTATION);
+
+        InlineKeyboardButton dogsShelterARRANGEMENT_PUPPY = new InlineKeyboardButton("Рекомендации по обустройству дома котенка");
+        dogsShelterARRANGEMENT_PUPPY.callbackData("/arrangement_puppy");
+        row.add(dogsShelterARRANGEMENT_PUPPY);
+        keyboard.addRow(dogsShelterARRANGEMENT_PUPPY);
+
+        InlineKeyboardButton dogsShelterARRANGEMENT_DOG = new InlineKeyboardButton("Рекомендации по обустройству дома взрослого животного");
+        dogsShelterARRANGEMENT_DOG.callbackData("/arrangement_dog");
+        row.add(dogsShelterARRANGEMENT_DOG);
+        keyboard.addRow(dogsShelterARRANGEMENT_DOG);
+
+        InlineKeyboardButton dogsShelterARRANGEMENT_DISABLED = new InlineKeyboardButton("Рекомендации по обустройству дома животного с ограничениями");
+        dogsShelterARRANGEMENT_DISABLED.callbackData("/arrangement_disabledDog");
+        row.add(dogsShelterARRANGEMENT_DISABLED);
+        keyboard.addRow(dogsShelterARRANGEMENT_DISABLED);
+
+        InlineKeyboardButton dogsShelterDogHandlerRecommendations = new InlineKeyboardButton("Советы кинолога по первичному общению с собакой");
+        dogsShelterDogHandlerRecommendations.callbackData("/dogHandlerRecommendations");
+        row.add(dogsShelterDogHandlerRecommendations);
+        keyboard.addRow(dogsShelterDogHandlerRecommendations);
+
+        InlineKeyboardButton dogsShelterRecommendedDogHandlers = new InlineKeyboardButton("Рекомендации по проверенным кинологам для дальнейшего обращения к ним");
+        dogsShelterRecommendedDogHandlers.callbackData("/recommendedDogHandlers");
+        row.add(dogsShelterRecommendedDogHandlers);
+        keyboard.addRow(dogsShelterRecommendedDogHandlers);
+
+        InlineKeyboardButton dogsShelterCancelDogTaker = new InlineKeyboardButton("Cписок причин, почему могут отказать и не дать забрать собаку из приюта");
+        dogsShelterCancelDogTaker.callbackData("/cancelDogTaker");
+        row.add(dogsShelterCancelDogTaker);
+        keyboard.addRow(dogsShelterCancelDogTaker);
+
+        InlineKeyboardButton dogsShelterPreviousMenu = new InlineKeyboardButton("Предыдущее меню");
+        dogsShelterPreviousMenu.callbackData("/previousDogs");
+        row.add(dogsShelterPreviousMenu);
+        keyboard.addRow(dogsShelterPreviousMenu);
 
         return keyboard;
     }

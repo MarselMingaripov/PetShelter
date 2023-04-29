@@ -78,7 +78,7 @@ public class DogOwnerServiceImpl implements DogOwnerService {
         if (dogOwner.isPresent()) {
             return dogOwner.get();
         } else {
-            throw new NotFoundInBdException("Not found!");
+            return null;
         }
     }
 
