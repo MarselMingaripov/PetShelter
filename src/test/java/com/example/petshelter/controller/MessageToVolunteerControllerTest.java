@@ -4,6 +4,7 @@ import com.example.petshelter.PetShelterApplication;
 import com.example.petshelter.entity.Cat;
 import com.example.petshelter.entity.MessageToVolunteer;
 import com.example.petshelter.entity.StatusAnimal;
+import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.service.CatService;
 import com.example.petshelter.service.MessageToVolunteerService;
@@ -19,10 +20,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,7 +35,6 @@ public class MessageToVolunteerControllerTest {
     private final static Long ID = 1L;
     private final static String SENDER = "sender";
     private final static String TEXT = "text";
-    private final static LocalDateTime LOCAL_DATE_TIME = LocalDateTime.now();
 
     private MessageToVolunteer messageToVolunteer;
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -48,7 +50,7 @@ public class MessageToVolunteerControllerTest {
 
     @BeforeEach
     void init() throws Exception {
-        messageToVolunteer = new MessageToVolunteer(ID, SENDER, TEXT, LOCAL_DATE_TIME);
+        messageToVolunteer = new MessageToVolunteer(ID, SENDER, TEXT);
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .build();
@@ -56,27 +58,67 @@ public class MessageToVolunteerControllerTest {
 
     @Test
     void shouldReturn200WhenCreateCorrectFieldsMessageToVolunteer() throws Exception {
-        when(messageToVolunteerServiceMock.createMessageToVolunteer(any())).thenReturn(messageToVolunteer);
+        when(messageToVolunteerServiceMock.createMessageFromText(any())).thenReturn(messageToVolunteer);
         mockMvc.perform(post("http://localhost:8080/message")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(messageToVolunteer)))
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .content(TEXT))
                 .andExpectAll(
-                        status().isOk(),
-                        jsonPath("$.id").value(ID),
-                        jsonPath("$.sender").value(SENDER),
-                        jsonPath("$.text").value(TEXT),
-                        jsonPath("$.localDateTime").value(LOCAL_DATE_TIME)
-
-                        );
+                        status().isOk());
     }
 
     @Test
-    void shouldThrow405WhenCreateIncorrectFieldsMessageToVolunteer() throws Exception {
-        when(messageToVolunteerServiceMock.createMessageToVolunteer(any())).thenThrow(ValidationException.class);
-        mockMvc.perform(post("http://localhost:8080/message")
-                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(messageToVolunteer)))
+    void shouldReturn200WhenFindByIdCorrectFieldsMessageToVolunteer() throws Exception {
+        when(messageToVolunteerServiceMock.findById(1L)).thenReturn(messageToVolunteer);
+        mockMvc.perform(get("http://localhost:8080/message/{id}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(
-                        status().isMethodNotAllowed()
+                        status().isOk(),
+                        jsonPath("$.sender").value(SENDER),
+                        jsonPath("$.text").value(TEXT)
                 );
+    }
+    @Test
+    void shouldReturn200WhenUpdateByIdCorrectFieldsMessageToVolunteer() throws Exception {
+        MessageToVolunteer message2 = new MessageToVolunteer();
+        message2.setSender("sender2");
+        message2.setText("text2");
+
+        when(messageToVolunteerServiceMock.updateById(1L, message2)).thenReturn(message2);
+        mockMvc.perform(post("http://localhost:8080/message/{id}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(message2)))
+                .andExpect(status().isOk());
+    }
+    @Test
+    void shouldReturn404WhenDeleteByIdIncorrectFieldsMessageToVolunteer() throws Exception {
+        when(messageToVolunteerServiceMock.deleteById(1L)).thenThrow(NotFoundInBdException.class);
+        mockMvc.perform(delete("http://localhost:8080/message/{id}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        status().isNotFound()
+                );
+    }
+    @Test
+    void shouldReturn200WhenFindAllCorrectFieldsMessageToVolunteer() throws Exception {
+        List<MessageToVolunteer> messageToVolunteerList = new ArrayList<>(List.of(messageToVolunteer));
+        when(messageToVolunteerServiceMock.findAll()).thenReturn(messageToVolunteerList);
+        mockMvc.perform(get("http://localhost:8080/message")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        status().isOk());
+    }
+    @Test
+    void shouldReturn200WhenFindAllUnreadCorrectFieldsMessageToVolunteer() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/message/unread")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        status().isOk());
+    }
+    @Test
+    void shouldReturn200WhenCheckAllUnreadCorrectFieldsMessageToVolunteer() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/message/check")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        status().isOk());
     }
 }
