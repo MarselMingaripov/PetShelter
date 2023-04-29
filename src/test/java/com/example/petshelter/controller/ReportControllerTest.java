@@ -3,8 +3,7 @@ package com.example.petshelter.controller;
 import com.example.petshelter.PetShelterApplication;
 import com.example.petshelter.entity.MessageToVolunteer;
 import com.example.petshelter.entity.Report;
-import com.example.petshelter.exception.ValidationException;
-import com.example.petshelter.service.MessageToVolunteerService;
+import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.service.ReportService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +16,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.mockito.ArgumentMatchers.any;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,6 +35,7 @@ public class ReportControllerTest {
     private String FOOD_RATION = "foodRation";
     private String GENERAL_HEALTH = "generalHealth";
     private String BEHAVIOR_CHANGES = "behaviorChanges";
+    private LocalDate RECEIVE_DATE = LocalDate.now();
 
     private Report report;
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -46,35 +51,68 @@ public class ReportControllerTest {
 
     @BeforeEach
     void init() throws Exception {
-        report = new Report(ID, PHOTO, FOOD_RATION, GENERAL_HEALTH, BEHAVIOR_CHANGES);
+        report = new Report(PHOTO, FOOD_RATION, GENERAL_HEALTH, BEHAVIOR_CHANGES);
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .build();
     }
 
     @Test
-    void shouldReturn200WhenCreateCorrectFieldsMessageToVolunteer() throws Exception {
-        when(reportServiceMock.createReport(any())).thenReturn(report);
-        mockMvc.perform(post("http://localhost:8080/dog")
-                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(reportServiceMock)))
+    void shouldReturn200WhenCreateCorrectFieldsReport() throws Exception {
+        Report report = new Report();
+        report.setFoodRation("foodRation");
+        report.setGeneralHealth("generalHealth");
+        report.setBehaviorChanges("behaviorChanges");
+        String requestBody = new ObjectMapper().writeValueAsString(report);
+        mockMvc.perform(post("http://localhost:8080/report")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isOk());
+    }
+    @Test
+    void shouldReturn200WhenFindByIdCorrectFieldsReport() throws Exception {
+        when(reportServiceMock.findById(1L)).thenReturn(report);
+        mockMvc.perform(get("http://localhost:8080/report/{id}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(
                         status().isOk(),
-                        jsonPath("$.id").value(ID),
+                        jsonPath("$.photo").value(PHOTO),
                         jsonPath("$.foodRation").value(FOOD_RATION),
                         jsonPath("$.generalHealth").value(GENERAL_HEALTH),
                         jsonPath("$.behaviorChanges").value(BEHAVIOR_CHANGES)
-
-
                 );
     }
-
     @Test
-    void shouldThrow405WhenCreateIncorrectFieldsMessageToVolunteer() throws Exception {
-        when(reportServiceMock.createReport(any())).thenThrow(ValidationException.class);
-        mockMvc.perform(post("http://localhost:8080/dog")
-                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(reportServiceMock)))
-                .andExpectAll(
-                        status().isMethodNotAllowed()
+    void shouldReturn200WhenUpdateByIdCorrectFieldsReport() throws Exception {
+        Report report2 = new Report();
+        report.setPhoto(PHOTO);
+        report.setFoodRation("foodRation2");
+        report.setGeneralHealth("generalHealth2");
+        report.setBehaviorChanges("behaviorChanges2");
+
+        when(reportServiceMock.updateById(1L, report2)).thenReturn(report2);
+        mockMvc.perform(post("http://localhost:8080/report/{id}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(report2)))
+                .andExpect(status().isOk());
+    }
+    @Test
+    void shouldReturn404WhenDeleteByIdIncorrectFieldsReport() throws Exception {
+        when(reportServiceMock.deleteById(1L)).thenThrow(NotFoundInBdException.class);
+        mockMvc.perform(delete("http://localhost:8080/report/{id}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        status().isNotFound()
                 );
     }
+    @Test
+    void shouldReturn200WhenFindAllCorrectFieldsReport() throws Exception {
+        List<Report> reportList = new ArrayList<>(List.of(report));
+        when(reportServiceMock.findAll()).thenReturn(reportList);
+        mockMvc.perform(get("http://localhost:8080/report")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        status().isOk());
+    }
+
 }
