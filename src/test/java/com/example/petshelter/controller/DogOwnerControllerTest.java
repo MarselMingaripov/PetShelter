@@ -20,8 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -169,7 +168,7 @@ class DogOwnerControllerTest {
     }
 
     @Test
-    void shouldReturn200WhenUpdateCorrectFieldsDogOwner() throws Exception {
+    void shouldReturn200WhenUpdateCorrectFieldsDogOwnerById() throws Exception {
         String json = objectMapper.writeValueAsString(dogOwner);
         when(dogOwnerServiceMock.updateById(any(), any())).thenReturn(dogOwner);
         mockMvc.perform(put("http://localhost:8080/dogOwner/" + ID)
@@ -194,7 +193,7 @@ class DogOwnerControllerTest {
     }
 
     @Test
-    void shouldReturn200WhenDeleteCorrectFieldsDogOwner() throws Exception {
+    void shouldReturn200WhenDeleteCorrectFieldsDogOwnerById() throws Exception {
         when(dogOwnerServiceMock.deleteById(any())).thenReturn(dogOwner);
         mockMvc.perform(delete("http://localhost:8080/dogOwner/" + ID)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -213,7 +212,7 @@ class DogOwnerControllerTest {
                         .param("trialDays", String.valueOf(30L)))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(dogOwnerServiceMock).getAnimalToTrialPeriod(any(),any(),any());
+        verify(dogOwnerServiceMock,times(1)).getAnimalToTrialPeriod(PHONE_NUMBER,NAME1,30L);
     }
 
 }

@@ -3,32 +3,25 @@ package com.example.petshelter.controller;
 import com.example.petshelter.PetShelterApplication;
 import com.example.petshelter.entity.*;
 import com.example.petshelter.exception.ValidationException;
-import com.example.petshelter.repository.CatOwnerRepository;
 import com.example.petshelter.service.CatOwnerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static com.example.petshelter.entity.StatusAnimal.RESERVED;
-import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -112,6 +105,7 @@ class CatOwnerControllerTest {
         when(catOwnerServiceMock.createCatOwner(any())).thenThrow(ValidationException.class);
         mockMvc.perform(post("http://localhost:8080/catOwner")
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(catOwner)))
+                .andDo(print())
                 .andExpectAll(
                         status().isMethodNotAllowed()
                 );
@@ -149,6 +143,15 @@ class CatOwnerControllerTest {
     }
 
     @Test
+    void shouldReturn200WhenFindAllCatOwners() throws Exception {
+        when(catOwnerServiceMock.findAll()).thenReturn(List.of(catOwner));
+        mockMvc.perform(get("http://localhost:8080/catOwner"))
+                .andDo(print())
+                .andExpect(status().isOk());
+        verify(catOwnerServiceMock).findAll();
+    }
+
+    @Test
     void shouldReturn400WhenReceivedNotCorrectFieldsCatOwnerByPhoneNumber() throws Exception {
         when(catOwnerServiceMock.findByPhoneNumber(any())).thenThrow(ValidationException.class);
         mockMvc.perform(get("http://localhost:8080/catOwner/find-by-phone-number")
@@ -167,16 +170,7 @@ class CatOwnerControllerTest {
     }
 
     @Test
-    void shouldReturn200WhenFindAllCatOwners() throws Exception {
-        when(catOwnerServiceMock.findAll()).thenReturn(List.of(catOwner));
-        mockMvc.perform(get("http://localhost:8080/catOwner"))
-                .andDo(print())
-                .andExpect(status().isOk());
-        verify(catOwnerServiceMock).findAll();
-    }
-
-    @Test
-    void shouldReturn200WhenUpdateCorrectFieldsCatOwner() throws Exception {
+    void shouldReturn200WhenUpdateCorrectFieldsCatOwnerById() throws Exception {
         String json = objectMapper.writeValueAsString(catOwner);
         when(catOwnerServiceMock.updateById(any(), any())).thenReturn(catOwner);
         mockMvc.perform(put("http://localhost:8080/catOwner/" + ID)
@@ -201,7 +195,7 @@ class CatOwnerControllerTest {
     }
 
     @Test
-    void shouldReturn200WhenDeleteCorrectFieldsCatOwner() throws Exception {
+    void shouldReturn200WhenDeleteCorrectFieldsCatOwnerById() throws Exception {
         when(catOwnerServiceMock.deleteById(any())).thenReturn(catOwner);
         mockMvc.perform(delete("http://localhost:8080/catOwner/" + ID)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -220,7 +214,7 @@ class CatOwnerControllerTest {
                         .param("trialDays", String.valueOf(30L)))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catOwnerServiceMock).getAnimalToTrialPeriod(any(),any(),any());
+        verify(catOwnerServiceMock).getAnimalToTrialPeriod(PHONE_NUMBER,NAME1,30L);
     }
 
 }

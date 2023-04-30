@@ -119,7 +119,7 @@ class CatOwnerServiceTest {
     void shouldTransferCatOnProbation() {
 //        Mockito.when(catOwnerRepositoryMock.existsByPhoneNumber(PHONE_NUMBER)).thenReturn(false);
 //        Mockito.when(catOwnerRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.empty());
-
+//
 //        assertEquals(catOwner, userServiceOut.findByPhone(PHONE_NUMBER));
 //        Mockito.when(userRepositoryMock.save(any())).thenReturn(user);
 //        assertEquals(user, userServiceOut.createUser(user));
