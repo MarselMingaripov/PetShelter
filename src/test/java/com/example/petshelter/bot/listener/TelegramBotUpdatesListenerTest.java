@@ -5,6 +5,7 @@ import com.example.petshelter.service.*;
 import com.pengrad.telegrambot.BotUtils;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.request.GetFile;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
 import org.junit.jupiter.api.Test;
@@ -74,5 +75,121 @@ class TelegramBotUpdatesListenerTest {
         assertThat(actual.getParameters().get("chat_id")).isEqualTo(update.message().chat().id());
         assertThat(actual.getParameters().get("text")).isEqualTo("Здравствуйте! Вы используете бот для приюта животных. Выберете, пожалуйста, приют!");
     }
+
+    @Test
+    public void handleDogsTest() throws URISyntaxException, IOException {
+        String json = Files.readString(
+                Path.of(Objects.requireNonNull(TelegramBotUpdatesListenerTest.class.getResource("updateCallback.json")).toURI()));
+        Update update = BotUtils.fromJson(json.replace("%data%", "/dogs"), Update.class);
+        SendResponse sendResponse = BotUtils.fromJson("""
+                {
+                "ok": true
+                }
+                """, SendResponse.class);
+        when(telegramBot.execute(any())).thenReturn(sendResponse);
+
+        telegramBotUpdatesListener.process(Collections.singletonList(update));
+
+        ArgumentCaptor<SendMessage> argumentCaptor = ArgumentCaptor.forClass(SendMessage.class);
+        verify(telegramBot).execute(argumentCaptor.capture());
+        SendMessage actual = argumentCaptor.getValue();
+
+        assertThat(actual.getParameters().get("chat_id")).isEqualTo(update.callbackQuery().message().chat().id());
+        assertThat(actual.getParameters().get("text")).isEqualTo("Выберете нужный вариант");
+    }
+
+    /*@Test
+    public void handlePhotoTest() throws URISyntaxException, IOException {
+        String json = Files.readString(
+                Path.of(Objects.requireNonNull(TelegramBotUpdatesListenerTest.class.getResource("updatePhoto.json")).toURI()));
+        Update update = BotUtils.fromJson(json.replace("%text%", "text"), Update.class);
+        SendResponse sendResponse = BotUtils.fromJson("""
+                {
+                "ok": true
+                }
+                """, SendResponse.class);
+        when(telegramBot.execute(any())).thenReturn(sendResponse);
+
+        telegramBotUpdatesListener.process(Collections.singletonList(update));
+
+        ArgumentCaptor<SendMessage> argumentCaptor = ArgumentCaptor.forClass(SendMessage.class);
+        ArgumentCaptor<GetFile> argumentCaptor1 = ArgumentCaptor.forClass(GetFile.class);
+        verify(telegramBot).execute(argumentCaptor.capture());
+        SendMessage actual = argumentCaptor.getValue();
+
+        assertThat(actual.getParameters().get("chat_id")).isEqualTo(update.message().chat().id());
+        assertThat(actual.getParameters().get("text")).isEqualTo("""
+                                    Отправьте данные в отчете в следующем формате без кавычек - 
+                                    "Отчет. Рацион питания. Состояние здоровья. Изменения в поведении"
+                                    Недопустимо отправлять более одного отчета в день. Не нарушайте, пожалуйста, правила!
+                                    """);
+    }*/
+
+    @Test
+    public void handleCatsTest() throws URISyntaxException, IOException {
+        String json = Files.readString(
+                Path.of(Objects.requireNonNull(TelegramBotUpdatesListenerTest.class.getResource("updateCallback.json")).toURI()));
+        Update update = BotUtils.fromJson(json.replace("%data%", "/cats"), Update.class);
+        SendResponse sendResponse = BotUtils.fromJson("""
+                {
+                "ok": true
+                }
+                """, SendResponse.class);
+        when(telegramBot.execute(any())).thenReturn(sendResponse);
+
+        telegramBotUpdatesListener.process(Collections.singletonList(update));
+
+        ArgumentCaptor<SendMessage> argumentCaptor = ArgumentCaptor.forClass(SendMessage.class);
+        verify(telegramBot).execute(argumentCaptor.capture());
+        SendMessage actual = argumentCaptor.getValue();
+
+        assertThat(actual.getParameters().get("chat_id")).isEqualTo(update.callbackQuery().message().chat().id());
+        assertThat(actual.getParameters().get("text")).isEqualTo("Выберете нужный вариант");
+    }
+
+    @Test
+    public void handleCommonInformationTest() throws URISyntaxException, IOException {
+        String json = Files.readString(
+                Path.of(Objects.requireNonNull(TelegramBotUpdatesListenerTest.class.getResource("updateCallback.json")).toURI()));
+        Update update = BotUtils.fromJson(json.replace("%data%", "/common_information"), Update.class);
+        SendResponse sendResponse = BotUtils.fromJson("""
+                {
+                "ok": true
+                }
+                """, SendResponse.class);
+        when(telegramBot.execute(any())).thenReturn(sendResponse);
+
+        telegramBotUpdatesListener.process(Collections.singletonList(update));
+
+        ArgumentCaptor<SendMessage> argumentCaptor = ArgumentCaptor.forClass(SendMessage.class);
+        verify(telegramBot).execute(argumentCaptor.capture());
+        SendMessage actual = argumentCaptor.getValue();
+
+        assertThat(actual.getParameters().get("chat_id")).isEqualTo(update.callbackQuery().message().chat().id());
+        assertThat(actual.getParameters().get("text")).isEqualTo("Выберете нужный вариант");
+    }
+
+    @Test
+    public void handleRegisterTest() throws URISyntaxException, IOException {
+        String json = Files.readString(
+                Path.of(Objects.requireNonNull(TelegramBotUpdatesListenerTest.class.getResource("updateCallback.json")).toURI()));
+        Update update = BotUtils.fromJson(json.replace("%data%", "/register"), Update.class);
+        SendResponse sendResponse = BotUtils.fromJson("""
+                {
+                "ok": true
+                }
+                """, SendResponse.class);
+        when(telegramBot.execute(any())).thenReturn(sendResponse);
+
+        telegramBotUpdatesListener.process(Collections.singletonList(update));
+
+        ArgumentCaptor<SendMessage> argumentCaptor = ArgumentCaptor.forClass(SendMessage.class);
+        verify(telegramBot).execute(argumentCaptor.capture());
+        SendMessage actual = argumentCaptor.getValue();
+
+        assertThat(actual.getParameters().get("chat_id")).isEqualTo(update.callbackQuery().message().chat().id());
+        assertThat(actual.getParameters().get("text")).isEqualTo("Нажмите, чтобы отправить свой номер в базу");
+    }
+
 
 }
