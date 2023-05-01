@@ -1,6 +1,7 @@
 package com.example.petshelter.service;
 
 import com.example.petshelter.entity.Cat;
+import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.StatusAnimal;
 import com.example.petshelter.entity.shelter.CatShelter;
 import com.example.petshelter.exception.NotFoundInBdException;
@@ -19,11 +20,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CatShelterServiceTest {
@@ -119,4 +122,19 @@ class CatShelterServiceTest {
 //        assertThrows(ValidationException.class, () -> catShelterServiceOut.createCatShelter(catShelter));
 //
 //    }
+
+    @Test
+    @DisplayName("Вывод списка всех приютов для кошек")
+    public void shouldFindAllCatShelters() {
+        List<CatShelter> catShelterList = List.of(new CatShelter());
+        when(catShelterServiceOut.findAll()).thenReturn(catShelterList);
+        assertEquals(catShelterList, catShelterServiceOut.findAll());
+    }
+
+    @Test
+    @DisplayName("Вывод информации о приюте для кошек")
+    public void shouldReturnInformationAboutCatShelter() {
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        assertEquals(catShelter.getInformation(), catShelterServiceOut.returnInformation(any()));
+    }
 }
