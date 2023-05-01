@@ -2,16 +2,13 @@ package com.example.petshelter.controller;
 
 import com.example.petshelter.PetShelterApplication;
 import com.example.petshelter.entity.Cat;
-import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.StatusAnimal;
 import com.example.petshelter.entity.shelter.CatShelter;
 import com.example.petshelter.service.CatShelterService;
-import com.example.petshelter.service.impl.CatServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,13 +17,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -71,7 +65,8 @@ class CatShelterControllerTest {
         Cat cat1 = new Cat(NAME1, AGE, HEALTH_STATUS, VACCINATION, STATUS);
         cats = List.of(cat1);
 
-        catShelter = new CatShelter(INFORMATION, ADDRESS, PHONE_NUMBER, WORK_SCHEDULE, SECURITY_CONTACTS, SAFETY_RECOMMENDATIONS);
+        catShelter = new CatShelter(INFORMATION, ADDRESS, PHONE_NUMBER, WORK_SCHEDULE,
+                SECURITY_CONTACTS, SAFETY_RECOMMENDATIONS);
 
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
@@ -93,7 +88,7 @@ class CatShelterControllerTest {
                         jsonPath("$.workSchedule").value(WORK_SCHEDULE),
                         jsonPath("$.securityContacts").value(SECURITY_CONTACTS),
                         jsonPath("$.safetyRecommendations").value(SAFETY_RECOMMENDATIONS));
-        verify(catShelterServiceMock,times(1)).createCatShelter(any());
+        verify(catShelterServiceMock, times(1)).createCatShelter(any());
     }
 
     @Test
@@ -104,7 +99,7 @@ class CatShelterControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER));
-        verify(catShelterServiceMock,times(1)).findById(any());
+        verify(catShelterServiceMock, times(1)).findById(any());
     }
 
     @Test
@@ -113,7 +108,7 @@ class CatShelterControllerTest {
         mockMvc.perform(get("http://localhost:8080/catShelter"))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock,times(1)).findAll();
+        verify(catShelterServiceMock, times(1)).findAll();
     }
 
     @Test
@@ -126,7 +121,7 @@ class CatShelterControllerTest {
                         .content(json))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock,times(1)).updateById(any(), any());
+        verify(catShelterServiceMock, times(1)).updateById(any(), any());
     }
 
     @Test
@@ -137,7 +132,7 @@ class CatShelterControllerTest {
                         .content(ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock,times(1)).deleteById(any());
+        verify(catShelterServiceMock, times(1)).deleteById(any());
     }
 
     @Test
@@ -148,7 +143,7 @@ class CatShelterControllerTest {
                         .content(ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock,times(1)).returnInformation(any());
+        verify(catShelterServiceMock, times(1)).returnInformation(any());
     }
 
     @Test
@@ -159,7 +154,7 @@ class CatShelterControllerTest {
                         .content(ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock,times(1)).returnAddressAndWorkSchedule(any());
+        verify(catShelterServiceMock, times(1)).returnAddressAndWorkSchedule(any());
     }
 
     @Test
@@ -170,7 +165,7 @@ class CatShelterControllerTest {
                         .content(ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock,times(1)).returnPhone(any());
+        verify(catShelterServiceMock, times(1)).returnPhone(any());
     }
 
     @Test
@@ -181,7 +176,7 @@ class CatShelterControllerTest {
                         .content(ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock,times(1)).returnSecurityContacts(any());
+        verify(catShelterServiceMock, times(1)).returnSecurityContacts(any());
     }
 
     @Test
@@ -192,7 +187,7 @@ class CatShelterControllerTest {
                         .content(ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock,times(1)).returnSafetyRecommendations(any());
+        verify(catShelterServiceMock, times(1)).returnSafetyRecommendations(any());
     }
 
     @Test
@@ -202,7 +197,7 @@ class CatShelterControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock,times(1)).addCatToShelter(any());
+        verify(catShelterServiceMock, times(1)).addCatToShelter(any());
     }
 
     @Test
@@ -212,7 +207,7 @@ class CatShelterControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock,times(1)).addCatOwnerToShelter(any());
+        verify(catShelterServiceMock, times(1)).addCatOwnerToShelter(any());
     }
 
     @Test
@@ -229,6 +224,7 @@ class CatShelterControllerTest {
                 .andReturn();
         verify(catShelterServiceMock, times(1)).addDating(1l, value);
     }
+
     @Test
     void shouldReturn200AddDocumentsToCatShelter() throws Exception {
 
@@ -243,6 +239,7 @@ class CatShelterControllerTest {
                 .andReturn();
         verify(catShelterServiceMock, times(1)).addDocuments(1l, value);
     }
+
     @Test
     void shouldReturn200AddTransportationToCatShelter() throws Exception {
 
@@ -272,6 +269,7 @@ class CatShelterControllerTest {
                 .andReturn();
         verify(catShelterServiceMock, times(1)).addArrangementKitten(1l, value);
     }
+
     @Test
     void shouldReturn200AddArrangementCatToCatShelter() throws Exception {
 
@@ -301,6 +299,7 @@ class CatShelterControllerTest {
                 .andReturn();
         verify(catShelterServiceMock, times(1)).addArrangementDisabled(1l, value);
     }
+
     @Test
     void shouldReturn200GetCatDatingFromCatShelter() throws Exception {
         mockMvc.perform(get("http://localhost:8080/catShelter/get-cat-dating")

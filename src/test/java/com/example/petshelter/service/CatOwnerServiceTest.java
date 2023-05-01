@@ -78,8 +78,9 @@ class CatOwnerServiceTest {
     @DisplayName("Исключение при поиске владельца кошки по некорректному Id")
     void shouldThrowNotFoundInBdExceptionWhenIdCatOwnerIsNotValid() {
         Mockito.when(catOwnerRepositoryMock.findById(any())).thenReturn(Optional.empty());
-        assertThrows(NotFoundInBdException.class,()->catOwnerServiceOut.findById(ID));
+        assertThrows(NotFoundInBdException.class, () -> catOwnerServiceOut.findById(ID));
     }
+
     @Test
     @DisplayName("Поиск и обновление владельца кошки по его Id")
     public void shouldFindAndUpdateCorrectCatOwner() {
@@ -87,6 +88,7 @@ class CatOwnerServiceTest {
         Mockito.when(catOwnerRepositoryMock.save(any())).thenReturn(catOwner);
         assertEquals(catOwner, catOwnerServiceOut.updateById(ID, catOwner));
     }
+
     @Test
     @DisplayName("Исключение при обновлении владельца кошки по некорректному Id")
     public void shouldThrowNotFoundInBdExceptionWhenUpdateCatOwnerByIdIsNotValid() {
@@ -100,11 +102,12 @@ class CatOwnerServiceTest {
         Mockito.when(catOwnerRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.of(catOwner));
         assertEquals(catOwner, catOwnerServiceOut.findByPhoneNumber(PHONE_NUMBER));
     }
+
     @Test
     @DisplayName("Исключение при поиске владельца кошки по некорректному номеру телефона")
     void shouldThrowNotFoundInBdExceptionWhenPhoneNumberCatOwnerIsNotValid() {
         Mockito.when(catOwnerRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.empty());
-        assertThrows(NotFoundInBdException.class,()->catOwnerServiceOut.findByPhoneNumber(PHONE_NUMBER));
+        assertThrows(NotFoundInBdException.class, () -> catOwnerServiceOut.findByPhoneNumber(PHONE_NUMBER));
     }
 
     @Test
@@ -113,7 +116,8 @@ class CatOwnerServiceTest {
         Mockito.when(catOwnerRepositoryMock.findById(any())).thenReturn(Optional.of(catOwner));
         assertEquals(catOwner, catOwnerServiceOut.deleteById(ID));
     }
-//TODO: 27.04.2023 написать тест передачи кошки владельцу на испытательный срок
+
+    //TODO: 27.04.2023 написать тест передачи кошки владельцу на испытательный срок
     @Test
     @DisplayName("Передача кошки опекуну на испытательный срок")
     void shouldTransferCatOnProbation() {

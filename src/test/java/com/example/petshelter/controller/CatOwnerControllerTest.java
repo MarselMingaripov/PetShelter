@@ -57,15 +57,12 @@ class CatOwnerControllerTest {
 
     @MockBean
     private CatOwnerService catOwnerServiceMock;
-
     private final ObjectMapper objectMapper = new ObjectMapper();
-
     private final WebApplicationContext webApplicationContext;
 
     @BeforeEach
     void init() throws Exception {
         Cat cat1 = new Cat(NAME1, AGE, HEALTH_STATUS, VACCINATION, STATUS);
-//        Cat cat2 = new Cat(NAME2, AGE, HEALTH_STATUS, VACCINATION, STATUS);
         cats = List.of(cat1);
 
         report = new Report(ID, PHOTO, FOOD_RATION, GENERAL_HEALTH, BEHAVIOR_CHANGES);
@@ -92,7 +89,8 @@ class CatOwnerControllerTest {
     void shouldReturn200WhenCreateCorrectFieldsCatOwner() throws Exception {
         when(catOwnerServiceMock.createCatOwner(any())).thenReturn(catOwner);
         mockMvc.perform(post("http://localhost:8080/catOwner")
-                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(catOwner)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(catOwner)))
                 .andDo(print())
                 .andExpectAll(
                         status().isOk(),
@@ -104,7 +102,8 @@ class CatOwnerControllerTest {
     void shouldThrow405WhenCreateIncorrectFieldsCatOwner() throws Exception {
         when(catOwnerServiceMock.createCatOwner(any())).thenThrow(ValidationException.class);
         mockMvc.perform(post("http://localhost:8080/catOwner")
-                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(catOwner)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(catOwner)))
                 .andDo(print())
                 .andExpectAll(
                         status().isMethodNotAllowed()
@@ -134,7 +133,8 @@ class CatOwnerControllerTest {
     @Test
     void shouldReturn200WhenReceivedCorrectFieldsCatOwnerByPhone_number() throws Exception {
         when(catOwnerServiceMock.findByPhoneNumber(any())).thenReturn(catOwner);
-        mockMvc.perform(get("http://localhost:8080/catOwner/find-by-phone-number").param("phoneNumber", PHONE_NUMBER)
+        mockMvc.perform(get("http://localhost:8080/catOwner/find-by-phone-number")
+                        .param("phoneNumber", PHONE_NUMBER)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -163,7 +163,7 @@ class CatOwnerControllerTest {
     @Test
     void shouldReturn404WhenReceivedNotCorrectFieldsCatOwnerByPhoneNumber() throws Exception {
         when(catOwnerServiceMock.findByPhoneNumber(any())).thenThrow(ValidationException.class);
-        mockMvc.perform(get("http://localhost:8080/catOwner/find-by-phone-number/"+PHONE_NUMBER)
+        mockMvc.perform(get("http://localhost:8080/catOwner/find-by-phone-number/" + PHONE_NUMBER)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNotFound());
@@ -185,7 +185,7 @@ class CatOwnerControllerTest {
     @Test
     void shouldThrow405WhenUpdateIncorrectFieldsCatOwner() throws Exception {
         String json = objectMapper.writeValueAsString(catOwner);
-        when(catOwnerServiceMock.updateById(any(),any())).thenThrow(ValidationException.class);
+        when(catOwnerServiceMock.updateById(any(), any())).thenThrow(ValidationException.class);
         mockMvc.perform(put("http://localhost:8080/catOwner/" + ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ID.toString())
@@ -207,14 +207,14 @@ class CatOwnerControllerTest {
 
     @Test
     void shouldReturn200WhenGetAnimalToCatOwnerIsCorrect() throws Exception {
-        when(catOwnerServiceMock.getAnimalToTrialPeriod(PHONE_NUMBER,"Barsik",30L)).thenReturn(catOwner);
+        when(catOwnerServiceMock.getAnimalToTrialPeriod(PHONE_NUMBER, "Barsik", 30L)).thenReturn(catOwner);
         mockMvc.perform(post("http://localhost:8080/catOwner/get-animal")
-                        .param("phoneNumber",PHONE_NUMBER)
-                        .param("animalName",NAME1)
+                        .param("phoneNumber", PHONE_NUMBER)
+                        .param("animalName", NAME1)
                         .param("trialDays", String.valueOf(30L)))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catOwnerServiceMock).getAnimalToTrialPeriod(PHONE_NUMBER,NAME1,30L);
+        verify(catOwnerServiceMock).getAnimalToTrialPeriod(PHONE_NUMBER, NAME1, 30L);
     }
 
 }

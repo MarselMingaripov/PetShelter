@@ -31,7 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class DogOwnerControllerTest {
 
     private static final String NAME1 = "Tuzik";
-//    private static final String NAME2 = "Zhuchka";
     private static final int AGE = 3;
     private static final boolean HEALTH_STATUS = true;
     private static final boolean VACCINATION = true;
@@ -64,7 +63,6 @@ class DogOwnerControllerTest {
     @BeforeEach
     void init() throws Exception {
         Dog dog1 = new Dog(NAME1, AGE, HEALTH_STATUS, VACCINATION, STATUS);
-//        Cat cat2 = new Cat(NAME2, AGE, HEALTH_STATUS, VACCINATION, STATUS);
         dogs = List.of(dog1);
 
         report = new Report(ID, PHOTO, FOOD_RATION, GENERAL_HEALTH, BEHAVIOR_CHANGES);
@@ -132,7 +130,8 @@ class DogOwnerControllerTest {
     @Test
     void shouldReturn200WhenReceivedCorrectFieldsDogOwnerByPhone_number() throws Exception {
         when(dogOwnerServiceMock.findByPhoneNumber(any())).thenReturn(dogOwner);
-        mockMvc.perform(get("http://localhost:8080/dogOwner/find-by-phone-number").param("phoneNumber", PHONE_NUMBER)
+        mockMvc.perform(get("http://localhost:8080/dogOwner/find-by-phone-number")
+                        .param("phoneNumber", PHONE_NUMBER)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -152,7 +151,7 @@ class DogOwnerControllerTest {
     @Test
     void shouldReturn404WhenReceivedNotCorrectFieldsDogOwnerByPhoneNumber() throws Exception {
         when(dogOwnerServiceMock.findByPhoneNumber(any())).thenThrow(ValidationException.class);
-        mockMvc.perform(get("http://localhost:8080/dogOwner/find-by-phone-number/"+PHONE_NUMBER)
+        mockMvc.perform(get("http://localhost:8080/dogOwner/find-by-phone-number/" + PHONE_NUMBER)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNotFound());
@@ -183,7 +182,7 @@ class DogOwnerControllerTest {
     @Test
     void shouldThrow405WhenUpdateIncorrectFieldsDogOwner() throws Exception {
         String json = objectMapper.writeValueAsString(dogOwner);
-        when(dogOwnerServiceMock.updateById(any(),any())).thenThrow(ValidationException.class);
+        when(dogOwnerServiceMock.updateById(any(), any())).thenThrow(ValidationException.class);
         mockMvc.perform(put("http://localhost:8080/dogOwner/" + ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ID.toString())
@@ -205,14 +204,14 @@ class DogOwnerControllerTest {
 
     @Test
     void shouldReturn200WhenGetAnimalToDogOwnerIsCorrect() throws Exception {
-        when(dogOwnerServiceMock.getAnimalToTrialPeriod(PHONE_NUMBER,"Tuzik",30L)).thenReturn(dogOwner);
+        when(dogOwnerServiceMock.getAnimalToTrialPeriod(PHONE_NUMBER, "Tuzik", 30L)).thenReturn(dogOwner);
         mockMvc.perform(post("http://localhost:8080/dogOwner/get-animal")
-                        .param("phoneNumber",PHONE_NUMBER)
-                        .param("animalName",NAME1)
+                        .param("phoneNumber", PHONE_NUMBER)
+                        .param("animalName", NAME1)
                         .param("trialDays", String.valueOf(30L)))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(dogOwnerServiceMock,times(1)).getAnimalToTrialPeriod(PHONE_NUMBER,NAME1,30L);
+        verify(dogOwnerServiceMock, times(1)).getAnimalToTrialPeriod(PHONE_NUMBER, NAME1, 30L);
     }
 
 }
