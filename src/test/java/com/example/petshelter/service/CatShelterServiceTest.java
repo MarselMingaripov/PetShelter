@@ -173,20 +173,27 @@ class CatShelterServiceTest {
         Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
         assertEquals(catShelter.getDating(), catShelterServiceOut.returnDating(any()));
     }
+
     @Test
     @DisplayName("Добавление данных по правилам первоначального знакомства с животными")
     public void shouldReturnAddDatingToCatShelter() {
         String dating = "Dating";
         Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
         catShelterServiceOut.addDating(ID, dating);
-//        verify(catShelterRepositoryMock,times(1)).findById(ID);
-
     }
+
     @Test
     @DisplayName("Вывод списка необходимых документов для взятия животного из приюта")
     public void shouldReturnDocumentsCatShelter() {
         Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
         assertEquals(catShelter.getDocuments(), catShelterServiceOut.returnDocuments(any()));
+    }
+    @Test
+    @DisplayName("Добавление правил о взятии животного из приюта")
+    public void shouldReturnAddDocumentsToCatShelter() {
+        String documents = "Documents";
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        catShelterServiceOut.addDocuments(ID, documents);
     }
     @Test
     @DisplayName("Вывод рекомендаций по перевозке животного")
@@ -195,16 +202,39 @@ class CatShelterServiceTest {
         assertEquals(catShelter.getTransportation(), catShelterServiceOut.returnTransportation(any()));
     }
     @Test
+    @DisplayName("Добавление рекомендаций по перевозке животного")
+    public void shouldReturnAddTransportationToCatShelter() {
+        String transportation = "Transportation";
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        catShelterServiceOut.addTransportation(ID, transportation);
+    }
+    @Test
     @DisplayName("Вывод рекомендаций по обустройству дома для котят")
     public void shouldReturnArrangementKitten() {
         Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
         assertEquals(catShelter.getArrangementKitten(), catShelterServiceOut.returnArrangementKitten(any()));
     }
+
+    @Test
+    @DisplayName("Добавление рекомендаций по обустройству дома для котят")
+    public void shouldReturnAddArrangementKittenToCatShelter() {
+        String arrangementKitten = "ArrangementKitten";
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        catShelterServiceOut.addArrangementKitten(ID, arrangementKitten);
+    }
+
     @Test
     @DisplayName("Вывод рекомендаций по обустройству дома для взрослого животного")
     public void shouldReturnArrangementCat() {
         Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
         assertEquals(catShelter.getArrangementCat(), catShelterServiceOut.returnArrangementCat(any()));
+    }
+    @Test
+    @DisplayName("Добавление рекомендаций по обустройству дома для взрослых животных")
+    public void shouldReturnAddArrangementCatToCatShelter() {
+        String arrangementCat = "ArrangementCat";
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        catShelterServiceOut.addArrangementCat(ID, arrangementCat);
     }
     @Test
     @DisplayName("Вывод рекомендаций по обустройству дома для животных с ограниченными возможностями")
@@ -213,4 +243,11 @@ class CatShelterServiceTest {
         assertEquals(catShelter.getArrangementDisabled(), catShelterServiceOut.returnArrangementDisabled(any()));
     }
 
+    @Test
+    @DisplayName("Добавление рекомендаций по обустройству дома для животных с ограниченными возможностями")
+    public void shouldReturnAddArrangementDisabledToCatShelter() {
+        String arrangementDisabled = "ArrangementDisabled";
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        catShelterServiceOut.addArrangementDisabled(ID, arrangementDisabled);
+    }
 }
