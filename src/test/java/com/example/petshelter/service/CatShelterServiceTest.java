@@ -26,7 +26,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CatShelterServiceTest {
@@ -68,7 +68,6 @@ class CatShelterServiceTest {
         assertEquals(catShelter, catShelterServiceOut.createCatShelter(catShelter));
 
     }
-
 //    @Test
 //    @DisplayName("Исключение при некорректной валидации приюта для кошек")
 //    void shouldThrowValidationExceptionWhenValidateNotValid() {
@@ -86,7 +85,12 @@ class CatShelterServiceTest {
         assertEquals(catShelter, catShelterServiceOut.updateById(ID, catShelter));
 
     }
-
+    @Test
+    @DisplayName("Исключение при поиске приюта для кошек по некорректному Id")
+    public void shouldThrowNotFoundInBdExceptionWhenFindCatShelterByIdIsNotValid() {
+        Mockito.when(catShelterRepositoryMock.findById(ID)).thenReturn(Optional.empty());
+        assertThrows(NotFoundInBdException.class, () -> catShelterServiceOut.findById(ID));
+    }
     @Test
     @DisplayName("Исключение при обновлении приюта для кошек по некорректному Id")
     public void shouldThrowNotFoundInBdExceptionWhenUpdateCatShelterByIdIsNotValid() {
@@ -137,4 +141,76 @@ class CatShelterServiceTest {
         Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
         assertEquals(catShelter.getInformation(), catShelterServiceOut.returnInformation(any()));
     }
+    @Test
+    @DisplayName("Вывод номера телефона приюта для кошек")
+    public void shouldReturnPhoneNumberCatShelter() {
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        assertEquals(catShelter.getPhoneNumber(), catShelterServiceOut.returnPhone(any()));
+    }
+    @Test
+    @DisplayName("Вывод информации об адресе и режме работы приюта для кошек")
+    public void shouldReturnAddressAndWorkScheduleCatShelter() {
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        assertEquals(catShelter.getAddress() + " " + catShelter.getWorkSchedule(), catShelterServiceOut.returnAddressAndWorkSchedule(any()));
+    }
+    @Test
+    @DisplayName("Вывод контактов охраны приюта для кошек")
+    public void shouldReturnSecurityContactsCatShelter() {
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        assertEquals(catShelter.getSecurityContacts(), catShelterServiceOut.returnSecurityContacts(any()));
+    }
+
+    @Test
+    @DisplayName("Вывод рекомендаций по технике безопасности на территории приюта для кошек")
+    public void shouldReturnSafetyRecommendationsCatShelter() {
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        assertEquals(catShelter.getSafetyRecommendations(), catShelterServiceOut.returnSafetyRecommendations(any()));
+    }
+
+    @Test
+    @DisplayName("Вывод правил по первоначальному знакомству с животными")
+    public void shouldReturnDatingCatShelter() {
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        assertEquals(catShelter.getDating(), catShelterServiceOut.returnDating(any()));
+    }
+    @Test
+    @DisplayName("Добавление данных по правилам первоначального знакомства с животными")
+    public void shouldReturnAddDatingToCatShelter() {
+        String dating = "Dating";
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        catShelterServiceOut.addDating(ID, dating);
+//        verify(catShelterRepositoryMock,times(1)).findById(ID);
+
+    }
+    @Test
+    @DisplayName("Вывод списка необходимых документов для взятия животного из приюта")
+    public void shouldReturnDocumentsCatShelter() {
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        assertEquals(catShelter.getDocuments(), catShelterServiceOut.returnDocuments(any()));
+    }
+    @Test
+    @DisplayName("Вывод рекомендаций по перевозке животного")
+    public void shouldReturnTransportationCatShelter() {
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        assertEquals(catShelter.getTransportation(), catShelterServiceOut.returnTransportation(any()));
+    }
+    @Test
+    @DisplayName("Вывод рекомендаций по обустройству дома для котят")
+    public void shouldReturnArrangementKitten() {
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        assertEquals(catShelter.getArrangementKitten(), catShelterServiceOut.returnArrangementKitten(any()));
+    }
+    @Test
+    @DisplayName("Вывод рекомендаций по обустройству дома для взрослого животного")
+    public void shouldReturnArrangementCat() {
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        assertEquals(catShelter.getArrangementCat(), catShelterServiceOut.returnArrangementCat(any()));
+    }
+    @Test
+    @DisplayName("Вывод рекомендаций по обустройству дома для животных с ограниченными возможностями")
+    public void shouldReturnArrangementDisabled() {
+        Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
+        assertEquals(catShelter.getArrangementDisabled(), catShelterServiceOut.returnArrangementDisabled(any()));
+    }
+
 }
