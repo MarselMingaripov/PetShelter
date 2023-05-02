@@ -69,6 +69,7 @@ public class ReportControllerTest {
                         .content(requestBody))
                 .andExpect(status().isOk());
     }
+
     @Test
     void shouldReturn200WhenFindByIdCorrectFieldsReport() throws Exception {
         when(reportServiceMock.findById(1L)).thenReturn(report);
@@ -82,6 +83,7 @@ public class ReportControllerTest {
                         jsonPath("$.behaviorChanges").value(BEHAVIOR_CHANGES)
                 );
     }
+
     @Test
     void shouldReturn200WhenUpdateByIdCorrectFieldsReport() throws Exception {
         Report report2 = new Report();
@@ -96,6 +98,7 @@ public class ReportControllerTest {
                         .content(objectMapper.writeValueAsString(report2)))
                 .andExpect(status().isOk());
     }
+
     @Test
     void shouldReturn404WhenDeleteByIdIncorrectFieldsReport() throws Exception {
         when(reportServiceMock.deleteById(1L)).thenThrow(NotFoundInBdException.class);
@@ -105,6 +108,7 @@ public class ReportControllerTest {
                         status().isNotFound()
                 );
     }
+
     @Test
     void shouldReturn200WhenFindAllCorrectFieldsReport() throws Exception {
         List<Report> reportList = new ArrayList<>(List.of(report));

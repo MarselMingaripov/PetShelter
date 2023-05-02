@@ -77,6 +77,7 @@ public class MessageToVolunteerControllerTest {
                         jsonPath("$.text").value(TEXT)
                 );
     }
+
     @Test
     void shouldReturn200WhenUpdateByIdCorrectFieldsMessageToVolunteer() throws Exception {
         MessageToVolunteer message2 = new MessageToVolunteer();
@@ -89,6 +90,7 @@ public class MessageToVolunteerControllerTest {
                         .content(objectMapper.writeValueAsString(message2)))
                 .andExpect(status().isOk());
     }
+
     @Test
     void shouldReturn404WhenDeleteByIdIncorrectFieldsMessageToVolunteer() throws Exception {
         when(messageToVolunteerServiceMock.deleteById(1L)).thenThrow(NotFoundInBdException.class);
@@ -98,6 +100,7 @@ public class MessageToVolunteerControllerTest {
                         status().isNotFound()
                 );
     }
+
     @Test
     void shouldReturn200WhenFindAllCorrectFieldsMessageToVolunteer() throws Exception {
         List<MessageToVolunteer> messageToVolunteerList = new ArrayList<>(List.of(messageToVolunteer));
@@ -107,6 +110,7 @@ public class MessageToVolunteerControllerTest {
                 .andExpect(
                         status().isOk());
     }
+
     @Test
     void shouldReturn200WhenFindAllUnreadCorrectFieldsMessageToVolunteer() throws Exception {
         mockMvc.perform(get("http://localhost:8080/message/unread")
@@ -114,6 +118,7 @@ public class MessageToVolunteerControllerTest {
                 .andExpect(
                         status().isOk());
     }
+
     @Test
     void shouldReturn200WhenCheckAllUnreadCorrectFieldsMessageToVolunteer() throws Exception {
         mockMvc.perform(get("http://localhost:8080/message/check")
