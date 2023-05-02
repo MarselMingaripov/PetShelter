@@ -22,6 +22,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class DogOwnerServiceTest {
@@ -124,16 +126,22 @@ class DogOwnerServiceTest {
         Mockito.when(dogOwnerRepositoryMock.findById(any())).thenReturn(Optional.of(dogOwner));
         assertEquals(dogOwner, dogOwnerServiceOut.deleteById(ID));
     }
-//    @Test
-//    @DisplayName("Передача собаки опекуну на испытательный срок")
-//    void shouldTransferDogOnProbation() {
-//        Mockito.when(catOwnerRepositoryMock.existsByPhoneNumber(PHONE_NUMBER)).thenReturn(false);
 
-//        Mockito.when(userRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.empty());
-//        assertEquals(dogOwner, userServiceOut.findByPhone(PHONE_NUMBER));
-//        Mockito.when(userRepositoryMock.save(any())).thenReturn(user);
-//        assertEquals(user, userServiceOut.createUser(user));
-//        assertThrows(NotFoundInBdException.class,()->catOwnerServiceOut.findById(ID));
-//    }
+    @Test
+    @DisplayName("Вывод списка всех владельцев собак")
+    public void shouldFindAllDogOwners() {
+        when(dogOwnerServiceOut.findAll()).thenReturn(DOG_OWNER);
+        assertEquals(DOG_OWNER, dogOwnerServiceOut.findAll());
+    }
 
+    @Test
+    @DisplayName("Проверка существования номера телефона")
+    public void shouldReturnExistPhoneNumberDogOwners() {
+        boolean expectedExists = true;
+        when(dogOwnerServiceOut.existsByPhoneNumber(PHONE_NUMBER)).thenReturn(expectedExists);
+
+        boolean actualExists = dogOwnerServiceOut.existsByPhoneNumber(PHONE_NUMBER);
+        assertEquals(expectedExists, actualExists);
+        verify(dogOwnerRepositoryMock).existsByPhoneNumber(PHONE_NUMBER);
+    }
 }

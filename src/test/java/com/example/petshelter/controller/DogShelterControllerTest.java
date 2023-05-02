@@ -2,9 +2,12 @@ package com.example.petshelter.controller;
 
 import com.example.petshelter.PetShelterApplication;
 import com.example.petshelter.entity.Cat;
+import com.example.petshelter.entity.Dog;
 import com.example.petshelter.entity.StatusAnimal;
 import com.example.petshelter.entity.shelter.CatShelter;
+import com.example.petshelter.entity.shelter.DogShelter;
 import com.example.petshelter.service.CatShelterService;
+import com.example.petshelter.service.DogShelterService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,10 +31,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = {PetShelterApplication.class})
 @RequiredArgsConstructor
-class CatShelterControllerTest {
+class DogShelterControllerTest {
 
-    private static final String NAME1 = "Barsik";
-    private static final String NAME2 = "Murka";
+    private static final String NAME1 = "Tuzik";
+    private static final String NAME2 = "Layka";
     private static final int AGE = 3;
     private static final boolean HEALTH_STATUS = true;
     private static final boolean VACCINATION = true;
@@ -47,14 +50,14 @@ class CatShelterControllerTest {
 
     private static String DATING = "Информация о знакомстве с животными";
 
-    private List<Cat> cats;
+    private List<Dog> dogs;
 
-    private CatShelter catShelter;
+    private DogShelter dogShelter;
 
     private MockMvc mockMvc;
 
     @MockBean
-    private CatShelterService catShelterServiceMock;
+    private DogShelterService dogShelterServiceMock;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private final WebApplicationContext webApplicationContext;
@@ -62,10 +65,10 @@ class CatShelterControllerTest {
 
     @BeforeEach
     void init() throws Exception {
-        Cat cat1 = new Cat(NAME1, AGE, HEALTH_STATUS, VACCINATION, STATUS);
-        cats = List.of(cat1);
+        Dog dog1 = new Dog(NAME1, AGE, HEALTH_STATUS, VACCINATION, STATUS);
+        dogs = List.of(dog1);
 
-        catShelter = new CatShelter(INFORMATION, ADDRESS, PHONE_NUMBER, WORK_SCHEDULE,
+        dogShelter = new DogShelter(INFORMATION, ADDRESS, PHONE_NUMBER, WORK_SCHEDULE,
                 SECURITY_CONTACTS, SAFETY_RECOMMENDATIONS);
 
         mockMvc = MockMvcBuilders
@@ -74,11 +77,11 @@ class CatShelterControllerTest {
     }
 
     @Test
-    void shouldReturn200WhenCreateCorrectFieldsCatShelter() throws Exception {
-        Mockito.when(catShelterServiceMock.createCatShelter(any())).thenReturn(catShelter);
-        mockMvc.perform(post("http://localhost:8080/catShelter")
+    void shouldReturn200WhenCreateCorrectFieldsDogShelter() throws Exception {
+        Mockito.when(dogShelterServiceMock.createDogShelter(any())).thenReturn(dogShelter);
+        mockMvc.perform(post("http://localhost:8080/dogShelter")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(catShelter)))
+                        .content(objectMapper.writeValueAsString(dogShelter)))
                 .andDo(print())
                 .andExpectAll(
                         status().isOk(),
@@ -88,270 +91,270 @@ class CatShelterControllerTest {
                         jsonPath("$.workSchedule").value(WORK_SCHEDULE),
                         jsonPath("$.securityContacts").value(SECURITY_CONTACTS),
                         jsonPath("$.safetyRecommendations").value(SAFETY_RECOMMENDATIONS));
-        verify(catShelterServiceMock, times(1)).createCatShelter(any());
+        verify(dogShelterServiceMock, times(1)).createDogShelter(any());
     }
 
     @Test
-    void shouldReturn200WhenReceivedCorrectFieldsCatShelterById() throws Exception {
-        when(catShelterServiceMock.findById(any())).thenReturn(catShelter);
-        mockMvc.perform(get("http://localhost:8080/catShelter/1")
+    void shouldReturn200WhenReceivedCorrectFieldsDogShelterById() throws Exception {
+        when(dogShelterServiceMock.findById(any())).thenReturn(dogShelter);
+        mockMvc.perform(get("http://localhost:8080/dogShelter/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER));
-        verify(catShelterServiceMock, times(1)).findById(any());
+        verify(dogShelterServiceMock, times(1)).findById(any());
     }
 
     @Test
-    void shouldReturn200WhenFindAllCatShelters() throws Exception {
-        when(catShelterServiceMock.findAll()).thenReturn(List.of(catShelter));
-        mockMvc.perform(get("http://localhost:8080/catShelter"))
+    void shouldReturn200WhenFindAllDogShelters() throws Exception {
+        when(dogShelterServiceMock.findAll()).thenReturn(List.of(dogShelter));
+        mockMvc.perform(get("http://localhost:8080/dogShelter"))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock, times(1)).findAll();
+        verify(dogShelterServiceMock, times(1)).findAll();
     }
 
     @Test
-    void shouldReturn200WhenUpdateCorrectFieldsCatShelterById() throws Exception {
-        String json = objectMapper.writeValueAsString(catShelter);
-        when(catShelterServiceMock.updateById(any(), any())).thenReturn(catShelter);
-        mockMvc.perform(put("http://localhost:8080/catShelter/" + ID)
+    void shouldReturn200WhenUpdateCorrectFieldsDogShelterById() throws Exception {
+        String json = objectMapper.writeValueAsString(dogShelter);
+        when(dogShelterServiceMock.updateById(any(), any())).thenReturn(dogShelter);
+        mockMvc.perform(put("http://localhost:8080/dogShelter/" + ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ID.toString())
                         .content(json))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock, times(1)).updateById(any(), any());
+        verify(dogShelterServiceMock, times(1)).updateById(any(), any());
     }
 
     @Test
-    void shouldReturn200WhenDeleteCorrectFieldsCatShelterById() throws Exception {
-        when(catShelterServiceMock.deleteById(any())).thenReturn(catShelter);
-        mockMvc.perform(delete("http://localhost:8080/catShelter/" + ID)
+    void shouldReturn200WhenDeleteCorrectFieldsDogShelterById() throws Exception {
+        when(dogShelterServiceMock.deleteById(any())).thenReturn(dogShelter);
+        mockMvc.perform(delete("http://localhost:8080/dogShelter/" + ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock, times(1)).deleteById(any());
+        verify(dogShelterServiceMock, times(1)).deleteById(any());
     }
 
     @Test
-    void shouldReturn200WhenGetInformationAboutCatShelterById() throws Exception {
-        when(catShelterServiceMock.returnInformation(any())).thenReturn(INFORMATION);
-        mockMvc.perform(get("http://localhost:8080/catShelter/information/" + ID)
+    void shouldReturn200WhenGetInformationAboutDogShelterById() throws Exception {
+        when(dogShelterServiceMock.returnInformation(any())).thenReturn(INFORMATION);
+        mockMvc.perform(get("http://localhost:8080/dogShelter/information/" + ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock, times(1)).returnInformation(any());
+        verify(dogShelterServiceMock, times(1)).returnInformation(any());
     }
 
     @Test
-    void shouldReturn200WhenGetAddressAndWorkScheduleAboutCatShelterById() throws Exception {
-        when(catShelterServiceMock.returnAddressAndWorkSchedule(any())).thenReturn(INFORMATION + " " + ADDRESS);
-        mockMvc.perform(get("http://localhost:8080/catShelter/address-and-work-schedule/" + ID)
+    void shouldReturn200WhenGetAddressAndWorkScheduleAboutDogShelterById() throws Exception {
+        when(dogShelterServiceMock.returnAddressAndWorkSchedule(any())).thenReturn(INFORMATION + " " + ADDRESS);
+        mockMvc.perform(get("http://localhost:8080/dogShelter/address-and-work-schedule/" + ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock, times(1)).returnAddressAndWorkSchedule(any());
+        verify(dogShelterServiceMock, times(1)).returnAddressAndWorkSchedule(any());
     }
 
     @Test
-    void shouldReturn200WhenGetPhoneNumberAboutCatShelterById() throws Exception {
-        when(catShelterServiceMock.returnPhone(any())).thenReturn(PHONE_NUMBER);
-        mockMvc.perform(get("http://localhost:8080/catShelter/phone_number/" + ID)
+    void shouldReturn200WhenGetPhoneNumberAboutDogShelterById() throws Exception {
+        when(dogShelterServiceMock.returnPhone(any())).thenReturn(PHONE_NUMBER);
+        mockMvc.perform(get("http://localhost:8080/dogShelter/phone_number/" + ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock, times(1)).returnPhone(any());
+        verify(dogShelterServiceMock, times(1)).returnPhone(any());
     }
 
     @Test
-    void shouldReturn200WhenGetSecurityContactsAboutCatShelterById() throws Exception {
-        when(catShelterServiceMock.returnSecurityContacts(any())).thenReturn(PHONE_NUMBER);
-        mockMvc.perform(get("http://localhost:8080/catShelter/security-contacts/" + ID)
+    void shouldReturn200WhenGetSecurityContactsAboutDogShelterById() throws Exception {
+        when(dogShelterServiceMock.returnSecurityContacts(any())).thenReturn(PHONE_NUMBER);
+        mockMvc.perform(get("http://localhost:8080/dogShelter/security-contacts/" + ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock, times(1)).returnSecurityContacts(any());
+        verify(dogShelterServiceMock, times(1)).returnSecurityContacts(any());
     }
 
     @Test
-    void shouldReturn200WhenGetSafetyRecommendationsAboutCatShelterById() throws Exception {
-        when(catShelterServiceMock.returnSafetyRecommendations(any())).thenReturn(PHONE_NUMBER);
-        mockMvc.perform(get("http://localhost:8080/catShelter/safety-recommendations/" + ID)
+    void shouldReturn200WhenGetSafetyRecommendationsAboutDogShelterById() throws Exception {
+        when(dogShelterServiceMock.returnSafetyRecommendations(any())).thenReturn(PHONE_NUMBER);
+        mockMvc.perform(get("http://localhost:8080/dogShelter/safety-recommendations/" + ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock, times(1)).returnSafetyRecommendations(any());
+        verify(dogShelterServiceMock, times(1)).returnSafetyRecommendations(any());
     }
 
     @Test
-    void shouldReturn200AddCatToCatShelter() throws Exception {
-        mockMvc.perform(post("http://localhost:8080/catShelter/add-cat-to-shelter")
+    void shouldReturn200AddDogToDogShelter() throws Exception {
+        mockMvc.perform(post("http://localhost:8080/dogShelter/add-dog-to-shelter")
                         .param("name", NAME1)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock, times(1)).addCatToShelter(any());
+        verify(dogShelterServiceMock, times(1)).addDogToShelter(any());
     }
 
     @Test
-    void shouldReturn200AddCatOwnerToCatShelter() throws Exception {
-        mockMvc.perform(post("http://localhost:8080/catShelter/add-cat-owner-to-shelter")
+    void shouldReturn200AddDogOwnerToDogShelter() throws Exception {
+        mockMvc.perform(post("http://localhost:8080/dogShelter/add-dog-owner-to-shelter")
                         .param("phoneNumber", PHONE_NUMBER)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock, times(1)).addCatOwnerToShelter(any());
+        verify(dogShelterServiceMock, times(1)).addDogOwnerToShelter(any());
     }
 
     @Test
-    void shouldReturn200AddDatingToCatShelter() throws Exception {
+    void shouldReturn200AddDatingToDogShelter() throws Exception {
 
         Long id = 1L;
         String value = "test";
 
-        mockMvc.perform(post("http://localhost:8080/catShelter/add-dating")
+        mockMvc.perform(post("http://localhost:8080/dogShelter/add-dating")
                         .param("id", id.toString())
                         .param("value", value))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
-        verify(catShelterServiceMock, times(1)).addDating(1l, value);
+        verify(dogShelterServiceMock, times(1)).addDating(1l, value);
     }
 
     @Test
-    void shouldReturn200AddDocumentsToCatShelter() throws Exception {
+    void shouldReturn200AddDocumentsToDogShelter() throws Exception {
 
         Long id = 1L;
         String value = "test";
 
-        mockMvc.perform(post("http://localhost:8080/catShelter/add-documents")
+        mockMvc.perform(post("http://localhost:8080/dogShelter/add-documents")
                         .param("id", id.toString())
                         .param("value", value))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
-        verify(catShelterServiceMock, times(1)).addDocuments(1l, value);
+        verify(dogShelterServiceMock, times(1)).addDocuments(1l, value);
     }
 
     @Test
-    void shouldReturn200AddTransportationToCatShelter() throws Exception {
+    void shouldReturn200AddTransportationToDogShelter() throws Exception {
 
         Long id = 1L;
         String value = "test";
 
-        mockMvc.perform(post("http://localhost:8080/catShelter/add-transportation")
+        mockMvc.perform(post("http://localhost:8080/dogShelter/add-transportation")
                         .param("id", id.toString())
                         .param("value", value))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
-        verify(catShelterServiceMock, times(1)).addTransportation(1l, value);
+        verify(dogShelterServiceMock, times(1)).addTransportation(1l, value);
     }
 
     @Test
-    void shouldReturn200AddArrangementKittenToCatShelter() throws Exception {
+    void shouldReturn200AddArrangementPuppyToDogShelter() throws Exception {
 
         Long id = 1L;
         String value = "test";
 
-        mockMvc.perform(post("http://localhost:8080/catShelter/add-arrangement-kitten")
+        mockMvc.perform(post("http://localhost:8080/dogShelter/add-arrangement-puppy")
                         .param("id", id.toString())
                         .param("value", value))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
-        verify(catShelterServiceMock, times(1)).addArrangementKitten(1l, value);
+        verify(dogShelterServiceMock, times(1)).addArrangementPuppy(1l, value);
     }
 
     @Test
-    void shouldReturn200AddArrangementCatToCatShelter() throws Exception {
+    void shouldReturn200AddArrangementDogToDogShelter() throws Exception {
 
         Long id = 1L;
         String value = "test";
 
-        mockMvc.perform(post("http://localhost:8080/catShelter/add-arrangement-cat")
+        mockMvc.perform(post("http://localhost:8080/dogShelter/add-arrangement-dog")
                         .param("id", id.toString())
                         .param("value", value))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
-        verify(catShelterServiceMock, times(1)).addArrangementCat(1l, value);
+        verify(dogShelterServiceMock, times(1)).addArrangementDog(1l, value);
     }
 
     @Test
-    void shouldReturn200AddArrangementDisabledToCatShelter() throws Exception {
+    void shouldReturn200AddArrangementDisabledToDogShelter() throws Exception {
 
         Long id = 1L;
         String value = "test";
 
-        mockMvc.perform(post("http://localhost:8080/catShelter/add-arrangement-disabled")
+        mockMvc.perform(post("http://localhost:8080/dogShelter/add-arrangement-disabled")
                         .param("id", id.toString())
                         .param("value", value))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
-        verify(catShelterServiceMock, times(1)).addArrangementDisabled(1l, value);
+        verify(dogShelterServiceMock, times(1)).addArrangementDisabled(1l, value);
     }
 
     @Test
-    void shouldReturn200GetDatingFromCatShelter() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/catShelter/get-cat-dating")
+    void shouldReturn200GetDogDatingFromDogShelter() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/dogShelter/get-dog-dating")
                         .param("id", ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock, times(1)).returnDating(any());
+        verify(dogShelterServiceMock, times(1)).returnDating(any());
     }
 
     @Test
-    void shouldReturn200GetDocumentsFromCatShelter() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/catShelter/get-cat-documents")
+    void shouldReturn200GetDogDocumentsFromDogShelter() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/dogShelter/get-dog-documents")
                         .param("id", ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock, times(1)).returnDocuments(any());
+        verify(dogShelterServiceMock, times(1)).returnDocuments(any());
     }
 
     @Test
-    void shouldReturn200GetTransportationFromCatShelter() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/catShelter/get-cat-transportation")
+    void shouldReturn200GetDogTransportationFromDogShelter() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/dogShelter/get-dog-transportation")
                         .param("id", ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock, times(1)).returnTransportation(any());
+        verify(dogShelterServiceMock, times(1)).returnTransportation(any());
     }
 
     @Test
-    void shouldReturn200GetArrangementKittenFromCatShelter() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/catShelter/get-cat-arrangement-kitten")
+    void shouldReturn200GetDogArrangementPuppyFromDogShelter() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/dogShelter/get-dog-arrangement-puppy")
                         .param("id", ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock, times(1)).returnArrangementKitten(any());
+        verify(dogShelterServiceMock, times(1)).returnArrangementPuppy(any());
     }
 
     @Test
-    void shouldReturn200GetArrangementCatFromCatShelter() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/catShelter/get-cat-arrangement-cat")
+    void shouldReturn200GetArrangementDogFromDogShelter() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/dogShelter/get-dog-arrangement-dog")
                         .param("id", ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock, times(1)).returnArrangementCat(any());
+        verify(dogShelterServiceMock, times(1)).returnArrangementDog(any());
     }
 
     @Test
-    void shouldReturn200GetArrangementDisabledFromCatShelter() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/catShelter/get-cat-arrangement-disabled")
+    void shouldReturn200GetArrangementDisabledFromDogShelter() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/dogShelter/get-dog-arrangement-disabled")
                         .param("id", ID.toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
-        verify(catShelterServiceMock, times(1)).returnArrangementDisabled(any());
+        verify(dogShelterServiceMock, times(1)).returnArrangementDisabled(any());
     }
 
 }

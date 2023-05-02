@@ -74,7 +74,6 @@ class CatShelterServiceTest {
 //        Mockito.when(validationServiceMock.validate(catShelter)).thenReturn(false);
 //        Mockito.when(catShelterRepositoryMock.save(any())).thenReturn(catShelter);
 //        assertThrows(ValidationException.class, () -> catShelterServiceOut.createCatShelter(catShelter));
-//
 //    }
 
     @Test
@@ -148,7 +147,7 @@ class CatShelterServiceTest {
         assertEquals(catShelter.getPhoneNumber(), catShelterServiceOut.returnPhone(any()));
     }
     @Test
-    @DisplayName("Вывод информации об адресе и режме работы приюта для кошек")
+    @DisplayName("Вывод информации об адресе и режиме работы приюта для кошек")
     public void shouldReturnAddressAndWorkScheduleCatShelter() {
         Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
         assertEquals(catShelter.getAddress() + " " + catShelter.getWorkSchedule(), catShelterServiceOut.returnAddressAndWorkSchedule(any()));
