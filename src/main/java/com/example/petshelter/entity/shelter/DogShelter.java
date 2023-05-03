@@ -20,7 +20,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Entity
 @Table(name = "dog_shelter")
-public class DogShelter extends AnimalShelter {
+public class DogShelter{
 
     /**
      * Уникальный идентификатор записи в БД
@@ -88,29 +88,22 @@ public class DogShelter extends AnimalShelter {
     private String recommendedDogHandlers;
     private String cancelDogTaker;
 
-    public DogShelter(Long id,
-                      String information,
-                      String address,
-                      String phoneNumber,
-                      String workSchedule,
-                      String securityContacts,
-                      String safetyRecommendations) {
-        super(id, information, address, phoneNumber, workSchedule, securityContacts, safetyRecommendations);
+    public DogShelter(Long id, String information, String address, String phoneNumber, String workSchedule, String securityContacts, String safetyRecommendations) {
+        this.id = id;
+        this.information = information;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.workSchedule = workSchedule;
+        this.securityContacts = securityContacts;
+        this.safetyRecommendations = safetyRecommendations;
     }
 
-    public DogShelter(Long id,
-                      String information,
-                      String address,
-                      String phoneNumber,
-                      String workSchedule,
-                      String securityContacts,
-                      String safetyRecommendations,
-                      List<Dog> dogs,
-                      List<DogOwner> dogOwners) {
-
-        super(id, information, address, phoneNumber, workSchedule, securityContacts, safetyRecommendations);
-
-        this.dogs = dogs;
-        this.dogOwners = dogOwners;
+    public DogShelter(String information, String address, String phoneNumber, String workSchedule, String securityContacts, String safetyRecommendations) {
+        this.information = information;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.workSchedule = workSchedule;
+        this.securityContacts = securityContacts;
+        this.safetyRecommendations = safetyRecommendations;
     }
 }

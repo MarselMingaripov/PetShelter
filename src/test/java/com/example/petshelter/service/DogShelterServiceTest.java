@@ -80,7 +80,7 @@ class DogShelterServiceTest {
     @Test
     @DisplayName("Исключение при поиске приюта для собак по некорректному Id")
     public void shouldThrowNotFoundInBdExceptionWhenFindDogShelterByIdIsNotValid() {
-        Mockito.when(dogShelterServiceOut.findById(ID)).thenReturn(Optional.empty());
+        Mockito.when(dogShelterServiceOut.findById(any())).thenReturn(null);
         assertThrows(NotFoundInBdException.class, () -> dogShelterServiceOut.findById(ID));
     }
     @Test
