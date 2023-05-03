@@ -3,6 +3,7 @@ package com.example.petshelter.service;
 import com.example.petshelter.entity.Cat;
 import com.example.petshelter.entity.StatusAnimal;
 import com.example.petshelter.exception.NotFoundInBdException;
+import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.CatRepository;
 import com.example.petshelter.service.impl.CatServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,16 +43,16 @@ public class CatServiceImplTest {
     }
     @Test
     @DisplayName("Проверка корректного создания нового котика")
-    public void shouldReturnWhenCreateNewUser() {
+    public void shouldReturnWhenCreateNewUCat() {
 
-        Mockito.when(validationServiceMock.validatePhoneNumber(any())).thenReturn(true);
+        Mockito.when(validationServiceMock.validate(cat)).thenReturn(true);
         Mockito.when(catRepositoryMock.save(any())).thenReturn(cat);
         assertEquals(cat, catServiceOut.createCat(cat));
         verify(catRepositoryMock, times(1)).save(any());
     }
     @Test
     @DisplayName("Поиск котика по его Id")
-    public void shouldFindUserById() {
+    public void shouldFindCatById() {
         Mockito.when(catRepositoryMock.findById(ID)).thenReturn(Optional.of(cat));
         assertEquals(cat, catServiceOut.findById(ID));
     }
@@ -62,25 +63,17 @@ public class CatServiceImplTest {
         assertThrows(NotFoundInBdException.class, () -> catServiceOut.findById(ID));
     }
     @Test
-    @DisplayName("Возвращает true если котик с таким именем есть в списке")
-    void shouldReturnTrue() {
-        when(catRepositoryMock.findByName(VALID_CAT.getName())).thenReturn(Optional.of(VALID_CAT));
-        assertTrue((BooleanSupplier) catServiceOut.findByName(String.valueOf(VALID_CAT)));
-        verify(catRepositoryMock, times(1)).findByName(VALID_CAT.getName());
-    }
-    @Test
-    @DisplayName("Поиск и обновление пользователя по его Id")
-    public void shouldFindAndUpdateCorrectUser() {
+    @DisplayName("Поиск и обновление котика по его Id")
+    public void shouldFindAndUpdateCorrectCat() {
         Mockito.when(catRepositoryMock.findById(ID)).thenReturn(Optional.of(cat));
         Mockito.when(catRepositoryMock.save(any())).thenReturn(cat);
         assertEquals(cat, catServiceOut.updateById(ID, cat));
     }
     @Test
-    @DisplayName("Возвращает false если пользователя с именем нет в списке")
+    @DisplayName("Возвращает false если котика с именем нет в списке")
     void shouldReturnFalse() {
-        when(catRepositoryMock.findByName(INVALID_CAT.getName())).thenReturn(Optional.of(null));
-        assertTrue((BooleanSupplier) catServiceOut.findByName(String.valueOf(INVALID_CAT)));
-        verify(catRepositoryMock, times(1)).findByName(INVALID_CAT.getName());
+        Mockito.when(validationServiceMock.validate(cat)).thenReturn(false);
+        assertThrows(ValidationException.class, () -> catServiceOut.createCat(cat));
     }
     @Test
     @DisplayName("Исключение при обновлении по некорректному Id котика")
@@ -94,4 +87,47 @@ public class CatServiceImplTest {
         Mockito.when(catRepositoryMock.findAll()).thenReturn(CAT);
         assertEquals(CAT, catServiceOut.findAll());
     }
+    @Test
+    @DisplayName("Исключение при поиске владельца собаки по некорректному Id")
+    void shouldThrowNotFoundInBdExceptionWhenIdDogOwnerIsNotValid() {
+        Mockito.when(catRepositoryMock.findById(any())).thenReturn(Optional.empty());
+        assertThrows(NotFoundInBdException.class, () -> catServiceOut.findById(ID));
+    }
+    @Test
+    @DisplayName("Проверка удаления котиков")
+    void shouldReturnWhenDeleteCatOwner() {
+        Mockito.when(catRepositoryMock.findById(any())).thenReturn(Optional.of(cat));
+        assertEquals(cat, catServiceOut.deleteById(ID));
+    }
+    @Test
+    @DisplayName("Исключение при некорректной валидации владельца кошки")
+    void shouldThrowValidationExceptionWhenValidateNotValid() {
+        Mockito.when(validationServiceMock.validate(cat)).thenReturn(false);
+        assertThrows(ValidationException.class, () -> catServiceOut.createCat(cat));
+
+    }
+    @Test
+    @DisplayName("Исключение при поиске владельца кошки по некорректному Id")
+    void shouldThrowNotFoundInBdExceptionWhenIdCatOwnerIsNotValid() {
+        Mockito.when(catRepositoryMock.findById(any())).thenReturn(Optional.empty());
+        assertThrows(NotFoundInBdException.class,()->catServiceOut.findById(ID));
+    }
+    @Test
+    @DisplayName("Поиск владельца кошки по его имени")
+    void shouldFindCatOwnerById() {
+        Mockito.when(catRepositoryMock.findByName(any())).thenReturn(Optional.of(cat));
+        assertEquals(cat, catServiceOut.findByName(cat.getName()));
+    }
+//    @Test
+//    @DisplayName("Поиск кошки по имени")
+//    void shouldFindCatOwnerByPhoneNumber() {
+//        Mockito.when(catRepositoryMock.existsByName()).thenReturn(Optional.of(catOwner));
+//        assertEquals(catOwner, catOwnerServiceOut.findByPhoneNumber(PHONE_NUMBER));
+//    }
+//    @Test
+//    @DisplayName("Исключение при поиске кошки по некорректному имени")
+//    void shouldThrowNotFoundInBdExceptionWhenPhoneNumberCatOwnerIsNotValid() {
+//        Mockito.when(catOwnerRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.empty());
+//        assertThrows(NotFoundInBdException.class,()->catOwnerServiceOut.findByPhoneNumber(PHONE_NUMBER));
+//    }
 }
