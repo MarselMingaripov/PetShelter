@@ -1,7 +1,9 @@
 package com.example.petshelter.service;
 
 import com.example.petshelter.entity.Report;
+import com.example.petshelter.entity.User;
 import com.example.petshelter.exception.NotFoundInBdException;
+import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.ReportRepository;
 import com.example.petshelter.service.impl.ReportServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +37,7 @@ public class ReportServiceTest {
     private String FOOD_RATION = "foodRation";
     private String GENERAL_HEALTH = "generalHealth";
     private String BEHAVIOR_CHANGES = "behaviorChanges";
-
+    private static List<Report> REPORTS = List.of(new Report());
     private Report report;
 
     @BeforeEach
@@ -50,6 +52,21 @@ public class ReportServiceTest {
         Mockito.when(reportRepositoryMock.save(any())).thenReturn(report);
         assertEquals(report, reportServiceOut.createReport(report));
     }
+    @Test
+    @DisplayName("Поиск сообщения волонтеру по его Id")
+    public void shouldFindUserById() {
+        Mockito.when(reportRepositoryMock.findById(ID))
+                .thenReturn(Optional.of(report));
+        assertEquals(report, reportServiceOut.findById(ID));
+    }
+    @Test
+    @DisplayName("Исключение при вводе некорректного отчета")
+    public void shouldThrowValidationExceptionWhenMessageToVolunteerIsNotValid() {
+
+        Mockito.when(validationServiceMock.validate(report)).thenReturn(false);
+        assertThrows(ValidationException.class, () -> reportServiceOut
+                .createReport(report));
+    }
 
     @Test
     @DisplayName("Поиск и обновление отчета по его Id")
@@ -60,23 +77,23 @@ public class ReportServiceTest {
 
     }
     @Test
-    @DisplayName("Исключение при поиске отчета по некорректному ID")
-    public void shouldThrowNotFoundInBdExceptionWhenIdIsNotValid() {
+    @DisplayName("Исключение при обновлении по некорректному Id сообщения для волонтера")
+    public void shouldThrowNotFoundInBdExceptionWhenUpdateByIdIsNotValid() {
         Mockito.when(reportRepositoryMock.findById(any())).thenReturn(Optional.empty());
-        assertThrows(NotFoundInBdException.class, () -> reportServiceOut.findById(ID));
+        assertThrows(NotFoundInBdException.class, () -> reportServiceOut.updateById(ID, report));
+    }
+    @Test
+    @DisplayName("Удаление отчета по его Id")
+    public void shouldDeleteUserById() {
+        Mockito.when(reportRepositoryMock.findById(ID)).thenReturn(Optional.of(report));
+        assertEquals(report, reportServiceOut.deleteById(ID));
     }
     @Test
     @DisplayName("Вывод списка всех отчетов")
     public void shouldFindByAllCorrectReport() {
-        Report report1 = new Report(1L, PHOTO, FOOD_RATION, GENERAL_HEALTH, BEHAVIOR_CHANGES);
-        Report report2 = new Report(2L, PHOTO, FOOD_RATION, GENERAL_HEALTH, BEHAVIOR_CHANGES);
-        List<Report> reports = new ArrayList<>();
-        reports.add(report1);
-        reports.add(report2);
-
-        Mockito.when(reportRepositoryMock.findAll()).thenReturn(reports);
-        List<Report> result = reportRepositoryMock.findAll();
-        assertEquals(reports, result);
+        Mockito.when(reportRepositoryMock.findAll()).thenReturn(REPORTS);
+        assertEquals(REPORTS, reportServiceOut.findAll());
+    }
     }
 
-}
+

@@ -45,7 +45,7 @@ public class MessageToVolunteerController {
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "405", description = "Ошибка валидации")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
-    public ResponseEntity<MessageToVolunteer> updateMessage(@PathVariable Long id, @RequestBody MessageToVolunteer messageToVolunteer){
+    public ResponseEntity<MessageToVolunteer> updateMessage(@PathVariable Long id, MessageToVolunteer messageToVolunteer){
         return ResponseEntity.ok().body(messageToVolunteerService.updateById(id, messageToVolunteer));
     }
 

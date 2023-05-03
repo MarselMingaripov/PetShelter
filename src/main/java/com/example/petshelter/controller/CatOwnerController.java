@@ -37,7 +37,7 @@ public class CatOwnerController {
     public ResponseEntity<CatOwner> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(catOwnerService.findById(id));
     }
-//TODO: добавить описание 400 статуса, тест есть
+
     @GetMapping("/find-by-phone-number")
     @Operation(summary = "Получение данных усыновителя кота по номеру телефона")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")

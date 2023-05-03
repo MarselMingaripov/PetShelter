@@ -1,7 +1,5 @@
 package com.example.petshelter.service.impl;
 
-import com.example.petshelter.entity.Cat;
-import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.MessageToVolunteer;
 import com.example.petshelter.entity.StatusMessage;
 import com.example.petshelter.exception.NotFoundInBdException;
