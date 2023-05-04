@@ -11,6 +11,7 @@ import com.example.petshelter.service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,5 +56,15 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public List<Report> findAll() {
         return reportRepository.findAll();
+    }
+
+    @Override
+    public Report findBySenderAndDate(Long sender, LocalDate localDate){
+        Optional<Report> report = reportRepository.findBySenderAndReceiveDate(sender, localDate);
+        if (report.isPresent()){
+            return report.get();
+        } else {
+            return null;
+        }
     }
 }

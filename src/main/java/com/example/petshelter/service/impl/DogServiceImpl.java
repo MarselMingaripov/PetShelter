@@ -117,14 +117,14 @@ public class DogServiceImpl implements DogService {
             }
             Dog dog = findByName(name);
             if (dog.getStatusAnimal().equals(StatusAnimal.RESERVED)) {
-                throw new AnimalIsReservedException("Кошка уже забронирована");
+                throw new AnimalIsReservedException("Собака уже забронирована");
             }
             dog.setStatusAnimal(StatusAnimal.RESERVED);
             MessageToVolunteer message = new MessageToVolunteer(user.getPhoneNumber(), "забронировал собаку " + dog.getName());
             messageToVolunteerService.createMessageToVolunteer(message);
             return createDog(dog);
         } else {
-            throw new NotFoundInBdException("Нет кота с таком именем");
+            throw new NotFoundInBdException("Нет собаки с таком именем");
         }
     }
 

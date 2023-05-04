@@ -1,0 +1,24 @@
+{
+  "message": {
+    "chat": {
+      "id": 123
+    },
+    /*"text": "%text%",
+    "contact": {
+      "phone_number": "+79272411661"
+    },*/
+    "photo": [
+      {
+        "file_id": "213s"
+      }
+    ]
+  }/*,
+  "callback_query": {
+    "data": "%data%",
+    "message": {
+      "chat": {
+        "id": 123
+      }
+    }
+  }*/
+}

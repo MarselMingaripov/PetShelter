@@ -42,12 +42,27 @@ public class Report {
      * Дата отсылки отчета
      */
     private LocalDate receiveDate;
+    private Long sender;
 
     public Report(Long id, byte[] photo, String foodRation, String generalHealth, String behaviorChanges) {
         this.photo = photo;
         this.foodRation = foodRation;
         this.generalHealth = generalHealth;
         this.behaviorChanges = behaviorChanges;
+        this.receiveDate = LocalDate.now();
+    }
+
+    public Report(byte[] photo, String foodRation, String generalHealth, String behaviorChanges) {
+        this.photo = photo;
+        this.foodRation = foodRation;
+        this.generalHealth = generalHealth;
+        this.behaviorChanges = behaviorChanges;
+        this.receiveDate = LocalDate.now();
+    }
+
+    public Report(byte[] photo, Long sender) {
+        this.photo = photo;
+        this.sender = sender;
         this.receiveDate = LocalDate.now();
     }
 }

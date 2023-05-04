@@ -20,7 +20,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Entity
 @Table(name = "dog_shelter")
-public class DogShelter extends AnimalShelter {
+public class DogShelter{
 
     /**
      * Уникальный идентификатор записи в БД
@@ -28,6 +28,33 @@ public class DogShelter extends AnimalShelter {
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
+
+    private String information;
+
+    /**
+     * Адрес питомника
+     */
+    private String address;
+
+    /**
+     * Номер телефона питомника
+     */
+    private String phoneNumber;
+
+    /**
+     * Режим работы питомника
+     */
+    private String workSchedule;
+
+    /**
+     * Контакты охраны питомника
+     */
+    private String securityContacts;
+
+    /**
+     * Рекомендации по технике безопасности на территории питомника
+     */
+    private String safetyRecommendations;
 
     /**
      * Список собак
@@ -50,34 +77,33 @@ public class DogShelter extends AnimalShelter {
     /**
      * Список рекомендаций от приюта для собак
      */
-    @Transient
-    private Map<DogShelterConsult, String> dogConsult;
 
-    public DogShelter(Long id,
-                      String information,
-                      String address,
-                      String phoneNumber,
-                      String workSchedule,
-                      String securityContacts,
-                      String safetyRecommendations) {
-        super(id, information, address, phoneNumber, workSchedule, securityContacts, safetyRecommendations);
+    private String dating;
+    private String documents;
+    private String transportation;
+    private String arrangementPuppy;
+    private String arrangementDog;
+    private String arrangementDisabled;
+    private String dogHandlerRecommendations;
+    private String recommendedDogHandlers;
+    private String cancelDogTaker;
+
+    public DogShelter(Long id, String information, String address, String phoneNumber, String workSchedule, String securityContacts, String safetyRecommendations) {
+        this.id = id;
+        this.information = information;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.workSchedule = workSchedule;
+        this.securityContacts = securityContacts;
+        this.safetyRecommendations = safetyRecommendations;
     }
 
-    public DogShelter(Long id,
-                      String information,
-                      String address,
-                      String phoneNumber,
-                      String workSchedule,
-                      String securityContacts,
-                      String safetyRecommendations,
-                      List<Dog> dogs,
-                      List<DogOwner> dogOwners,
-                      Map<DogShelterConsult, String> dogConsult) {
-
-        super(id, information, address, phoneNumber, workSchedule, securityContacts, safetyRecommendations);
-
-        this.dogs = dogs;
-        this.dogOwners = dogOwners;
-        this.dogConsult = dogConsult;
+    public DogShelter(String information, String address, String phoneNumber, String workSchedule, String securityContacts, String safetyRecommendations) {
+        this.information = information;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.workSchedule = workSchedule;
+        this.securityContacts = securityContacts;
+        this.safetyRecommendations = safetyRecommendations;
     }
 }

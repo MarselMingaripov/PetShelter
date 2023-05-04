@@ -1,6 +1,7 @@
 package com.example.petshelter.service;
 
 import com.example.petshelter.entity.MessageToVolunteer;
+import com.example.petshelter.entity.StatusMessage;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.MessageToVolunteerRepository;
@@ -18,8 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,6 +37,7 @@ public class MessageToVolunteerServiceTest {
     private final static String SENDER = "sender";
     private final static String TEXT = "text";
 
+
     private MessageToVolunteer messageToVolunteer;
 
     @BeforeEach
@@ -49,12 +52,29 @@ public class MessageToVolunteerServiceTest {
         Mockito.when(messageToVolunteerRepositoryMock.save(any())).thenReturn(messageToVolunteer);
         assertEquals(messageToVolunteer, messageToVolunteerServiceOut.createMessageToVolunteer(messageToVolunteer));
     }
+
     @Test
     @DisplayName("Исключение при вводе некорректного сообщения волонтеру")
-    public void shouldThrowValidationExceptionWhenЬMessageToVolunteerIsNotValid() {
+    public void shouldThrowValidationExceptionWhenMessageToVolunteerIsNotValid() {
 
         Mockito.when(validationServiceMock.validate(messageToVolunteer)).thenReturn(false);
-        assertThrows(ValidationException.class, () -> messageToVolunteerServiceOut.createMessageToVolunteer(messageToVolunteer));
+        assertThrows(ValidationException.class, () -> messageToVolunteerServiceOut
+                .createMessageToVolunteer(messageToVolunteer));
+    }
+
+    @Test
+    @DisplayName("Поиск сообщения волонтеру по его Id")
+    public void shouldFindUserById() {
+        Mockito.when(messageToVolunteerRepositoryMock.findById(ID))
+                .thenReturn(Optional.of(messageToVolunteer));
+        assertEquals(messageToVolunteer, messageToVolunteerServiceOut.findById(ID));
+    }
+
+    @Test
+    @DisplayName("Исключение при поиске по некорректному ID сообщения для волонтера")
+    public void shouldThrowNotFoundInBdExceptionWhenIdIsNotValid() {
+        Mockito.when(messageToVolunteerRepositoryMock.findById(any())).thenReturn(Optional.empty());
+        assertThrows(NotFoundInBdException.class, () -> messageToVolunteerServiceOut.findById(ID));
     }
 
     @Test
@@ -63,14 +83,22 @@ public class MessageToVolunteerServiceTest {
         Mockito.when(messageToVolunteerRepositoryMock.findById(ID)).thenReturn(Optional.of(messageToVolunteer));
         Mockito.when(messageToVolunteerRepositoryMock.save(any())).thenReturn(messageToVolunteer);
         assertEquals(messageToVolunteer, messageToVolunteerServiceOut.updateById(ID, messageToVolunteer));
+    }
 
-    }
     @Test
-    @DisplayName("Исключение при поиске по некорректному ID сообщения для волонтера")
-    public void shouldThrowNotFoundInBdExceptionWhenIdIsNotValid() {
+    @DisplayName("Исключение при обновлении по некорректному Id сообщения для волонтера")
+    public void shouldThrowNotFoundInBdExceptionWhenUpdateByIdIsNotValid() {
         Mockito.when(messageToVolunteerRepositoryMock.findById(any())).thenReturn(Optional.empty());
-        assertThrows(NotFoundInBdException.class, () -> messageToVolunteerServiceOut.findById(ID));
+        assertThrows(NotFoundInBdException.class, () -> messageToVolunteerServiceOut.updateById(ID, messageToVolunteer));
     }
+
+    @Test
+    @DisplayName("Удаление сообщения для волонтера по его Id")
+    public void shouldDeleteUserById() {
+        Mockito.when(messageToVolunteerRepositoryMock.findById(ID)).thenReturn(Optional.of(messageToVolunteer));
+        assertEquals(messageToVolunteer, messageToVolunteerServiceOut.deleteById(ID));
+    }
+
     @Test
     @DisplayName("Вывод списка всех сообщений")
     public void shouldFindByAllCorrectMessageToVolunteer() {
@@ -81,8 +109,25 @@ public class MessageToVolunteerServiceTest {
         messages.add(message2);
 
         Mockito.when(messageToVolunteerRepositoryMock.findAll()).thenReturn(messages);
-//        List<MessageToVolunteer> result = messageToVolunteerRepositoryMock.findAll();
         List<MessageToVolunteer> result = messageToVolunteerServiceOut.findAll();
         assertEquals(messages, result);
     }
+
+    @Test
+    @DisplayName("Поиск непрочитанных сообщений для волонтера")
+    void shouldCheckerMessageToVolunteer() {
+        List<MessageToVolunteer> messages = new ArrayList<>();
+        MessageToVolunteer readMessage = new MessageToVolunteer(1L, SENDER, TEXT);
+        readMessage.setStatusMessage(StatusMessage.READ);
+        messages.add(readMessage);
+
+        MessageToVolunteer unreadMessage = new MessageToVolunteer(2L, SENDER, TEXT);
+        unreadMessage.setStatusMessage(StatusMessage.UNREAD);
+        messages.add(unreadMessage);
+
+        Mockito.when(messageToVolunteerRepositoryMock.findAll()).thenReturn(messages);
+        boolean result = messageToVolunteerServiceOut.checker();
+        assertTrue(result);
+    }
+
 }

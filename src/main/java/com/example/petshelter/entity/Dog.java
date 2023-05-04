@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "dog")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Dog{
+public class Dog {
 
     /**
      * Уникальный идентификатор записи в БД
@@ -43,4 +43,13 @@ public class Dog{
      */
     @Enumerated(value = EnumType.STRING)
     private StatusAnimal statusAnimal;
+
+    public Dog(String name, int age, boolean healthStatus, boolean vaccination, StatusAnimal statusAnimal) {
+        this.name = name;
+        this.age = age;
+        this.healthStatus = healthStatus;
+        this.vaccination = vaccination;
+        this.statusAnimal = statusAnimal;
+    }
+
 }

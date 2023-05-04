@@ -48,7 +48,7 @@ public class UserController {
         return ResponseEntity.ok().body(userService.findById(id));
     }
     @GetMapping("phone/{id}")
-    @Operation(summary = "Получение телефона пользователя по id")
+    @Operation(summary = "Получение телефона пользователя по Telegram id")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -83,9 +83,9 @@ public class UserController {
     }
 
     @GetMapping("/tg-id-volunteer")
-    @Operation(summary = "Получение списка пользователей")
+    @Operation(summary = "Получение списка пользователей волонтеров")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
-    public ResponseEntity<String> findAllTgId(){
+    public ResponseEntity<List<Long>> findAllTgId(){
         return ResponseEntity.ok().body(userService.returnVolunteerTgId());
     }
 }

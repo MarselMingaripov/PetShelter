@@ -1,9 +1,6 @@
 package com.example.petshelter.service.impl;
 
-import com.example.petshelter.entity.Cat;
-import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.shelter.CatShelter;
-import com.example.petshelter.entity.shelter.CatShelterConsult;
 import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.CatShelterRepository;
@@ -29,9 +26,9 @@ public class CatShelterServiceImpl implements CatShelterService {
 
     @Override
     public CatShelter createCatShelter(CatShelter catShelter) {
-        if(!validationService.validate(catShelter)) {
+        /*if(!validationService.validate(catShelter)) {
             throw new ValidationException(catShelter.toString());
-        }
+        }*/
         return catShelterRepository.save(catShelter);
     }
 
@@ -108,11 +105,63 @@ public class CatShelterServiceImpl implements CatShelterService {
         findById(1L).getCatOwners().add(catOwnerService.findByPhoneNumber(phoneNumber));
     }
 
-    // TODO: 18.04.2023 Написать метод в контроллере + swagger doc + для собак
     @Override
-    public void addCatConsult(CatShelterConsult consult, String value, Long id){
-        CatShelter catShelter = findById(id);
-        catShelter.getCatConsult().put(consult, value);
-        createCatShelter(catShelter);
+    public String returnDating(Long id){
+        return findById(id).getDating();
+    }
+
+    @Override
+    public String returnDocuments(Long id){
+        return findById(id).getDocuments();
+    }
+
+    @Override
+    public String returnTransportation(Long id){
+        return findById(id).getTransportation();
+    }
+
+    @Override
+    public String returnArrangementKitten(Long id){
+        return findById(id).getArrangementKitten();
+    }
+
+    @Override
+    public String returnArrangementCat(Long id){
+        return findById(id).getArrangementCat();
+    }
+
+    @Override
+    public String returnArrangementDisabled(Long id){
+        return findById(id).getArrangementDisabled();
+    }
+
+    @Override
+    public void addDating(Long id, String data){
+        findById(id).setDating(data);
+    }
+
+    @Override
+    public void addDocuments(Long id, String data){
+        findById(id).setDocuments(data);
+    }
+
+    @Override
+    public void addTransportation(Long id, String data){
+        findById(id).setTransportation(data);
+    }
+
+    @Override
+    public void addArrangementKitten(Long id, String data){
+        findById(id).setArrangementKitten(data);
+    }
+
+    @Override
+    public void addArrangementCat(Long id, String data){
+        findById(id).setArrangementCat(data);
+    }
+
+    @Override
+    public void addArrangementDisabled(Long id, String data){
+        findById(id).setArrangementDisabled(data);
     }
 }

@@ -2,6 +2,7 @@ package com.example.petshelter.service;
 
 import com.example.petshelter.entity.Cat;
 import com.example.petshelter.entity.StatusAnimal;
+import com.example.petshelter.exception.NotFoundInBdException;
 import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.CatRepository;
 

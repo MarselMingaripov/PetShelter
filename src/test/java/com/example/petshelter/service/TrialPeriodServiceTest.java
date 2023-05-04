@@ -1,7 +1,9 @@
 package com.example.petshelter.service;
 
+import com.example.petshelter.entity.Report;
 import com.example.petshelter.entity.TrialPeriod;
 import com.example.petshelter.exception.NotFoundInBdException;
+import com.example.petshelter.exception.ValidationException;
 import com.example.petshelter.repository.TrialPeriodRepository;
 import com.example.petshelter.service.impl.TrialPeriodServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,8 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,10 +31,11 @@ public class TrialPeriodServiceTest {
     @InjectMocks
     private TrialPeriodServiceImpl trialPeriodServiceOut;
 
-    private TrialPeriod trialPeriod;
-
     private Long ID = 1L;
     private String OWNER_NAME = "ownerName";
+    private static List<TrialPeriod> TRIAL_PERIODS = List.of(new TrialPeriod());
+    private TrialPeriod trialPeriod;
+
 
     @BeforeEach
     public void init() {
@@ -41,39 +43,44 @@ public class TrialPeriodServiceTest {
     }
 
     @Test
-    @DisplayName("Проверка корректности создания нового отчета")
+    @DisplayName("Проверка корректности создания испытательного периода")
     void shouldReturnWhenCreateTrialPeriod() {
         Mockito.when(validationServiceMock.validate(trialPeriod)).thenReturn(true);
         Mockito.when(trialPeriodRepositoryMock.save(any())).thenReturn(trialPeriod);
         assertEquals(trialPeriod, trialPeriodServiceOut.createTrialPeriod(trialPeriod));
     }
-
     @Test
-    @DisplayName("Поиск и обновление отчета по его Id")
+    @DisplayName("Исключение при вводе некорректного испытательного периода")
+    public void shouldThrowValidationExceptionWhenMessageToVolunteerIsNotValid() {
+        Mockito.when(validationServiceMock.validate(trialPeriod)).thenReturn(false);
+        assertThrows(ValidationException.class, () -> trialPeriodServiceOut
+                .createTrialPeriod(trialPeriod));
+    }
+    @Test
+    @DisplayName("Поиск и обновление испытательного периода по его Id")
     public void shouldFindAndUpdateCorrectTrialPeriod() {
         Mockito.when(trialPeriodRepositoryMock.findById(ID)).thenReturn(Optional.of(trialPeriod));
         Mockito.when(trialPeriodRepositoryMock.save(any())).thenReturn(trialPeriod);
         assertEquals(trialPeriod, trialPeriodServiceOut.updateById(ID, trialPeriod));
 
     }
-    @Test
-    @DisplayName("Исключение при поиске отчета по некорректному ID")
+       @Test
+    @DisplayName("Исключение при поиске испытательного периода по некорректному ID")
     public void shouldThrowNotFoundInBdExceptionWhenIdIsNotValid() {
         Mockito.when(trialPeriodRepositoryMock.findById(any())).thenReturn(Optional.empty());
         assertThrows(NotFoundInBdException.class, () -> trialPeriodServiceOut.findById(ID));
     }
     @Test
+    @DisplayName("Удаление отчета по его Id")
+    public void shouldDeleteUserById() {
+        Mockito.when(trialPeriodRepositoryMock.findById(ID)).thenReturn(Optional.of(trialPeriod));
+        assertEquals(trialPeriod, trialPeriodServiceOut.deleteById(ID));
+    }
+    @Test
     @DisplayName("Вывод списка всех отчетов")
-    public void shouldFindByAllCorrectTrialPeriod() {
-        TrialPeriod trialPeriod1 = new TrialPeriod();
-        TrialPeriod trialPeriod2 = new TrialPeriod();
-        List<TrialPeriod> trialPeriods = new ArrayList<>();
-        trialPeriods.add(trialPeriod1);
-        trialPeriods.add(trialPeriod2);
-
-        Mockito.when(trialPeriodRepositoryMock.findAll()).thenReturn(trialPeriods);
-        List<TrialPeriod> result = trialPeriodRepositoryMock.findAll();
-        assertEquals(trialPeriods, result);
+    public void shouldFindByAllCorrectReport() {
+        Mockito.when(trialPeriodRepositoryMock.findAll()).thenReturn(TRIAL_PERIODS);
+        assertEquals(TRIAL_PERIODS, trialPeriodServiceOut.findAll());
     }
 
 }

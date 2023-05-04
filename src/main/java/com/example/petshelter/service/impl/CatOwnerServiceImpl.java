@@ -75,7 +75,7 @@ public class CatOwnerServiceImpl implements CatOwnerService {
         if (catOwner.isPresent()){
             return catOwner.get();
         } else {
-            throw new NotFoundInBdException("Not found!");
+            return null;
         }
     }
 
@@ -97,7 +97,7 @@ public class CatOwnerServiceImpl implements CatOwnerService {
             }
         } else {
             CatOwner catOwner = findByPhoneNumber(phoneNumber);
-            TrialPeriod currentTrialPeriod = new TrialPeriod(phoneNumber, LocalDate.now(), LocalDate.now().plusDays(trialDays),
+            TrialPeriod currentTrialPeriod = new TrialPeriod(phoneNumber, animalName, LocalDate.now(), LocalDate.now().plusDays(trialDays),
                     new ArrayList<Report>(), TrialPeriodResult.IN_PROCESS);
             trialPeriodService.createTrialPeriod(currentTrialPeriod);
             Cat cat = catService.findByName(animalName);
@@ -113,7 +113,7 @@ public class CatOwnerServiceImpl implements CatOwnerService {
     }
 
     private CatOwner getCatOwner(String phoneNumber, String animalName, long trialDays) {
-        TrialPeriod currentTrialPeriod = new TrialPeriod(phoneNumber, LocalDate.now(), LocalDate.now().plusDays(trialDays),
+        TrialPeriod currentTrialPeriod = new TrialPeriod(phoneNumber, animalName, LocalDate.now(), LocalDate.now().plusDays(trialDays),
                 new ArrayList<Report>(), TrialPeriodResult.IN_PROCESS);
         trialPeriodService.createTrialPeriod(currentTrialPeriod);
         Cat cat = catService.findByName(animalName);
