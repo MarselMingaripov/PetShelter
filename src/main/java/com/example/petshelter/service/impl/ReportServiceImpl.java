@@ -24,9 +24,9 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public Report createReport(Report report) {
-        if (!validationService.validate(report)) {
+        /*if (!validationService.validate(report)) {
             throw new ValidationException(report.toString());
-        }
+        }*/
         return reportRepository.save(report);
     }
     @Override

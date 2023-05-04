@@ -31,6 +31,47 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
+    public static final String DOGS = "/dogs";
+    public static final String CATS = "/cats";
+    public static final String COMMON_INFORMATION = "/common_information";
+    public static final String SEND_REPORT = "/send_report";
+    public static final String SEND_REPORT_DOGS = "/send_reportDogs";
+    public static final String INFORMATION = "/information";
+    public static final String ADDRESS = "/address";
+    public static final String PHONE_NUMBER = "/phone_number";
+    public static final String SECURITY_CONTACTS = "/security_contacts";
+    public static final String SAFETY_RECOMMENDATIONS = "/safety_recommendations";
+    public static final String REGISTER = "/register";
+    public static final String REGISTER_DOGS = "/registerDogs";
+    public static final String PREVIOUS = "/previous";
+    public static final String MAIN = "/main";
+    public static final String COMMON_INFORMATION_DOGS = "/common_informationDogs";
+    public static final String INFORMATION_DOGS = "/informationDogs";
+    public static final String ADDRESS_DOGS = "/addressDogs";
+    public static final String PHONE_NUMBER_DOGS = "/phone_numberDogs";
+    public static final String SECURITY_CONTACTS_DOGS = "/security_contactsDogs";
+    public static final String SAFETY_RECOMMENDATIONS_DOGS = "/safety_recommendationsDogs";
+    public static final String PREVIOUS_DOGS = "/previousDogs";
+    public static final String PREPARING = "/preparing";
+    public static final String PREPARING_DOGS = "/preparingDogs";
+    public static final String DATING_DOGS = "/datingDogs";
+    public static final String DOCUMENTS_DOGS = "/documentsDog";
+    public static final String TRANSPORTATION_DOGS = "/transportationDog";
+    public static final String ARRANGEMENT_PUPPY = "/arrangement_puppy";
+    public static final String ARRANGEMENT_DOG = "/arrangement_dog";
+    public static final String ARRANGEMENT_DISABLED_DOG = "/arrangement_disabledDog";
+    public static final String DOG_HANDLER_RECOMMENDATIONS = "/dogHandlerRecommendations";
+    public static final String RECOMMENDED_DOG_HANDLERS = "/recommendedDogHandlers";
+    public static final String CANCEL_DOG_TAKER = "/cancelDogTaker";
+    public static final String MESSAGE = "/message";
+    public static final String MESSAGE_DOGS = "/messageDogs";
+    public static final String DATING = "/dating";
+    public static final String DOCUMENTS = "/documents";
+    public static final String TRANSPORTATION = "/transportation";
+    public static final String ARRANGEMENT_KITTEN = "/arrangement_kitten";
+    public static final String ARRANGEMENT_CAT = "/arrangement_cat";
+    public static final String ARRANGEMENT_DISABLED = "/arrangement_disabled";
+
     private final Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
 
     private final TelegramBot telegramBot;
@@ -70,101 +111,101 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         CallbackQuery callbackQuery = update.callbackQuery();
                         String data = callbackQuery.data();
                         switch (data) {
-                            case "/dogs":
+                            case DOGS:
                                 sendMessageInDogShelterMenu(callbackQueryChatId, "Выберете нужный вариант");
                                 break;
-                            case "/cats":
+                            case CATS:
                                 sendMessageInCatShelterMenu(callbackQueryChatId, "Выберете нужный вариант");
                                 break;
-                            case "/common_information":
+                            case COMMON_INFORMATION:
                                 sendMessageInCatShelterCommonInfoMenu(callbackQueryChatId, "Выберете нужный вариант");
                                 break;
-                            case "/send_report":
-                            case "/send_reportDogs":
+                            case SEND_REPORT:
+                            case SEND_REPORT_DOGS:
                                 SendMessage sendMessage = new SendMessage(callbackQueryChatId, "Отправьте фото вашего питомца");
                                 telegramBot.execute(sendMessage);
                                 break;
-                            case "/information":
+                            case INFORMATION:
                                 sendMessageInCatShelterCommonInfoMenu(callbackQueryChatId, catShelterService.returnInformation(1L));
                                 break;
-                            case "/address":
+                            case ADDRESS:
                                 sendMessageInCatShelterCommonInfoMenu(callbackQueryChatId, catShelterService.returnAddressAndWorkSchedule(1L));
                                 break;
-                            case "/phone_number":
+                            case PHONE_NUMBER:
                                 sendMessageInCatShelterCommonInfoMenu(callbackQueryChatId, catShelterService.returnPhone(1L));
                                 break;
-                            case "/security_contacts":
+                            case SECURITY_CONTACTS:
                                 sendMessageInCatShelterCommonInfoMenu(callbackQueryChatId, catShelterService.returnSecurityContacts(1L));
                                 break;
-                            case "/safety_recommendations":
+                            case SAFETY_RECOMMENDATIONS:
                                 sendMessageInCatShelterCommonInfoMenu(callbackQueryChatId, catShelterService.returnSafetyRecommendations(1L));
                                 break;
-                            case "/register":
-                            case "/registerDogs":
+                            case REGISTER:
+                            case REGISTER_DOGS:
                                 sendMessageShareContact(callbackQueryChatId, "Нажмите, чтобы отправить свой номер в базу");
                                 break;
-                            case "/previous":
+                            case PREVIOUS:
                                 sendMessageInCatShelterMenu(callbackQueryChatId, "Выберите нужный вариант");
                                 break;
-                            case "/main":
+                            case MAIN:
                                 sendMessage(callbackQueryChatId, "Выберете приют!");
                                 break;
-                            case "/common_informationDogs":
+                            case COMMON_INFORMATION_DOGS:
                                 sendMessageInDogShelterCommonInfoMenu(callbackQueryChatId, "Выберете нужный вариант");
                                 break;
-                            case "/informationDogs":
+                            case INFORMATION_DOGS:
                                 sendMessageInDogShelterCommonInfoMenu(callbackQueryChatId, dogShelterService.returnInformation(1L));
                                 break;
-                            case "/addressDogs":
+                            case ADDRESS_DOGS:
                                 sendMessageInDogShelterCommonInfoMenu(callbackQueryChatId, dogShelterService.returnAddressAndWorkSchedule(1L));
                                 break;
-                            case "/phone_numberDogs":
+                            case PHONE_NUMBER_DOGS:
                                 sendMessageInDogShelterCommonInfoMenu(callbackQueryChatId, dogShelterService.returnPhone(1L));
                                 break;
-                            case "/security_contactsDogs":
+                            case SECURITY_CONTACTS_DOGS:
                                 sendMessageInDogShelterCommonInfoMenu(callbackQueryChatId, dogShelterService.returnSecurityContacts(1L));
                                 break;
-                            case "/safety_recommendationsDogs":
+                            case SAFETY_RECOMMENDATIONS_DOGS:
                                 sendMessageInDogShelterCommonInfoMenu(callbackQueryChatId, dogShelterService.returnSafetyRecommendations(1L));
                                 break;
-                            case "/previousDogs":
+                            case PREVIOUS_DOGS:
                                 sendMessageInDogShelterMenu(callbackQueryChatId, "Выберите нужный вариант");
                                 break;
-                            case "/preparing":
+                            case PREPARING:
                                 sendMessageCatConsult(callbackQueryChatId, "Выберете нужный вариант");
                                 break;
-                            case "/preparingDogs":
+                            case PREPARING_DOGS:
                                 sendMessageDogConsult(callbackQueryChatId, "Выберете нужный вариант");
                                 break;
-                            case "/datingDogs":
+                            case DATING_DOGS:
                                 sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnDating(1L));
                                 break;
-                            case "/documentsDog":
+                            case DOCUMENTS_DOGS:
                                 sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnDocuments(1L));
                                 break;
-                            case "/transportationDog":
+                            case TRANSPORTATION_DOGS:
                                 sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnTransportation(1L));
                                 break;
-                            case "/arrangement_puppy":
+                            case ARRANGEMENT_PUPPY:
                                 sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnArrangementPuppy(1L));
                                 break;
-                            case "/arrangement_dog":
+                            case ARRANGEMENT_DOG:
                                 sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnArrangementDog(1L));
                                 break;
-                            case "/arrangement_disabledDog":
+                            case ARRANGEMENT_DISABLED_DOG:
                                 sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnArrangementDisabled(1L));
                                 break;
-                            case "/dogHandlerRecommendations":
+                            case DOG_HANDLER_RECOMMENDATIONS:
                                 sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnDogHandlerRecommendations(1L));
                                 break;
-                            case "/recommendedDogHandlers":
+                            case RECOMMENDED_DOG_HANDLERS:
                                 sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnRecommendedDogHandlers(1L));
                                 break;
-                            case "/cancelDogTaker":
+                            case CANCEL_DOG_TAKER:
                                 sendMessageDogConsult(callbackQueryChatId, dogShelterService.returnCancelDogTaker(1L));
                                 break;
-                            case "/message":
-                            case "/messageDogs":
+                            case MESSAGE:
+                            case MESSAGE_DOGS:
                                 String number = userService.findByTelegramID(callbackQueryChatId).getPhoneNumber();
                                 if (number != null) {
                                     MessageToVolunteer messageToVolunteer = message.createMessageFromText(number + " этот пользователь просит помощи");
@@ -174,22 +215,22 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                     sendMessage(callbackQueryChatId, "Возможно вы не зарегистрированы");
                                 }
                                 break;
-                            case "/dating":
+                            case DATING:
                                 sendMessageCatConsult(callbackQueryChatId, catShelterService.returnDating(1L));
                                 break;
-                            case "/documents":
+                            case DOCUMENTS:
                                 sendMessageCatConsult(callbackQueryChatId, catShelterService.returnDocuments(1L));
                                 break;
-                            case "/transportation":
+                            case TRANSPORTATION:
                                 sendMessageCatConsult(callbackQueryChatId, catShelterService.returnTransportation(1L));
                                 break;
-                            case "/arrangement_kitten":
+                            case ARRANGEMENT_KITTEN:
                                 sendMessageCatConsult(callbackQueryChatId, catShelterService.returnArrangementKitten(1L));
                                 break;
-                            case "/arrangement_cat":
+                            case ARRANGEMENT_CAT:
                                 sendMessageCatConsult(callbackQueryChatId, catShelterService.returnArrangementCat(1L));
                                 break;
-                            case "/arrangement_disabled":
+                            case ARRANGEMENT_DISABLED:
                                 sendMessageCatConsult(callbackQueryChatId, catShelterService.returnArrangementDisabled(1L));
                                 break;
 
