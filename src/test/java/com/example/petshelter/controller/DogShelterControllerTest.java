@@ -304,6 +304,52 @@ class DogShelterControllerTest {
     }
 
     @Test
+    void shouldReturn200AddDogHandlerRecommendationsToDogShelter() throws Exception {
+
+        Long id = 1L;
+        String value = "test";
+
+        mockMvc.perform(post("http://localhost:8080/dogShelter/add-dog-handler-recommendations")
+                        .param("id", id.toString())
+                        .param("value", value))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+        verify(dogShelterServiceMock, times(1)).addDogHandlerRecommendations(1l, value);
+    }
+
+    //
+    @Test
+    void shouldReturn200AddRecommendedDogHandlersToDogShelter() throws Exception {
+
+        Long id = 1L;
+        String value = "test";
+
+        mockMvc.perform(post("http://localhost:8080/dogShelter/add-recommended-dog-handlers")
+                        .param("id", id.toString())
+                        .param("value", value))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+        verify(dogShelterServiceMock, times(1)).addRecommendedDogHandlers(1l, value);
+    }
+
+    @Test
+    void shouldReturn200AddCancelDogTakerToDogShelter() throws Exception {
+
+        Long id = 1L;
+        String value = "test";
+
+        mockMvc.perform(post("http://localhost:8080/dogShelter/add-cancel-dog-taker")
+                        .param("id", id.toString())
+                        .param("value", value))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+        verify(dogShelterServiceMock, times(1)).addCancelDogTaker(1l, value);
+    }
+
+    @Test
     void shouldReturn200GetDogDatingFromDogShelter() throws Exception {
         mockMvc.perform(get("http://localhost:8080/dogShelter/get-dog-dating")
                         .param("id", ID.toString()))
@@ -355,6 +401,33 @@ class DogShelterControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
         verify(dogShelterServiceMock, times(1)).returnArrangementDisabled(any());
+    }
+
+    @Test
+    void shouldReturn200GetDogHandlerRecommendationsFromDogShelter() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/dogShelter/get-dog-handler-recommendations")
+                        .param("id", ID.toString()))
+                .andDo(print())
+                .andExpect(status().isOk());
+        verify(dogShelterServiceMock, times(1)).returnDogHandlerRecommendations(any());
+    }
+
+    @Test
+    void shouldReturn200GetRecommendedDogHandlersFromDogShelter() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/dogShelter/get-recommended-dog-handlers")
+                        .param("id", ID.toString()))
+                .andDo(print())
+                .andExpect(status().isOk());
+        verify(dogShelterServiceMock, times(1)).returnRecommendedDogHandlers(any());
+    }
+
+    @Test
+    void shouldReturn200GetCancelDogTakerFromDogShelter() throws Exception {
+        mockMvc.perform(get("http://localhost:8080/dogShelter/get-cancel-dog-taker")
+                        .param("id", ID.toString()))
+                .andDo(print())
+                .andExpect(status().isOk());
+        verify(dogShelterServiceMock, times(1)).returnCancelDogTaker(any());
     }
 
 }

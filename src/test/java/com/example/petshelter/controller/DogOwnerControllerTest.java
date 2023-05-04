@@ -205,7 +205,7 @@ class DogOwnerControllerTest {
     @Test
     void shouldReturn200WhenGetAnimalToDogOwnerIsCorrect() throws Exception {
         when(dogOwnerServiceMock.getAnimalToTrialPeriod(PHONE_NUMBER, "Tuzik", 30L)).thenReturn(dogOwner);
-        mockMvc.perform(get("http://localhost:8080/dogOwner/get-animal")
+        mockMvc.perform(post("http://localhost:8080/dogOwner/get-animal")
                         .param("phoneNumber", PHONE_NUMBER)
                         .param("animalName", NAME1)
                         .param("trialDays", String.valueOf(30L)))

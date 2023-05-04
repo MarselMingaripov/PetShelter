@@ -1,5 +1,6 @@
 package com.example.petshelter.controller;
 
+import com.example.petshelter.entity.CatOwner;
 import com.example.petshelter.entity.DogOwner;
 import com.example.petshelter.service.DogOwnerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -71,7 +72,17 @@ public class DogOwnerController {
     public ResponseEntity<DogOwner> deleteById(@PathVariable Long id) {
         return ResponseEntity.ok().body(dogOwnerService.deleteById(id));
     }
-//TODO: 28.04.2023 добавить передачу животного усыновителю, установка испытательного срока, как и в кошачем
 
+    //TODO: 28.04.2023 добавить передачу животного усыновителю, установка испытательного срока, как и в кошачем
+    @PostMapping("/get-animal")
+    @Operation(summary = "Передача животного усыновителю, установка испытательного срока")
+    @ApiResponse(responseCode = "200", description = "Запрос выполнен, кот передан хозяину")
+    @ApiResponse(responseCode = "405", description = "Ошибка валидации")
+    @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
+    public ResponseEntity<DogOwner> getAnimal(@RequestParam String phoneNumber,
+                                              @RequestParam String animalName,
+                                              @RequestParam long trialDays) {
+        return ResponseEntity.ok().body(dogOwnerService.getAnimalToTrialPeriod(phoneNumber, animalName, trialDays));
+    }
 
 }
