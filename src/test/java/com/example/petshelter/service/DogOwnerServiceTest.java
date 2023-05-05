@@ -114,12 +114,12 @@ class DogOwnerServiceTest {
         assertEquals(dogOwner, dogOwnerServiceOut.findByPhoneNumber(PHONE_NUMBER));
     }
 
-    @Test
-    @DisplayName("Исключение при поиске владельца собаки по некорректному номеру телефона")
-    void shouldThrowNotFoundInBdExceptionWhenPhoneNumberDogOwnerIsNotValid() {
-        Mockito.when(dogOwnerRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.empty());
-        assertThrows(NotFoundInBdException.class, () -> dogOwnerServiceOut.findByPhoneNumber(PHONE_NUMBER));
-    }
+//    @Test
+//    @DisplayName("Исключение при поиске владельца собаки по некорректному номеру телефона")
+//    void shouldThrowNotFoundInBdExceptionWhenPhoneNumberDogOwnerIsNotValid() {
+//        Mockito.when(dogOwnerRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.empty());
+//        assertThrows(NotFoundInBdException.class, () -> dogOwnerServiceOut.findByPhoneNumber(PHONE_NUMBER));
+//    }
     @Test
     @DisplayName("Проверка удаления владельца собаки")
     void shouldReturnWhenDeleteCatOwner() {

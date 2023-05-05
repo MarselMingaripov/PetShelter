@@ -46,11 +46,11 @@ class DogShelterServiceTest {
     private static String DOG_NAME = "Tuzik";
     private DogShelter dogShelter;
 
-    // TODO: 19.04.2023 Убрать наследование DogShelter ot AnimalShelter, изменить конструктор
+
     @BeforeEach
     public void init() {
-//        dogShelter = new DogShelter(INFORMATION, ADDRESS, PHONE_NUMBER, WORK_SCHEDULE, SECURITY_CONTACTS,
-//                SAFETY_RECOMMENDATIONS);
+        dogShelter = new DogShelter(INFORMATION, ADDRESS, PHONE_NUMBER, WORK_SCHEDULE, SECURITY_CONTACTS,
+                SAFETY_RECOMMENDATIONS);
     }
 
     @Test
@@ -61,13 +61,13 @@ class DogShelterServiceTest {
         assertEquals(dogShelter, dogShelterServiceOut.createDogShelter(dogShelter));
     }
 
-//    @Test
-//    @DisplayName("Исключение при некорректной валидации приюта для собак")
-//    void shouldThrowValidationExceptionWhenValidateNotValid() {
-//        Mockito.when(validationServiceMock.validate(dogShelter)).thenReturn(false);
-//        assertThrows(ValidationException.class, () -> dogShelterServiceOut.createDogShelter(dogShelter));
-//
-//    }
+    @Test
+    @DisplayName("Исключение при некорректной валидации приюта для собак")
+    void shouldThrowValidationExceptionWhenValidateNotValid() {
+        Mockito.when(validationServiceMock.validate(dogShelter)).thenReturn(false);
+        assertThrows(ValidationException.class, () -> dogShelterServiceOut.createDogShelter(dogShelter));
+
+    }
 
     @Test
     @DisplayName("Поиск и обновление приюта для собак по его Id")
@@ -80,7 +80,7 @@ class DogShelterServiceTest {
     @Test
     @DisplayName("Исключение при поиске приюта для собак по некорректному Id")
     public void shouldThrowNotFoundInBdExceptionWhenFindDogShelterByIdIsNotValid() {
-        Mockito.when(dogShelterServiceOut.findById(any())).thenReturn(null);
+        Mockito.when(dogShelterRepositoryMock.findById(ID)).thenReturn(Optional.empty());
         assertThrows(NotFoundInBdException.class, () -> dogShelterServiceOut.findById(ID));
     }
     @Test

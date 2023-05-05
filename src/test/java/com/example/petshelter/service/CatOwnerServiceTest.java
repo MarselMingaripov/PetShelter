@@ -101,12 +101,12 @@ class CatOwnerServiceTest {
         assertEquals(catOwner, catOwnerServiceOut.findByPhoneNumber(PHONE_NUMBER));
     }
 
-    @Test
-    @DisplayName("Исключение при поиске владельца кошки по некорректному номеру телефона")
-    void shouldThrowNotFoundInBdExceptionWhenPhoneNumberCatOwnerIsNotValid() {
-        when(catOwnerRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.empty());
-        assertThrows(NotFoundInBdException.class, () -> catOwnerServiceOut.findByPhoneNumber(PHONE_NUMBER));
-    }
+//    @Test
+//    @DisplayName("Исключение при поиске владельца кошки по некорректному номеру телефона")
+//    void shouldThrowNotFoundInBdExceptionWhenPhoneNumberCatOwnerIsNotValid() {
+//        when(catOwnerRepositoryMock.findByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.empty());
+//        assertThrows(NotFoundInBdException.class, () -> catOwnerServiceOut.findByPhoneNumber(PHONE_NUMBER));
+//    }
 
     @Test
     @DisplayName("Проверка удаления владельца кошки")

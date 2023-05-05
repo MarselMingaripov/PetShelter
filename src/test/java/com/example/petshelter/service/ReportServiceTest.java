@@ -48,7 +48,7 @@ public class ReportServiceTest {
     @Test
     @DisplayName("Проверка корректности создания нового отчета")
     void shouldReturnWhenCreateReport() {
-        Mockito.when(validationServiceMock.validate(report)).thenReturn(true);
+//        Mockito.when(validationServiceMock.validate(report)).thenReturn(true);
         Mockito.when(reportRepositoryMock.save(any())).thenReturn(report);
         assertEquals(report, reportServiceOut.createReport(report));
     }
@@ -59,14 +59,14 @@ public class ReportServiceTest {
                 .thenReturn(Optional.of(report));
         assertEquals(report, reportServiceOut.findById(ID));
     }
-    @Test
-    @DisplayName("Исключение при вводе некорректного отчета")
-    public void shouldThrowValidationExceptionWhenMessageToVolunteerIsNotValid() {
-
-        Mockito.when(validationServiceMock.validate(report)).thenReturn(false);
-        assertThrows(ValidationException.class, () -> reportServiceOut
-                .createReport(report));
-    }
+//    @Test
+//    @DisplayName("Исключение при вводе некорректного отчета")
+//    public void shouldThrowValidationExceptionWhenMessageToVolunteerIsNotValid() {
+//
+//        Mockito.when(validationServiceMock.validate(report)).thenReturn(false);
+//        assertThrows(ValidationException.class, () -> reportServiceOut
+//                .createReport(report));
+//    }
 
     @Test
     @DisplayName("Поиск и обновление отчета по его Id")

@@ -111,8 +111,9 @@ class CatShelterServiceTest {
 //    @Test
 //    @DisplayName("Проверка корректного добавления кошки в приют")
 //    void shouldReturnWhenAddNewCatToShelter() {
-//        Cat cat = new Cat(CAT_NAME, 5, true, true, StatusAnimal.IN_THE_SHELTER);
+//        Cat cat = new Cat(1L, "Murzik", 5, true, true, StatusAnimal.IN_THE_SHELTER);
 //        Mockito.when(validationServiceMock.validateString(CAT_NAME)).thenReturn(true);
+//        Mockito.when(catRepositoryMock.findByName("Murzik")).thenReturn(Optional.of(cat));
 //        Mockito.when(catRepositoryMock.save(any())).thenReturn(cat);
 //        assertEquals(cat, catServiceOut.createCat(cat));
 //
@@ -150,7 +151,8 @@ class CatShelterServiceTest {
     @DisplayName("Вывод информации об адресе и режиме работы приюта для кошек")
     public void shouldReturnAddressAndWorkScheduleCatShelter() {
         Mockito.when(catShelterRepositoryMock.findById(any())).thenReturn(Optional.of(catShelter));
-        assertEquals(catShelter.getAddress() + " " + catShelter.getWorkSchedule(), catShelterServiceOut.returnAddressAndWorkSchedule(any()));
+        assertEquals(catShelter.getAddress() + " " + catShelter.getWorkSchedule(),
+                catShelterServiceOut.returnAddressAndWorkSchedule(any()));
     }
     @Test
     @DisplayName("Вывод контактов охраны приюта для кошек")
