@@ -122,7 +122,7 @@ public class CatShelterController {
         return ResponseEntity.ok().build();
     }
     @PostMapping("/add-dating")
-    @Operation(summary = "Добавление информации для потенциального опекуна кота в БД приюта")
+    @Operation(summary = "Добавление в БД приюта информации о правилах знакомства с животными")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -132,7 +132,7 @@ public class CatShelterController {
         return ResponseEntity.ok().build();
     }
     @PostMapping("/add-documents")
-    @Operation(summary = "Добавление информации для потенциального опекуна кота в БД приюта")
+    @Operation(summary = "Добавление в БД приюта информации о документах, необходимых для взятия животного из приюта")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -142,7 +142,7 @@ public class CatShelterController {
         return ResponseEntity.ok().build();
     }
     @PostMapping("/add-transportation")
-    @Operation(summary = "Добавление информации для потенциального опекуна кота в БД приюта")
+    @Operation(summary = "Добавление в БД приюта списка рекомендаций по транспортировке животного")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -152,7 +152,7 @@ public class CatShelterController {
         return ResponseEntity.ok().build();
     }
     @PostMapping("/add-arrangement-kitten")
-    @Operation(summary = "Добавление информации для потенциального опекуна кота в БД приюта")
+    @Operation(summary = "Добавление в БД приюта списка рекомендаций по обустройству дома для котенка")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -162,7 +162,7 @@ public class CatShelterController {
         return ResponseEntity.ok().build();
     }
     @PostMapping("/add-arrangement-cat")
-    @Operation(summary = "Добавление информации для потенциального опекуна кота в БД приюта")
+    @Operation(summary = "Добавление в БД приюта списка рекомендаций по обустройству дома для взрослого животного")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -172,7 +172,7 @@ public class CatShelterController {
         return ResponseEntity.ok().build();
     }
     @PostMapping("/add-arrangement-disabled")
-    @Operation(summary = "Добавление информации для потенциального опекуна кота в БД приюта")
+    @Operation(summary = "Добавление в БД приюта списка рекомендаций по обустройству дома для животного с ограниченными возможностями")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -183,7 +183,7 @@ public class CatShelterController {
     }
 
     @GetMapping("/get-cat-dating")
-    @Operation(summary = "Получить консультацию")
+    @Operation(summary = "Получить информацию о правилах знакомства с животными")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -191,7 +191,7 @@ public class CatShelterController {
         return ResponseEntity.ok().body(catShelterService.returnDating(id));
     }
     @GetMapping("/get-cat-documents")
-    @Operation(summary = "Получить консультацию")
+    @Operation(summary = "Получить список документов, необходимых для взятия животного из приюта")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -199,7 +199,7 @@ public class CatShelterController {
         return ResponseEntity.ok().body(catShelterService.returnDocuments(id));
     }
     @GetMapping("/get-cat-transportation")
-    @Operation(summary = "Получить консультацию")
+    @Operation(summary = "Получить список рекомендаций по транспортировке животного")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -207,7 +207,7 @@ public class CatShelterController {
         return ResponseEntity.ok().body(catShelterService.returnTransportation(id));
     }
     @GetMapping("/get-cat-arrangement-kitten")
-    @Operation(summary = "Получить консультацию")
+    @Operation(summary = "Получить список рекомендаций по обустройству дома для котенка")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -215,7 +215,7 @@ public class CatShelterController {
         return ResponseEntity.ok().body(catShelterService.returnArrangementKitten(id));
     }
     @GetMapping("/get-cat-arrangement-cat")
-    @Operation(summary = "Получить консультацию")
+    @Operation(summary = "Получить список рекомендаций по обустройству дома для взрослого животного")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -223,7 +223,7 @@ public class CatShelterController {
         return ResponseEntity.ok().body(catShelterService.returnArrangementCat(id));
     }
     @GetMapping("/get-cat-arrangement-disabled")
-    @Operation(summary = "Получить консультацию")
+    @Operation(summary = "Получить список рекомендаций по обустройству дома для животного с ограниченными возможностями")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")

@@ -129,7 +129,7 @@ public class DogShelterController {
     }
 
     @PostMapping("/add-dating")
-    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @Operation(summary = "Добавление в БД приюта информации о правилах знакомства с животными")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -140,7 +140,7 @@ public class DogShelterController {
     }
 
     @PostMapping("/add-documents")
-    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @Operation(summary = "Добавление в БД приюта информации о документах, необходимых для взятия животного из приюта")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -151,7 +151,7 @@ public class DogShelterController {
     }
 
     @PostMapping("/add-transportation")
-    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @Operation(summary = "Добавление в БД приюта списка рекомендаций по транспортировке животного")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -162,7 +162,7 @@ public class DogShelterController {
     }
 
     @PostMapping("/add-arrangement-puppy")
-    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @Operation(summary = "Добавление в БД приюта списка рекомендаций по обустройству дома для щенка")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -173,7 +173,7 @@ public class DogShelterController {
     }
 
     @PostMapping("/add-arrangement-dog")
-    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @Operation(summary = "Добавление в БД приюта списка рекомендаций по обустройству дома для взрослого животного")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -184,7 +184,7 @@ public class DogShelterController {
     }
 
     @PostMapping("/add-arrangement-disabled")
-    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @Operation(summary = "Добавление в БД приюта списка рекомендаций по обустройству дома для животного с ограниченными возможностями")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -195,7 +195,7 @@ public class DogShelterController {
     }
 
     @PostMapping("/add-dog-handler-recommendations")
-    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @Operation(summary = "Добавление в БД приюта советов кинолога по первичному общению с собакой")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -206,7 +206,7 @@ public class DogShelterController {
     }
 
     @PostMapping("/add-recommended-dog-handlers")
-    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @Operation(summary = "Добавление в БД приюта информации по проверенным кинологам")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -217,7 +217,7 @@ public class DogShelterController {
     }
 
     @PostMapping("/add-cancel-dog-taker")
-    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @Operation(summary = "Добавление в БД приюта причин отказа в передаче животного усыновителю")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -228,7 +228,7 @@ public class DogShelterController {
     }
 
     @GetMapping("/get-dog-dating")
-    @Operation(summary = "Получить консультацию")
+    @Operation(summary = "Получить информацию о правилах знакомства с животными")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -237,7 +237,7 @@ public class DogShelterController {
     }
 
     @GetMapping("/get-dog-documents")
-    @Operation(summary = "Получить консультацию")
+    @Operation(summary = "Получить список документов, необходимых для взятия животного из приюта")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -246,7 +246,7 @@ public class DogShelterController {
     }
 
     @GetMapping("/get-dog-transportation")
-    @Operation(summary = "Получить консультацию")
+    @Operation(summary = "Получить список рекомендаций по транспортировке животного")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -255,7 +255,7 @@ public class DogShelterController {
     }
 
     @GetMapping("/get-dog-arrangement-puppy")
-    @Operation(summary = "Получить консультацию")
+    @Operation(summary = "Получить список рекомендаций по обустройству дома для щенка")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -264,7 +264,7 @@ public class DogShelterController {
     }
 
     @GetMapping("/get-dog-arrangement-dog")
-    @Operation(summary = "Получить консультацию")
+    @Operation(summary = "Получить список рекомендаций по обустройству дома для взрослого животного")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -273,7 +273,7 @@ public class DogShelterController {
     }
 
     @GetMapping("/get-dog-arrangement-disabled")
-    @Operation(summary = "Получить консультацию")
+    @Operation(summary = "Получить список рекомендаций по обустройству дома для животного с ограниченными возможностями")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -283,7 +283,7 @@ public class DogShelterController {
 
 
     @GetMapping("/get-dog-handler-recommendations")
-    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @Operation(summary = "Получить список советов кинолога по первичному общению с собакой")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -293,7 +293,7 @@ public class DogShelterController {
     }
 
     @GetMapping("/get-recommended-dog-handlers")
-    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @Operation(summary = "Получить информацию по проверенным кинологам")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
@@ -303,7 +303,7 @@ public class DogShelterController {
     }
 
     @GetMapping("/get-cancel-dog-taker")
-    @Operation(summary = "Добавление информации для потенциального опекуна собаки в БД приюта")
+    @Operation(summary = "Получить список причин отказа в передаче животного усыновителю")
     @ApiResponse(responseCode = "200", description = " Запрос выполнен, данные получены")
     @ApiResponse(responseCode = "404", description = "Не найден по ид")
     @ApiResponse(responseCode = "500", description = "Произошла ошибка, не зависящая от вызывающей стороны")
