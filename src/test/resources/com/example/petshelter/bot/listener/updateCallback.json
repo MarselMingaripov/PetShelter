@@ -1,0 +1,19 @@
+{
+  /*"message": {
+    "chat": {
+      "id": 123
+    },
+    "text": "%text%",
+    "contact": {
+      "phone_number": "+79272411661"
+    }
+  },*/
+  "callback_query": {
+    "data": "%data%",
+    "message": {
+      "chat": {
+        "id": 123
+      }
+    }
+  }
+}
